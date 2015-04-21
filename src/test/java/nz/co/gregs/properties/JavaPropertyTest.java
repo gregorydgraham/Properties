@@ -1,22 +1,24 @@
+package nz.co.gregs.properties;
 
 
-import static nz.co.gregs.dbvolution.internal.properties.PropertyMatchers.*;
+
+import static nz.co.gregs.properties.PropertyMatchers.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.io.Serializable;
 import java.util.List;
 
-import nz.co.gregs.dbvolution.annotations.DBAdaptType;
-import nz.co.gregs.dbvolution.annotations.DBColumn;
-import nz.co.gregs.dbvolution.annotations.DBPrimaryKey;
-import nz.co.gregs.dbvolution.datatypes.DBInteger;
-import nz.co.gregs.dbvolution.datatypes.DBString;
-import nz.co.gregs.dbvolution.datatypes.DBTypeAdaptor;
-import nz.co.gregs.dbvolution.exceptions.DBPebkacException;
-import nz.co.gregs.dbvolution.exceptions.DBThrownByEndUserCodeException;
-import nz.co.gregs.dbvolution.internal.properties.JavaPropertyFinder.PropertyType;
-import nz.co.gregs.dbvolution.internal.properties.JavaPropertyFinder.Visibility;
+
+import nz.co.gregs.properties.exceptions.*;
+import nz.co.gregs.properties.JavaPropertyFinder.PropertyType;
+import nz.co.gregs.properties.JavaPropertyFinder.Visibility;
+import nz.co.gregs.properties.JavaProperty;
+import nz.co.gregs.properties.JavaPropertyFinder;
+import nz.co.gregs.properties.MyInteger;
+import nz.co.gregs.properties.MyString;
+import nz.co.gregs.properties.adapt.AdaptType;
+import nz.co.gregs.properties.adapt.TypeAdaptor;
 
 import org.hamcrest.Matcher;
 import org.junit.Test;
@@ -342,224 +344,148 @@ public class JavaPropertyTest {
         JavaProperty property = propertyOf(TestClass.class, "property");
         assertThat(property.type(), is((Object)Integer.class));
     }
-
-//  // Turns out java.beans.PropertyDescriptor only returns the getter
-//  // if the types are different, and the setter just gets dropped
-//    @Test
-//    public void getsMostConcreteTypeGivenSetterIsSupertypeOfGetter() {
-//        class TestClass {
-//			public Integer getProperty() {
-//				return 0;
-//			}
-//			
-//			public void setProperty(Number value) {
-//            }
-//        }
-//
-//        // assert this test is sane
-//        TestClass obj = new TestClass();
-//        Integer valueAsInteger = obj.getProperty();
-//        Number valueAsNumber = obj.getProperty();
-//        obj.setProperty(valueAsInteger);
-//        obj.setProperty(valueAsNumber);
-//
-//        // assert implementation is correct
-//        JavaProperty property = propertyOf(TestClass.class, "property");
-//        assertThat(property.type(), is((Object)Number.class));
-//    }
-    
-//    // Turns out java.beans.PropertyDescriptor only returns the getter
-//    // if the types are different, and the setter just gets dropped
-//    @Test(expected=DBPebkacException.class)
-//    public void errorsWhenRetrievingTypeGivenGetterIsSupertypeOfSetter() {
-//        class TestClass {
-//			public Number getProperty() {
-//				return 0;
-//			}
-//			
-//			public void setProperty(Integer value) {
-//            }
-//        }
-//        
-//        // assert this test is sane
-//        TestClass obj = new TestClass();
-//        Integer valueAsInteger = null;
-//        Number valueAsNumber = null;
-//        //valueAsInteger = obj.getProperty(); // won't compile
-//        valueAsNumber = obj.getProperty(); // can't write using this type
-//        obj.setProperty(valueAsInteger); // can't read using this type
-//        //obj.setProperty(valueAsNumber); // won't compile
-//
-//        // assert implementation is correct
-//        JavaProperty property = propertyOf(TestClass.class, "property");
-//        property.type();
-//    }
-
-//  // Turns out java.beans.PropertyDescriptor only returns the getter
-//  // if the types are different, and the setter just gets dropped
-//    @Test(expected=DBPebkacException.class)
-//    public void errorsWhenRetrievingTypeGivenInconsistentOnAccessorMethods() {
-//        class TestClass {
-//			public int getProperty() {
-//				return 0;
-//			}
-//			
-//			public void setProperty(String value) {
-//            }
-//        }
-//
-//        List<JavaProperty> properties = privateFieldPublicBeanFinder.getPropertiesOf(TestClass.class);
-//        for (JavaProperty prop: properties) {
-//        	System.out.println(prop);
-//        }
-//        
-//        JavaProperty property = propertyOf(TestClass.class, "property");
-//        property.type();
-//    }
-    
-    // check handling of annotations (including duplicates)
     
     @Test
     public void retrievesAnnotationGivenExactlyDuplicatedAnnotationOnGetterAndSetter() {
         class TestClass {
 
-            @DBColumn("samename")
+            @MyAnnotation("samename")
             public int getProperty() {
                 return 0;
             }
 
-            @DBColumn("samename")
+            @MyAnnotation("samename")
             public void setProperty(int value) {
             }
         }
 
         JavaProperty property = propertyOf(TestClass.class, "property");
-        assertThat(property.getAnnotation(DBColumn.class), is(not(nullValue())));
+        assertThat(property.getAnnotation(MyAnnotation.class), is(not(nullValue())));
     }
 
     @Test
     public void retrievesAnnotationGivenExactlyDuplicatedEmptyAnnotationOnGetterAndSetter() {
         class TestClass {
 
-            @DBColumn
+            @MyAnnotation
             public int getProperty() {
                 return 0;
             }
 
-            @DBColumn
+            @MyAnnotation
             public void setProperty(int value) {
             }
         }
 
         JavaProperty property = propertyOf(TestClass.class, "property");
-        assertThat(property.getAnnotation(DBColumn.class), is(not(nullValue())));
+        assertThat(property.getAnnotation(MyAnnotation.class), is(not(nullValue())));
     }
 
     @Test(expected = DBPebkacException.class)
     public void errorsWhenRetrievingAnnotationGivenDifferentDuplicatedSimpleAnnotationOnGetterAndSetter() {
         class TestClass {
 
-            @DBColumn("samename")
+            @MyAnnotation("samename")
             public int getProperty() {
                 return 0;
             }
 
-            @DBColumn("differentname")
+            @MyAnnotation("differentname")
             public void setProperty(int value) {
             }
         }
 
         JavaProperty property = propertyOf(TestClass.class, "property");
-        property.getAnnotation(DBColumn.class);
+        property.getAnnotation(MyAnnotation.class);
     }
 
     @Test
     public void acceptsAnnotationWhenRetrievingAnnotationGivenSemanticallyIdenticalAnnotationOnGetterAndSetter() {
         class TestClass {
 
-            @DBColumn("")
+            @MyAnnotation("")
             public int getProperty() {
                 return 0;
             }
 
-            @DBColumn
+            @MyAnnotation
             public void setProperty(int value) {
             }
         }
 
         JavaProperty property = propertyOf(TestClass.class, "property");
-        assertThat(property.getAnnotation(DBColumn.class), is(not(nullValue())));
+        assertThat(property.getAnnotation(MyAnnotation.class), is(not(nullValue())));
     }
     
     @Test(expected = DBPebkacException.class)
     public void errorsWhenRetrievingAnnotationGivenDifferentDuplicatedComplexAnnotationOnGetterAndSetter() {
-    	class MyAdaptor implements DBTypeAdaptor<Object, DBInteger> {
-			public Object fromDatabaseValue(DBInteger dbvValue) {
+    	class MyAdaptor implements TypeAdaptor<Object, MyInteger> {
+			public Object fromDatabaseValue(MyInteger dbvValue) {
 				return null;
 			}
-			public DBInteger toDatabaseValue(Object objectValue) {
+			public MyInteger toDatabaseValue(Object objectValue) {
 				return null;
 			}
     	}
     	
         class TestClass {
-            @DBAdaptType(value=MyAdaptor.class, type=DBString.class)
+            @AdaptType(value=MyAdaptor.class, type=MyString.class)
             public int getProperty() {
                 return 0;
             }
 
-            @DBAdaptType(value=MyAdaptor.class, type=DBInteger.class)
+            @AdaptType(value=MyAdaptor.class, type=MyInteger.class)
             public void setProperty(int value) {
             }
         }
 
         JavaProperty property = propertyOf(TestClass.class, "property");
-        property.getAnnotation(DBAdaptType.class);
+        property.getAnnotation(AdaptType.class);
     }
 
     @Test(expected = DBPebkacException.class)
     public void errorsWhenRetrievingAnnotationGivenDifferentDuplicatedDefaultedComplexAnnotationOnGetterAndSetter() {
-    	class MyAdaptor implements DBTypeAdaptor<Object, DBInteger> {
-			public Object fromDatabaseValue(DBInteger dbvValue) {
+    	class MyAdaptor implements TypeAdaptor<Object, MyInteger> {
+			public Object fromDatabaseValue(MyInteger dbvValue) {
 				return null;
 			}
-			public DBInteger toDatabaseValue(Object objectValue) {
+			public MyInteger toDatabaseValue(Object objectValue) {
 				return null;
 			}
     	}
     	
         class TestClass {
-            @DBAdaptType(value=MyAdaptor.class)
+            @AdaptType(value=MyAdaptor.class)
             public int getProperty() {
                 return 0;
             }
 
-            @DBAdaptType(value=MyAdaptor.class, type=DBInteger.class)
+            @AdaptType(value=MyAdaptor.class, type=MyInteger.class)
             public void setProperty(int value) {
             }
         }
 
         JavaProperty property = propertyOf(TestClass.class, "property");
-        property.getAnnotation(DBAdaptType.class);
+        property.getAnnotation(AdaptType.class);
     }
     
     @Test
     public void retrievesAnnotationsGivenAnnotationsOnAlternatingGetterOrSetter() {
         class TestClass {
 
-            @DBColumn("name")
+            @MyAnnotation("name")
             public int getProperty() {
                 return 0;
             }
 
-            @DBPrimaryKey
+            @OtherAnnotation
             public void setProperty(int value) {
             }
         }
 
         JavaProperty property = propertyOf(TestClass.class, "property");
-        assertThat(property.getAnnotation(DBColumn.class), is(not(nullValue())));
-        assertThat(property.getAnnotation(DBPrimaryKey.class), is(not(nullValue())));
+        assertThat(property.getAnnotation(MyAnnotation.class), is(not(nullValue())));
+        assertThat(property.getAnnotation(OtherAnnotation.class), is(not(nullValue())));
     }
 
     private JavaProperty propertyOf(Object obj, String javaPropertyName) {
@@ -679,4 +605,13 @@ public class JavaPropertyTest {
             return 3;
         }
     }
+	
+	public @interface MyAnnotation{
+		String value() default "";
+	}
+	
+	public @interface OtherAnnotation{
+		String value() default "";
+	}
+	
 }

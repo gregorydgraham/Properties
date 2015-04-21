@@ -1,4 +1,4 @@
-
+package nz.co.gregs.properties;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import org.hamcrest.StringDescription;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.hamcrest.TypeSafeMatcher;
 
-class PropertyMatchers {
+public class PropertyMatchers {
 	
 	public static Matcher<String> matchesRegex(final String regex) {
 		return new TypeSafeMatcher<String>() {

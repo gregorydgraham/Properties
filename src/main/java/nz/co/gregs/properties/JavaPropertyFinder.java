@@ -20,7 +20,7 @@ import nz.co.gregs.properties.exceptions.PropertyException;
  * @author Malcolm Lett
  */
 // Note: java.beans.Introspector
-class JavaPropertyFinder {
+public class JavaPropertyFinder {
 	public static enum PropertyType { FIELD, BEAN_PROPERTY };
 	public static enum Visibility { PUBLIC, PROTECTED, DEFAULT, PRIVATE };
 	
@@ -75,7 +75,7 @@ class JavaPropertyFinder {
 	 * @param clazz the type to inspect
 	 * @return the non-null list of properties found on the given class
 	 */
-	List<JavaProperty> getPropertiesOf(Class<?> clazz) {
+	public List<JavaProperty> getPropertiesOf(Class<?> clazz) {
 		List<JavaProperty> properties = new ArrayList<JavaProperty>();
 		
 		// retrieve fields

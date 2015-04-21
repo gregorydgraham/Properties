@@ -26,18 +26,22 @@ public interface JavaProperty {
 	 * <li> Generates a message like: {@code "Invalid valid for field com.mycompany.myproject.MyTable.fieldName"}
 	 * </ul>
 	 * </ul>
+	 * @return 
 	 */
 	@Override
 	public String toString();
 
 	/**
 	 * Tests for equality, based entirely on whether the underlying java field or bean-property is the same.
+	 * @param other
+	 * @return 
 	 */
 	@Override
 	public boolean equals(Object other);
 
 	/**
 	 * Hash-code based on the underlying java field or bean-property.
+	 * @return 
 	 */
 	@Override
 	public int hashCode();

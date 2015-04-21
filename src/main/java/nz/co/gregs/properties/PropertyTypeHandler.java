@@ -9,7 +9,6 @@ import nz.co.gregs.properties.exceptions.UnsupportedType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-import java.util.Date;
 import nz.co.gregs.properties.adapt.AdaptType;
 
 import nz.co.gregs.properties.exceptions.PropertyException;
