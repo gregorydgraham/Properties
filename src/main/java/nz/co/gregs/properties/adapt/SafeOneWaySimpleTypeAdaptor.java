@@ -319,6 +319,7 @@ public class SafeOneWaySimpleTypeAdaptor {
      * only
      * @param targetType the required target type, null to select by sourceType
      * only
+	 * @return 
      */
     public static SimpleCast getSimpleCastFor(Class<?> sourceType, Class<?> targetType) {
         if (sourceType == null && targetType == null) {

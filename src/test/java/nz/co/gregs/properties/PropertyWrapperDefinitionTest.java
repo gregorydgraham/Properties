@@ -15,8 +15,8 @@ public class PropertyWrapperDefinitionTest {
     public void dotEqualsTrueWhenDifferentObjectAndSameClass() {
         class MyClass implements ContainingClass{
 
-            public MyInteger intField1 = new MyInteger();
-            public MyInteger intField2 = new MyInteger();
+            public DBInteger intField1 = new DBInteger();
+            public DBInteger intField2 = new DBInteger();
         }
 
         PropertyWrapperDefinition intField1_obj1 = propertyDefinitionOf(new MyClass(), "intField1");
@@ -30,14 +30,14 @@ public class PropertyWrapperDefinitionTest {
     public void dotEqualsTrueWhenDifferentButIdenticalClass() {
         class MyClass1 implements ContainingClass {
 
-            public MyInteger intField1 = new MyInteger();
-            public MyInteger intField2 = new MyInteger();
+            public DBInteger intField1 = new DBInteger();
+            public DBInteger intField2 = new DBInteger();
         }
 
         class MyClass2 implements ContainingClass{
 
-            public MyInteger intField1 = new MyInteger();
-            public MyInteger intField2 = new MyInteger();
+            public DBInteger intField1 = new DBInteger();
+            public DBInteger intField2 = new DBInteger();
         }
 
         PropertyWrapperDefinition intField1_obj1 = propertyDefinitionOf(new MyClass1(), "intField1");
@@ -48,7 +48,7 @@ public class PropertyWrapperDefinitionTest {
 	@Test
 	public void getsTableNameViaProperty() {
 		class MyClass implements ContainingClass {
-			public MyInteger intField1 = new MyInteger();
+			public DBInteger intField1 = new DBInteger();
 		}
 		
 		PropertyWrapperDefinition property = propertyDefinitionOf(new MyClass(), "intField1");

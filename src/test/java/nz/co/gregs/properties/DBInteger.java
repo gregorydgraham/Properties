@@ -11,7 +11,7 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregory.graham
  */
-public class MyInteger implements AdaptableType {
+public class DBInteger implements AdaptableType {
 	private Integer integer;
 	private PropertyWrapperDefinition wrapper;
 

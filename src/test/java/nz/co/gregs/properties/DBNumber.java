@@ -11,7 +11,7 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregory.graham
  */
-public class MyNumber implements AdaptableType {
+public class DBNumber implements AdaptableType {
 	private Number number;
 	private PropertyWrapperDefinition wrapper;
 

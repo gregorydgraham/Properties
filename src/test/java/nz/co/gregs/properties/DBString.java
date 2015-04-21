@@ -11,7 +11,7 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregory.graham
  */
-public class MyString implements AdaptableType {
+public class DBString implements AdaptableType {
 	private String string;
 	private PropertyWrapperDefinition wrapper;
 
