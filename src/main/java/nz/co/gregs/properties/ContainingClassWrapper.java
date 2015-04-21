@@ -30,13 +30,13 @@ import nz.co.gregs.properties.exceptions.*;
  *
  * @author Malcolm Lett
  */
-public abstract class ContainingClassWrapper {
+public class ContainingClassWrapper {
 
 	private final Class<? extends ContainingClass> adapteeClass;
 	private final boolean identityOnly;
 	/**
-	 * All properties of which DBvolution is aware, ordered as first encountered.
-	 * Properties are only included if they are columns.
+	 * All properties of which DBvolution is aware, ordered as first
+	 * encountered. Properties are only included if they are columns.
 	 */
 	private final List<PropertyWrapperDefinition> properties;
 
@@ -67,8 +67,8 @@ public abstract class ContainingClassWrapper {
 	 *
 	 * @param processIdentityOnly pass {@code true} to only process the set of
 	 * columns and primary keys, and to ensure that the primary key columns are
-	 * valid, but to exclude all other validations on non-primary key columns and
-	 * types etc.
+	 * valid, but to exclude all other validations on non-primary key columns
+	 * and types etc.
 	 */
 	ContainingClassWrapper(Class<? extends ContainingClass> clazz, boolean processIdentityOnly) {
 		adapteeClass = clazz;
@@ -85,7 +85,7 @@ public abstract class ContainingClassWrapper {
 			PropertyWrapperDefinition property = new PropertyWrapperDefinition(this, javaProperty, processIdentityOnly);
 			properties.add(property);
 			propertiesByPropertyName.put(property.javaName(), property);
-			initialiseProperties(javaProperty, property);
+			initialiseProperty(javaProperty, property);
 		}
 	}
 
@@ -106,7 +106,10 @@ public abstract class ContainingClassWrapper {
 	 * database being accessed.
 	 *
 	 */
-	protected abstract void checkForRemainingErrorsOnAcccess();
+	@SuppressWarnings("empty-statement")
+	protected void checkForRemainingErrorsOnAcccess(){
+		;
+	}
 
 	/**
 	 * Gets an object wrapper instance for the given target object
@@ -129,7 +132,7 @@ public abstract class ContainingClassWrapper {
 	 */
 	@Override
 	public String toString() {
-			return getClass().getSimpleName() + "<adapting:" + adapteeClass.getName() + ">";
+		return getClass().getSimpleName() + "<adapting:" + adapteeClass.getName() + ">";
 	}
 
 	/**
@@ -137,7 +140,8 @@ public abstract class ContainingClassWrapper {
 	 * classes.
 	 *
 	 * @param obj	obj
-	 * @return {@code true} if the two objects are equal, {@code false} otherwise.
+	 * @return {@code true} if the two objects are equal, {@code false}
+	 * otherwise.
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -214,13 +218,13 @@ public abstract class ContainingClassWrapper {
 	 * Only provides access to properties annotated with {@code DBColumn}.
 	 *
 	 * <p>
-	 * It's legal for a field and bean-property to have the same name, and to both
-	 * be annotated, but for different columns. This method doesn't handle that
-	 * well and returns only the first one it sees.
+	 * It's legal for a field and bean-property to have the same name, and to
+	 * both be annotated, but for different columns. This method doesn't handle
+	 * that well and returns only the first one it sees.
 	 *
 	 * @param propertyName	propertyName
-	 * @return the PropertyWrapperDefinition for the named object property Null if
-	 * no such property is found.
+	 * @return the PropertyWrapperDefinition for the named object property Null
+	 * if no such property is found.
 	 * @throws AssertionError if called when in {@code identityOnly} mode.
 	 */
 	public PropertyWrapperDefinition getPropertyDefinitionByName(String propertyName) {
@@ -242,6 +246,9 @@ public abstract class ContainingClassWrapper {
 		return properties;
 	}
 
-	public abstract void initialiseProperties(JavaProperty javaProperty, PropertyWrapperDefinition propDefnWrapper);
+	public void initialiseProperty(JavaProperty javaProperty, PropertyWrapperDefinition propDefnWrapper) {
+		PropertyWrapperDefinition property = new PropertyWrapperDefinition(this, javaProperty, false);
+		properties.add(property);
+	}
 
 }

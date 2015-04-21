@@ -84,7 +84,7 @@ public class InterfaceInfo {
 	 * @throws UnsupportedOperationException if any generic type references are encountered that are
 	 *         not understood
 	 */
-	protected static ParameterBounds[] getParameterBounds(Class<?> clazz) {
+	public static ParameterBounds[] getParameterBounds(Class<?> clazz) {
 		return getParameterBounds(clazz, clazz);
 	}
 	
@@ -101,7 +101,7 @@ public class InterfaceInfo {
 	 * @throws UnsupportedOperationException if any generic type references are encountered that are
 	 *         not understood
 	 */
-	protected static ParameterBounds[] getParameterBounds(Class<?> interfaceClass, Class<?> implementationClass) {
+	public static ParameterBounds[] getParameterBounds(Class<?> interfaceClass, Class<?> implementationClass) {
 		return getParameterBounds(interfaceClass, implementationClass, null);
 	}
 	
@@ -119,7 +119,7 @@ public class InterfaceInfo {
 	 * @throws UnsupportedOperationException if any generic type references are encountered that are
 	 *         not understood
 	 */
-	protected static ParameterBounds[] getParameterBounds(Class<?> interfaceClass, Class<?> implementationClass,
+	public static ParameterBounds[] getParameterBounds(Class<?> interfaceClass, Class<?> implementationClass,
 				ParameterBounds[] argumentValues) {
 		// parse argument values against type variables of implementation class
 		Map<String, ParameterBounds> argumentValueByTypeVariableName = null;
