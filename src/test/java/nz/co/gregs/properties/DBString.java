@@ -12,8 +12,17 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  * @author gregory.graham
  */
 public class DBString implements AdaptableType {
-	private String string;
+	private String string = null;
 	private PropertyWrapperDefinition wrapper;
+
+	public DBString(String string) {
+		super();
+		this.string= string;
+	}
+
+	public DBString() {
+		super();
+	}
 
 	public String getLiteralValue() {
 		return string;
@@ -31,6 +40,10 @@ public class DBString implements AdaptableType {
 		return string;
 	}
 
+	public String stringValue() {
+		return string;
+	}
+
 	public void setValue(String object) {
 		this.string = object;
 	}
@@ -41,6 +54,14 @@ public class DBString implements AdaptableType {
 
 	public void setPropertyWrapper(PropertyWrapperDefinition propertyWrapperDefn) {
 		this.wrapper = propertyWrapperDefn;
+	}
+
+	public boolean isNull() {
+		return this.string==null;
+	}
+
+	public void clear() {
+		string = null;
 	}
 	
 	

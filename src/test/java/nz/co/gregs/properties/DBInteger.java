@@ -12,11 +12,23 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  * @author gregory.graham
  */
 public class DBInteger implements AdaptableType {
-	private Integer integer;
+
+	private Long longValue = null;
 	private PropertyWrapperDefinition wrapper;
 
-	public Integer getLiteralValue() {
-		return integer;
+	public DBInteger() {
+	}
+
+	public DBInteger(int val) {
+		longValue = new Integer(val).longValue();
+	}
+
+	public DBInteger(Long val) {
+		longValue = val;
+	}
+
+	public Long getLiteralValue() {
+		return longValue;
 	}
 
 	public Object getOperator() {
@@ -27,20 +39,28 @@ public class DBInteger implements AdaptableType {
 		this.setValue(source.getValue());
 	}
 
-	public Object getValue() {
-		return integer;
+	public Long getValue() {
+		return longValue;
+	}
+
+	public Object intValue() {
+		return longValue.intValue();
 	}
 
 	public void setValue(Integer object) {
-		this.integer = object;
+		this.longValue = new Long(object);
+	}
+
+	public long longValue() {
+		return this.longValue;
 	}
 
 	public void setValue(Long object) {
-		this.integer = object.intValue();
+		this.longValue = object;
 	}
 
 	public void setValue(String object) {
-		this.integer = Integer.parseInt(object);
+		this.longValue = Long.parseLong(object);
 	}
 
 	public void setValue(Object object) {
@@ -50,5 +70,13 @@ public class DBInteger implements AdaptableType {
 	public void setPropertyWrapper(PropertyWrapperDefinition propertyWrapperDefn) {
 		this.wrapper = propertyWrapperDefn;
 	}
-	
+
+	public boolean isNull() {
+		return longValue == null;
+	}
+
+	public void clear() {
+		longValue = null;
+	}
+
 }

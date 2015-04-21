@@ -25,4 +25,7 @@ public interface AdaptableType {
 
 	public void setPropertyWrapper(PropertyWrapperDefinition propertyWrapperDefn);
 	
+	public boolean isNull();
+	
+	public void clear();
 }

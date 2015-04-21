@@ -58,7 +58,7 @@ public class PropertyTypeHandler {
      * @param javaProperty the annotated property
      */
     @SuppressWarnings("unchecked")
-     PropertyTypeHandler(JavaProperty javaProperty, boolean processIdentityOnly) {
+    public PropertyTypeHandler(JavaProperty javaProperty, boolean processIdentityOnly) {
         this.javaProperty = javaProperty;
         this.identityOnly = processIdentityOnly;
         this.annotation = javaProperty.getAnnotation(AdaptType.class);

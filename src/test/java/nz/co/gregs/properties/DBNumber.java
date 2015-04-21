@@ -12,7 +12,8 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  * @author gregory.graham
  */
 public class DBNumber implements AdaptableType {
-	private Number number;
+
+	private Number number = null;
 	private PropertyWrapperDefinition wrapper;
 
 	public Number getLiteralValue() {
@@ -54,5 +55,13 @@ public class DBNumber implements AdaptableType {
 	public void setPropertyWrapper(PropertyWrapperDefinition propertyWrapperDefn) {
 		this.wrapper = propertyWrapperDefn;
 	}
-	
+
+	public boolean isNull() {
+		return number == null;
+	}
+
+	public void clear() {
+		number = null;
+	}
+
 }
