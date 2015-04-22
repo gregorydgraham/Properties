@@ -1,8 +1,5 @@
 package nz.co.gregs.properties.adapt;
 
-
-
-import nz.co.gregs.properties.adapt.PropertyTypeHandler;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -16,7 +13,6 @@ import nz.co.gregs.properties.examples.DBRow;
 import nz.co.gregs.properties.examples.DBString;
 import nz.co.gregs.properties.JavaProperty;
 import nz.co.gregs.properties.JavaPropertyFinder;
-import nz.co.gregs.properties.adapt.*;
 import nz.co.gregs.properties.exceptions.*;
 import static nz.co.gregs.properties.PropertyMatchers.*;
 
