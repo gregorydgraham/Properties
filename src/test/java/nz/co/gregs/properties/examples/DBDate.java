@@ -1,4 +1,4 @@
-package nz.co.gregs.properties;
+package nz.co.gregs.properties.examples;
 
 
 import java.text.ParseException;
@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import nz.co.gregs.properties.PropertyDefinition;
 import nz.co.gregs.properties.adapt.AdaptableType;
 
 /*

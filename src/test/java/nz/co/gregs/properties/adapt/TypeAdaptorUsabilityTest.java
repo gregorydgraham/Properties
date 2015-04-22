@@ -1,7 +1,13 @@
-package nz.co.gregs.properties;
+package nz.co.gregs.properties.adapt;
 
 
 import java.util.Date;
+import nz.co.gregs.properties.examples.DBColumn;
+import nz.co.gregs.properties.examples.DBDate;
+import nz.co.gregs.properties.examples.DBInteger;
+import nz.co.gregs.properties.examples.DBRow;
+import nz.co.gregs.properties.examples.DBString;
+import nz.co.gregs.properties.examples.DBTableName;
 import nz.co.gregs.properties.adapt.*;
 
 import org.junit.Test;

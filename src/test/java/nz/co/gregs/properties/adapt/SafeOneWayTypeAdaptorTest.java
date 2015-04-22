@@ -1,3 +1,5 @@
+package nz.co.gregs.properties.adapt;
+
 
 
 import static org.hamcrest.Matchers.*;

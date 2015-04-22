@@ -2,6 +2,8 @@ package nz.co.gregs.properties;
 
 
 
+import nz.co.gregs.properties.examples.DBColumn;
+import nz.co.gregs.properties.examples.DBPrimaryKey;
 import static nz.co.gregs.properties.PropertyMatchers.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -15,8 +17,8 @@ import nz.co.gregs.properties.JavaPropertyFinder.PropertyType;
 import nz.co.gregs.properties.JavaPropertyFinder.Visibility;
 import nz.co.gregs.properties.JavaProperty;
 import nz.co.gregs.properties.JavaPropertyFinder;
-import nz.co.gregs.properties.DBInteger;
-import nz.co.gregs.properties.DBString;
+import nz.co.gregs.properties.examples.DBInteger;
+import nz.co.gregs.properties.examples.DBString;
 import nz.co.gregs.properties.adapt.AdaptType;
 import nz.co.gregs.properties.adapt.TypeAdaptor;
 

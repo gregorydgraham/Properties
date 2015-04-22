@@ -1,5 +1,11 @@
 package nz.co.gregs.properties;
 
+import nz.co.gregs.properties.examples.DBColumn;
+import nz.co.gregs.properties.examples.DBInteger;
+import nz.co.gregs.properties.examples.DBTableName;
+import nz.co.gregs.properties.examples.DBForeignKey;
+import nz.co.gregs.properties.examples.DBPrimaryKey;
+import nz.co.gregs.properties.examples.DBString;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Observer;

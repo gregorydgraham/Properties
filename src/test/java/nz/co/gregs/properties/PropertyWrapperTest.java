@@ -2,6 +2,9 @@ package nz.co.gregs.properties;
 
 
 
+import nz.co.gregs.properties.examples.DBColumn;
+import nz.co.gregs.properties.examples.DBRow;
+import nz.co.gregs.properties.examples.DBInteger;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 

@@ -1,16 +1,21 @@
-package nz.co.gregs.properties;
+package nz.co.gregs.properties.adapt;
 
 
 
 import nz.co.gregs.properties.adapt.PropertyTypeHandler;
-import nz.co.gregs.properties.DBDate;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import nz.co.gregs.properties.*;
+import nz.co.gregs.properties.examples.DBColumn;
+import nz.co.gregs.properties.examples.DBDate;
+import nz.co.gregs.properties.examples.DBInteger;
+import nz.co.gregs.properties.examples.DBRow;
+import nz.co.gregs.properties.examples.DBString;
+import nz.co.gregs.properties.JavaProperty;
+import nz.co.gregs.properties.JavaPropertyFinder;
 import nz.co.gregs.properties.adapt.*;
 import nz.co.gregs.properties.exceptions.*;
 import static nz.co.gregs.properties.PropertyMatchers.*;
