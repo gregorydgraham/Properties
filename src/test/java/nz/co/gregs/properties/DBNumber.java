@@ -11,57 +11,30 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregory.graham
  */
-public class DBNumber implements AdaptableType {
+public class DBNumber extends AdaptableType {
 
-	private Number number = null;
-	private PropertyWrapperDefinition wrapper;
-
-	public Number getLiteralValue() {
-		return number;
-	}
-
-	public Object getOperator() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	public void adaptTo(AdaptableType source) {
-		this.setValue(source.getValue());
-	}
-
-	public Object getValue() {
-		return number;
+	public Number getValue() {
+		return (Number) getLiteralValue();
 	}
 
 	public void setValue(Integer object) {
-		this.number = object.longValue();
+		setLiteralValue(object.longValue());
 	}
 
 	public void setValue(Long object) {
-		this.number = object;
+		setLiteralValue(object);
 	}
 
 	public void setValue(Double object) {
-		this.number = object;
+		setLiteralValue(object);
 	}
 
 	public void setValue(String object) {
-		this.number = Long.parseLong(object);
+		setLiteralValue(Double.parseDouble(object));
 	}
 
 	public void setValue(Object object) {
 		setValue(object.toString());
-	}
-
-	public void setPropertyWrapper(PropertyWrapperDefinition propertyWrapperDefn) {
-		this.wrapper = propertyWrapperDefn;
-	}
-
-	public boolean isNull() {
-		return number == null;
-	}
-
-	public void clear() {
-		number = null;
 	}
 
 }

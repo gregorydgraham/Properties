@@ -40,10 +40,10 @@ import nz.co.gregs.properties.exceptions.*;
  * This class is not serializable. References to it within serializable classes
  * should be marked as {@code transient}.
  */
-public class PropertyWrapper {
+public class Property {
 
-    private final ContainingInstanceWrapper dbRowInstanceWrapper;
-    private final PropertyWrapperDefinition propertyDefinition;
+    private final PropertyContainerInstance dbRowInstanceWrapper;
+    private final PropertyDefinition propertyDefinition;
     private final Object target;
 
     /**
@@ -51,8 +51,8 @@ public class PropertyWrapper {
      * @param classProperty the class-level wrapper
      * @param target the target object containing the given property
      */
-    public PropertyWrapper(ContainingInstanceWrapper instanceWrapper,
-            PropertyWrapperDefinition classProperty, Object target) {
+    public Property(PropertyContainerInstance instanceWrapper,
+            PropertyDefinition classProperty, Object target) {
         this.dbRowInstanceWrapper = instanceWrapper;
         this.propertyDefinition = classProperty;
         this.target = target;
@@ -66,7 +66,7 @@ public class PropertyWrapper {
      * For example: <br>
      * {@code "DBInteger nz.co.mycompany.myproject.Vehicle.fkSpecOptionColour<fk_17> = [15241672]"}
      *
-     * @return a String representing this PropertyWrapper
+     * @return a String representing this Property
      */
     @Override
     public String toString() {
@@ -129,8 +129,8 @@ public class PropertyWrapper {
      * than {@code .equals()} equality).
      *
 	 * @param obj obj
-     * @return TRUE if this PropertyWrapper wraps the same property on the same
-     * RowDefinition as the object supplied, FALSE otherwise
+     * @return TRUE if this Property wraps the same property on the same
+ RowDefinition as the object supplied, FALSE otherwise
      */
     @Override
     public boolean equals(Object obj) {
@@ -140,10 +140,10 @@ public class PropertyWrapper {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof PropertyWrapper)) {
+        if (!(obj instanceof Property)) {
             return false;
         }
-        PropertyWrapper other = (PropertyWrapper) obj;
+        Property other = (Property) obj;
         if (propertyDefinition == null) {
             if (other.propertyDefinition != null) {
                 return false;
@@ -364,16 +364,16 @@ public class PropertyWrapper {
      *
      * @return the propertyDefinition
      */
-    public PropertyWrapperDefinition getDefinition() {
+    public PropertyDefinition getDefinition() {
         return propertyDefinition;
     }
 
     /**
      * Gets the wrapper for the DBRow instance containing this property.
      *
-     * @return the ContainingInstanceWrapper for this property.
+     * @return the PropertyContainerInstance for this property.
      */
-    public ContainingInstanceWrapper getContainingInstanceWrapper() {
+    public PropertyContainerInstance getContainingInstanceWrapper() {
         return dbRowInstanceWrapper;
     }
 }

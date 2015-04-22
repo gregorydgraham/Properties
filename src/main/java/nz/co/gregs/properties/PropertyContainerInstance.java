@@ -7,7 +7,7 @@ import nz.co.gregs.properties.exceptions.PropertyException;
 
 /**
  * Wraps a specific target object according to its type's
- * {@link ContainingClassWrapper}.
+ * {@link PropertyContainerClass}.
  *
  * <p>
  * To create instances of this type, call
@@ -25,11 +25,11 @@ import nz.co.gregs.properties.exceptions.PropertyException;
  *
  * @author Malcolm Lett
  */
-public class ContainingInstanceWrapper {
+public class PropertyContainerInstance {
 
-    private final ContainingClassWrapper containingClassWrapper;
-    private final ContainingClass containingInstance;
-    private final List<PropertyWrapper> allProperties;
+    private final PropertyContainerClass containingClassWrapper;
+    private final PropertyContainer containingInstance;
+    private final List<Property> allProperties;
 
     /**
      * Called by
@@ -38,7 +38,7 @@ public class ContainingInstanceWrapper {
      
      * @param rowDefinition the target object of the same type as analyzed by {@code classWrapper}
      */
-    ContainingInstanceWrapper(ContainingClassWrapper classWrapper, ContainingClass rowDefinition) {
+    PropertyContainerInstance(PropertyContainerClass classWrapper, PropertyContainer rowDefinition) {
         if (rowDefinition == null) {
             throw new PropertyException("Target object is null");
         }
@@ -54,9 +54,9 @@ public class ContainingInstanceWrapper {
         // pre-cache commonly used things
         // (note: if you change this to use lazy-initialisation, you'll have to
         // add explicit synchronisation, or it won't be thread-safe anymore)
-        this.allProperties = new ArrayList<PropertyWrapper>();
-        for (PropertyWrapperDefinition propertyDefinition : classWrapper.getPropertyDefinitions()) {
-            this.allProperties.add(new PropertyWrapper(this, propertyDefinition, rowDefinition));
+        this.allProperties = new ArrayList<Property>();
+        for (PropertyDefinition propertyDefinition : classWrapper.getPropertyDefinitions()) {
+            this.allProperties.add(new Property(this, propertyDefinition, rowDefinition));
         }
     }
 
@@ -85,10 +85,10 @@ public class ContainingInstanceWrapper {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof ContainingInstanceWrapper)) {
+		if (!(obj instanceof PropertyContainerInstance)) {
 			return false;
 		}
-		ContainingInstanceWrapper other = (ContainingInstanceWrapper) obj;
+		PropertyContainerInstance other = (PropertyContainerInstance) obj;
 		if (containingClassWrapper == null) {
 			if (other.containingClassWrapper != null) {
 				return false;
@@ -124,7 +124,7 @@ public class ContainingInstanceWrapper {
      * Gets the class-wrapper for the class of wrapped {@code RowDefinition}
      * @return the class-wrapper
      */
-	public ContainingClassWrapper getContainingClassWrapper() {
+	public PropertyContainerClass getContainingClassWrapper() {
         return containingClassWrapper;
     }
 
@@ -134,7 +134,7 @@ public class ContainingInstanceWrapper {
      *
      * @return the class of the wrapped instance
      */
-    public Class<? extends ContainingClass> adapteeContainingClass() {
+    public Class<? extends PropertyContainer> adapteeContainingClass() {
         return containingClassWrapper.adapteeClass();
     }
 
@@ -145,7 +145,7 @@ public class ContainingInstanceWrapper {
      * @return the {@link RowDefinition} (usually a {@link DBRow} or
      * {@link DBReport}) for this instance.
      */
-    public ContainingClass adapteeContainingInstance() {
+    public PropertyContainer adapteeContainingInstance() {
         return containingInstance;
     }
 
@@ -180,9 +180,9 @@ public class ContainingInstanceWrapper {
      * @return property of the wrapped {@link RowDefinition} associated with the java field name supplied.
 	 *         Null if no such property is found.
      */
-    public PropertyWrapper getPropertyByName(String propertyName) {
-        PropertyWrapperDefinition classProperty = containingClassWrapper.getPropertyDefinitionByName(propertyName);
-        return (classProperty == null) ? null : new PropertyWrapper(this, classProperty, containingInstance);
+    public Property getPropertyByName(String propertyName) {
+        PropertyDefinition classProperty = containingClassWrapper.getPropertyDefinitionByName(propertyName);
+        return (classProperty == null) ? null : new Property(this, classProperty, containingInstance);
     }
 
     /**
@@ -197,7 +197,7 @@ public class ContainingInstanceWrapper {
      *
      * @return the non-null list of properties, empty if none
      */
-    public List<PropertyWrapper> getPropertyWrappers() {
+    public List<Property> getPropertyWrappers() {
         return allProperties;
     }
 
@@ -208,7 +208,7 @@ public class ContainingInstanceWrapper {
      *
      * @return a list of PropertyWrapperDefinitions for the PropertyWrappers of this RowDefinition
      */
-    public List<PropertyWrapperDefinition> getPropertyDefinitions() {
+    public List<PropertyDefinition> getPropertyDefinitions() {
         return containingClassWrapper.getPropertyDefinitions();
     }
 }

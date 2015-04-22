@@ -18,10 +18,10 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregorygraham
  */
-public class DBDate implements AdaptableType {
+public class DBDate extends AdaptableType {
 
 	private Date date = null;
-	private PropertyWrapperDefinition wrapper;
+	private PropertyDefinition wrapper;
 
 	public DBDate() {
 		super();
@@ -32,19 +32,7 @@ public class DBDate implements AdaptableType {
 		this.date = date;
 	}
 
-	public Date getLiteralValue() {
-		return date;
-	}
-
-	public Object getOperator() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	public void adaptTo(AdaptableType source) {
-		this.setValue(source.getValue());
-	}
-
-	public Object getValue() {
+	public Date getValue() {
 		return date;
 	}
 
@@ -56,6 +44,7 @@ public class DBDate implements AdaptableType {
 		this.date =new SimpleDateFormat().parse(object);
 	}
 
+	@Override
 	public void setValue(Object object) {
 		try {
 			setValue(object.toString());
@@ -63,19 +52,5 @@ public class DBDate implements AdaptableType {
 			Logger.getLogger(DBDate.class.getName()).log(Level.SEVERE, null, ex);
 			throw new RuntimeException(ex);
 		}
-	}
-
-	public void setPropertyWrapper(PropertyWrapperDefinition propertyWrapperDefn) {
-		this.wrapper = propertyWrapperDefn;
-	}
-
-	public boolean isNull() {
-		return date == null;
-	}
-
-	public void clear() {
-		date = null;
-	}
-
-	
+	}	
 }

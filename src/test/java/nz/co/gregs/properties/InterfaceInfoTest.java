@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import nz.co.gregs.properties.InterfaceInfo;
-import nz.co.gregs.properties.PropertyWrapperDefinition;
+import nz.co.gregs.properties.PropertyDefinition;
 import nz.co.gregs.properties.adapt.AdaptableType;
 import nz.co.gregs.properties.exceptions.UnsupportedType;
 

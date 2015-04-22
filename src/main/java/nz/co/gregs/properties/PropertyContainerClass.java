@@ -30,20 +30,20 @@ import nz.co.gregs.properties.exceptions.*;
  *
  * @author Malcolm Lett
  */
-public class ContainingClassWrapper {
+public class PropertyContainerClass {
 
-	private final Class<? extends ContainingClass> adapteeClass;
+	private final Class<? extends PropertyContainer> adapteeClass;
 	private final boolean identityOnly;
 	/**
 	 * All properties of which DBvolution is aware, ordered as first
 	 * encountered. Properties are only included if they are columns.
 	 */
-	private final List<PropertyWrapperDefinition> properties;
+	private final List<PropertyDefinition> properties;
 
 	/**
 	 * Indexed by java property name.
 	 */
-	private final Map<String, PropertyWrapperDefinition> propertiesByPropertyName;
+	private final Map<String, PropertyDefinition> propertiesByPropertyName;
 
 	/**
 	 * Fully constructs a wrapper for the given class, including performing all
@@ -52,7 +52,7 @@ public class ContainingClassWrapper {
 	 * @param clazz the {@code DBRow} class to wrap
 	 * @throws DBPebkacException on any validation errors
 	 */
-	public ContainingClassWrapper(Class<? extends ContainingClass> clazz) {
+	public PropertyContainerClass(Class<? extends PropertyContainer> clazz) {
 		this(clazz, false);
 	}
 
@@ -70,19 +70,19 @@ public class ContainingClassWrapper {
 	 * valid, but to exclude all other validations on non-primary key columns
 	 * and types etc.
 	 */
-	ContainingClassWrapper(Class<? extends ContainingClass> clazz, boolean processIdentityOnly) {
+	PropertyContainerClass(Class<? extends PropertyContainer> clazz, boolean processIdentityOnly) {
 		adapteeClass = clazz;
 		identityOnly = processIdentityOnly;
 
 		// pre-calculate properties list
 		// (note: skip if processing identity only, in order to avoid
 		//  all the per-property validation)
-		properties = new ArrayList<PropertyWrapperDefinition>();
-		propertiesByPropertyName = new HashMap<String, PropertyWrapperDefinition>();
+		properties = new ArrayList<PropertyDefinition>();
+		propertiesByPropertyName = new HashMap<String, PropertyDefinition>();
 		// identity-only: extract only primary key properties
 		JavaPropertyFinder propertyFinder = getJavaPropertyFinder();
 		for (JavaProperty javaProperty : propertyFinder.getPropertiesOf(clazz)) {
-			PropertyWrapperDefinition property = new PropertyWrapperDefinition(this, javaProperty, processIdentityOnly);
+			PropertyDefinition property = new PropertyDefinition(this, javaProperty, processIdentityOnly);
 			properties.add(property);
 			propertiesByPropertyName.put(property.javaName(), property);
 			initialiseProperty(javaProperty, property);
@@ -115,14 +115,14 @@ public class ContainingClassWrapper {
 	 * Gets an object wrapper instance for the given target object
 	 *
 	 * @param target the {@code DBRow} instance
-	 * @return A ContainingInstanceWrapper for the supplied target.
+	 * @return A PropertyContainerInstance for the supplied target.
 	 */
-	public ContainingInstanceWrapper instanceWrapperFor(ContainingClass target) {
+	public PropertyContainerInstance instanceWrapperFor(PropertyContainer target) {
 		if (identityOnly) {
 			throw new AssertionError("Attempt to access non-identity information of identity-only DBRow class wrapper");
 		}
 //		checkForRemainingErrorsOnAcccess(database);
-		return new ContainingInstanceWrapper(this, target);
+		return new PropertyContainerInstance(this, target);
 	}
 
 	/**
@@ -151,10 +151,10 @@ public class ContainingClassWrapper {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof ContainingClassWrapper)) {
+		if (!(obj instanceof PropertyContainerClass)) {
 			return false;
 		}
-		ContainingClassWrapper other = (ContainingClassWrapper) obj;
+		PropertyContainerClass other = (PropertyContainerClass) obj;
 		if (adapteeClass == null) {
 			if (other.adapteeClass != null) {
 				return false;
@@ -183,7 +183,7 @@ public class ContainingClassWrapper {
 	 *
 	 * @return the DBRow or Object wrapped by this instance.
 	 */
-	public Class<? extends ContainingClass> adapteeClass() {
+	public Class<? extends PropertyContainer> adapteeClass() {
 		return adapteeClass;
 	}
 
@@ -223,11 +223,11 @@ public class ContainingClassWrapper {
 	 * that well and returns only the first one it sees.
 	 *
 	 * @param propertyName	propertyName
-	 * @return the PropertyWrapperDefinition for the named object property Null
-	 * if no such property is found.
+	 * @return the PropertyDefinition for the named object property Null
+ if no such property is found.
 	 * @throws AssertionError if called when in {@code identityOnly} mode.
 	 */
-	public PropertyWrapperDefinition getPropertyDefinitionByName(String propertyName) {
+	public PropertyDefinition getPropertyDefinitionByName(String propertyName) {
 		if (identityOnly) {
 			throw new AssertionError("Attempt to access non-identity information of identity-only DBRow class wrapper");
 		}
@@ -239,15 +239,15 @@ public class ContainingClassWrapper {
 	 *
 	 * @return a List of all PropertyWrapperDefinitions for the wrapped class.
 	 */
-	public List<PropertyWrapperDefinition> getPropertyDefinitions() {
+	public List<PropertyDefinition> getPropertyDefinitions() {
 		if (identityOnly) {
 			throw new AssertionError("Attempt to access non-identity information of identity-only DBRow class wrapper");
 		}
 		return properties;
 	}
 
-	public void initialiseProperty(JavaProperty javaProperty, PropertyWrapperDefinition propDefnWrapper) {
-		PropertyWrapperDefinition property = new PropertyWrapperDefinition(this, javaProperty, false);
+	public void initialiseProperty(JavaProperty javaProperty, PropertyDefinition propDefnWrapper) {
+		PropertyDefinition property = new PropertyDefinition(this, javaProperty, false);
 		properties.add(property);
 	}
 

@@ -18,12 +18,12 @@ import java.util.Map;
  *
  * @author Malcolm Lett
  */
-public class ContainingClassWrapperFactory {
+public class PropertyContainerWrapperFactory {
 
     /**
      * Thread-safety: access to this object must be synchronized on it
      */
-    private final Map<Class<?>, ContainingClassWrapper> classWrappersByClass = new HashMap<Class<?>, ContainingClassWrapper>();
+    private final Map<Class<?>, PropertyContainerClass> classWrappersByClass = new HashMap<Class<?>, PropertyContainerClass>();
 
     /**
      * Gets the class adaptor for the given class. If an adaptor for the given
@@ -33,11 +33,11 @@ public class ContainingClassWrapperFactory {
 	 * @param clazz clazz
      * @return the class adaptor
      */
-    public ContainingClassWrapper classWrapperFor(Class<? extends ContainingClass> clazz) throws InstantiationException, IllegalAccessException {
+    public PropertyContainerClass classWrapperFor(Class<? extends PropertyContainer> clazz) throws InstantiationException, IllegalAccessException {
         synchronized (classWrappersByClass) {
-            ContainingClassWrapper wrapper = classWrappersByClass.get(clazz);
+            PropertyContainerClass wrapper = classWrappersByClass.get(clazz);
             if (wrapper == null) {
-                wrapper =(ContainingClassWrapper) clazz.newInstance();
+                wrapper =(PropertyContainerClass) clazz.newInstance();
                 classWrappersByClass.put(clazz, wrapper);
             }
             return wrapper;
@@ -52,7 +52,7 @@ public class ContainingClassWrapperFactory {
      * @param object the DBRow instance to wrap
      * @return the object adaptor for the given object
      */
-    public ContainingInstanceWrapper instanceWrapperFor(ContainingClass object) throws InstantiationException, IllegalAccessException {
+    public PropertyContainerInstance instanceWrapperFor(PropertyContainer object) throws InstantiationException, IllegalAccessException {
         return classWrapperFor(object.getClass()).instanceWrapperFor(object);
     }
 }

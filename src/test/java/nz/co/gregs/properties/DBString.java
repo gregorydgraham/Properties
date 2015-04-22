@@ -11,58 +11,29 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregory.graham
  */
-public class DBString implements AdaptableType {
-	private String string = null;
-	private PropertyWrapperDefinition wrapper;
+public class DBString extends AdaptableType {
 
 	public DBString(String string) {
-		super();
-		this.string= string;
+		super(string);
 	}
 
 	public DBString() {
 		super();
 	}
 
-	public String getLiteralValue() {
-		return string;
-	}
-
-	public Object getOperator() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	public void adaptTo(AdaptableType source) {
-		this.setValue(source.getValue());
-	}
-
 	public String getValue() {
-		return string;
+		return (String) getLiteralValue();
 	}
 
 	public String stringValue() {
-		return string;
+		return getValue();
 	}
 
 	public void setValue(String object) {
-		this.string = object;
+		setLiteralValue(object);
 	}
 
 	public void setValue(Object object) {
 		setValue(object.toString());
 	}
-
-	public void setPropertyWrapper(PropertyWrapperDefinition propertyWrapperDefn) {
-		this.wrapper = propertyWrapperDefn;
-	}
-
-	public boolean isNull() {
-		return this.string==null;
-	}
-
-	public void clear() {
-		string = null;
-	}
-	
-	
 }

@@ -3,8 +3,8 @@ package nz.co.gregs.properties;
 
 
 import java.sql.SQLException;
-import nz.co.gregs.properties.ContainingClass;
-import nz.co.gregs.properties.ContainingClassWrapper;
+import nz.co.gregs.properties.PropertyContainer;
+import nz.co.gregs.properties.PropertyContainerClass;
 import nz.co.gregs.properties.DBForeignKey;
 import nz.co.gregs.properties.DBColumn;
 import nz.co.gregs.properties.DBInteger;
@@ -45,7 +45,7 @@ public class DBRowClassWrapperTest {
             public DBInteger fkTable2 = new DBInteger();
         }
 
-        new ContainingClassWrapper(TestClass.class);
+        new PropertyContainerClass(TestClass.class);
     }
 
 //	@Test
@@ -61,7 +61,7 @@ public class DBRowClassWrapperTest {
 //			public DBInteger type = new DBInteger();
 //		}
 //		
-//		ContainingClassWrapper classWrapper = new ContainingClassWrapper(TestClass.class);
+//		PropertyContainerClass classWrapper = new PropertyContainerClass(TestClass.class);
 //		assertThat(classWrapper.primaryKey(), is(not(nullValue())));
 //		assertThat(classWrapper.primaryKey().size(), is(2));
 //		assertThat(classWrapper.primaryKey().get(0).getColumnName(), is("uid_2"));
@@ -69,12 +69,12 @@ public class DBRowClassWrapperTest {
 //	}
     @Test
     public void getsProperties() {
-        ContainingClassWrapper classAdaptor = new ContainingClassWrapper(MyTable1.class);
+        PropertyContainerClass classAdaptor = new PropertyContainerClass(MyTable1.class);
         assertThat(classAdaptor.getPropertyDefinitions().size(), is(3));
     }
 
     @SuppressWarnings("serial")
-    public static class MyTable1 implements ContainingClass {
+    public static class MyTable1 implements PropertyContainer {
 
         @DBPrimaryKey
         @DBColumn
@@ -88,7 +88,7 @@ public class DBRowClassWrapperTest {
 
     @SuppressWarnings("serial")
     @DBTableName("table2")
-    public static class MyTable2 implements ContainingClass {
+    public static class MyTable2 implements PropertyContainer {
 
         @DBPrimaryKey
         @DBColumn("uid_2")

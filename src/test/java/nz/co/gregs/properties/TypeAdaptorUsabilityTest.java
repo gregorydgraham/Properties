@@ -1,19 +1,8 @@
+package nz.co.gregs.properties;
 
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Date;
-
-import nz.co.gregs.dbvolution.DBDatabase;
-import nz.co.gregs.dbvolution.DBRow;
-import nz.co.gregs.dbvolution.annotations.DBAdaptType;
-import nz.co.gregs.dbvolution.annotations.DBColumn;
-import nz.co.gregs.dbvolution.annotations.DBTableName;
-import nz.co.gregs.dbvolution.datatypes.DBDate;
-import nz.co.gregs.dbvolution.datatypes.DBInteger;
-import nz.co.gregs.dbvolution.datatypes.DBString;
-import nz.co.gregs.dbvolution.datatypes.DBTypeAdaptor;
-import nz.co.gregs.dbvolution.datatypes.QueryableDatatype;
+import nz.co.gregs.properties.adapt.*;
 
 import org.junit.Test;
 
@@ -26,7 +15,7 @@ public class TypeAdaptorUsabilityTest {
 
 	@Test
 	public void integerFieldAdaptedAsDBInteger_whenAdaptingOnSimpleTypes() {
-		class MyTypeAdaptor implements DBTypeAdaptor<Integer, Integer> {
+		class MyTypeAdaptor implements TypeAdaptor<Integer, Integer> {
 
 			@Override
 			public Integer fromDatabaseValue(Integer dbvValue) {
@@ -43,14 +32,14 @@ public class TypeAdaptorUsabilityTest {
 		class MyTable extends DBRow {
 
 			@DBColumn
-			@DBAdaptType(MyTypeAdaptor.class)
+			@AdaptType(MyTypeAdaptor.class)
 			public Integer year;
 		}
 	}
 
 	@Test
 	public void stringFieldAdaptedAsDBInteger_whenAdaptingOnSimpleTypes() {
-		class MyTypeAdaptor implements DBTypeAdaptor<String, Long> {
+		class MyTypeAdaptor implements TypeAdaptor<String, Long> {
 
 			@Override
 			public String fromDatabaseValue(Long dbvValue) {
@@ -67,14 +56,14 @@ public class TypeAdaptorUsabilityTest {
 		class MyTable extends DBRow {
 
 			@DBColumn
-			@DBAdaptType(value = MyTypeAdaptor.class, type = DBInteger.class)
+			@AdaptType(value = MyTypeAdaptor.class, type = DBInteger.class)
 			public String year;
 		}
 	}
 
 	@Test
 	public void dbstringFieldAdaptedAsDBInteger_whenAdaptingOnSimpleTypes() {
-		class MyTypeAdaptor implements DBTypeAdaptor<String, Long> {
+		class MyTypeAdaptor implements TypeAdaptor<String, Long> {
 
 			@Override
 			public String fromDatabaseValue(Long dbvValue) {
@@ -91,7 +80,7 @@ public class TypeAdaptorUsabilityTest {
 		class MyTable extends DBRow {
 
 			@DBColumn
-			@DBAdaptType(MyTypeAdaptor.class)
+			@AdaptType(MyTypeAdaptor.class)
 			public DBString year;
 		}
 	}
@@ -99,7 +88,7 @@ public class TypeAdaptorUsabilityTest {
 	@Test
 	public void integerFieldAdaptedAsDBDate_whenAdaptingOnSimpleTypes() {
 		@SuppressWarnings("deprecation")
-		class MyTypeAdaptor implements DBTypeAdaptor<Integer, Date> {
+		class MyTypeAdaptor implements TypeAdaptor<Integer, Date> {
 
 			@Override
 			public Integer fromDatabaseValue(Date dbvValue) {
@@ -116,7 +105,7 @@ public class TypeAdaptorUsabilityTest {
 		class MyTable extends DBRow {
 
 			@DBColumn
-			@DBAdaptType(MyTypeAdaptor.class)
+			@AdaptType(MyTypeAdaptor.class)
 			public Integer year;
 		}
 	}
@@ -124,7 +113,7 @@ public class TypeAdaptorUsabilityTest {
 	@Test
 	public void dbintegerFieldAdaptedAsDBDate_whenAdaptingOnSimpleTypes() {
 		@SuppressWarnings("deprecation")
-		class MyTypeAdaptor implements DBTypeAdaptor<Long, Date> {
+		class MyTypeAdaptor implements TypeAdaptor<Long, Date> {
 
 			@Override
 			public Long fromDatabaseValue(Date dbvValue) {
@@ -141,7 +130,7 @@ public class TypeAdaptorUsabilityTest {
 		class MyTable extends DBRow {
 
 			@DBColumn
-			@DBAdaptType(MyTypeAdaptor.class)
+			@AdaptType(MyTypeAdaptor.class)
 			public DBInteger year;
 		}
 	}
@@ -149,7 +138,7 @@ public class TypeAdaptorUsabilityTest {
 	@Test
 	@SuppressWarnings("deprecation")
 	public void dateFieldAdaptedAsDBInteger_whenAdaptingOnSimpleTypes() {
-		class MyTypeAdaptor implements DBTypeAdaptor<Date, Integer> {
+		class MyTypeAdaptor implements TypeAdaptor<Date, Integer> {
 
 			@Override
 			public Date fromDatabaseValue(Integer dbvValue) {
@@ -166,7 +155,7 @@ public class TypeAdaptorUsabilityTest {
 		class MyTable extends DBRow {
 
 			@DBColumn
-			@DBAdaptType(value = MyTypeAdaptor.class, type = DBInteger.class)
+			@AdaptType(value = MyTypeAdaptor.class, type = DBInteger.class)
 			public Date year;
 		}
 	}
@@ -174,7 +163,7 @@ public class TypeAdaptorUsabilityTest {
 	@Test
 	public void dbdateFieldAdaptedAsDBInteger_whenAdaptingOnSimpleTypes() {
 		@SuppressWarnings("deprecation")
-		class MyTypeAdaptor implements DBTypeAdaptor<Date, Integer> {
+		class MyTypeAdaptor implements TypeAdaptor<Date, Integer> {
 
 			@Override
 			public Date fromDatabaseValue(Integer dbvValue) {
@@ -191,7 +180,7 @@ public class TypeAdaptorUsabilityTest {
 		class MyTable extends DBRow {
 
 			@DBColumn
-			@DBAdaptType(MyTypeAdaptor.class)
+			@AdaptType(MyTypeAdaptor.class)
 			public DBDate year;
 		}
 	}
@@ -210,7 +199,7 @@ public class TypeAdaptorUsabilityTest {
 			}
 		}
 
-		class MyTypeAdaptor implements DBTypeAdaptor<MyDataType, String> {
+		class MyTypeAdaptor implements TypeAdaptor<MyDataType, String> {
 
 			@Override
 			public MyDataType fromDatabaseValue(String dbvValue) {
@@ -227,7 +216,7 @@ public class TypeAdaptorUsabilityTest {
 		class MyTable extends DBRow {
 
 			@DBColumn
-			@DBAdaptType(MyTypeAdaptor.class)
+			@AdaptType(MyTypeAdaptor.class)
 			public MyDataType obj;
 		}
 	}
@@ -236,35 +225,23 @@ public class TypeAdaptorUsabilityTest {
 	@Test
 	public void stringFieldAdaptedAsCustomQDT_whenAdaptingOnSimpleTypes() {
 
-		class MyQDT extends QueryableDatatype {
+		class MyQDT extends AdaptableType {
 
 			@SuppressWarnings("unused")
-			public MyQDT() {
+			MyQDT() {
 				super(23);
 			}
 
-			@Override
-			public String getSQLDatatype() {
-				return "unknown";
+			public Object getValue() {
+				throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 			}
 
-			@Override
-			protected String formatValueForSQLStatement(DBDatabase db) {
-				return "unknown";
-			}
-
-			@Override
-			public boolean isAggregator() {
-				return false;
-			}
-
-			@Override
-			protected Object getFromResultSet(DBDatabase database, ResultSet resultSet, String fullColumnName) throws SQLException {
-				return resultSet.getString(fullColumnName);
+			public void setValue(Object object) {
+				throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 			}
 		}
 
-		class MyTypeAdaptor implements DBTypeAdaptor<String, Integer> {
+		class MyTypeAdaptor implements TypeAdaptor<String, Integer> {
 
 			@Override
 			public String fromDatabaseValue(Integer dbvValue) {
@@ -281,94 +258,8 @@ public class TypeAdaptorUsabilityTest {
 		class MyTable extends DBRow {
 
 			@DBColumn
-			@DBAdaptType(value = MyTypeAdaptor.class, type = MyQDT.class)
+			@AdaptType(value = MyTypeAdaptor.class, type = MyQDT.class)
 			public String year;
 		}
 	}
-
-// not trying to support just yet
-//    @Ignore
-//    @Test
-	public
-			void stringFieldAdaptedAsCustomQDT_whenAdaptingOnComplexPOJOTypes() {
-		class MyDataType {
-
-			public MyDataType parse(String str) {
-				return new MyDataType();
-			}
-
-			@Override
-			public String toString() {
-				return MyDataType.class.getSimpleName();
-			}
-		}
-
-		class MyQDT extends QueryableDatatype {
-
-			@SuppressWarnings("unused")
-			public MyQDT() {
-				super(new MyDataType());
-			}
-
-			@Override
-			public String getSQLDatatype() {
-				return "unknown";
-			}
-
-			@Override
-			protected String formatValueForSQLStatement(DBDatabase db) {
-				return "unknown";
-			}
-
-			@Override
-			public boolean isAggregator() {
-				return false;
-			}
-
-			@Override
-			protected Object getFromResultSet(DBDatabase database, ResultSet resultSet, String fullColumnName) throws SQLException {
-				return resultSet.getString(fullColumnName);
-			}
-		}
-
-		class MyTypeAdaptor implements DBTypeAdaptor<String, MyDataType> {
-
-			@Override
-			public String fromDatabaseValue(MyDataType dbvValue) {
-				return (dbvValue == null) ? null : dbvValue.toString();
-			}
-
-			@Override
-			public MyDataType toDatabaseValue(String objectValue) {
-				return (objectValue == null) ? null : new MyDataType().parse(objectValue);
-			}
-		}
-
-		@DBTableName("Customer")
-		class MyTable extends DBRow {
-
-			@DBColumn
-			@DBAdaptType(value = MyTypeAdaptor.class, type = MyQDT.class)
-			public String text;
-		}
-	}
-
-// --- ideas not supported yet ---
-//	@Test
-//	public static void integerFieldAdaptedAsDBInteger_withImplicitTypeAdaptor() {
-//		@DBTableName("Customer")
-//		class MyTable extends DBRow {
-//			@DBColumn
-//			@DBAdaptType(type=DBInteger.class)
-//			public Integer year;
-//		}
-//	}
-//	@Test
-//	public static void integerFieldAdaptedAsDBInteger_withImplicitTypeAdaptor2() {
-//		@DBTableName("Customer")
-//		class MyTable extends DBRow {
-//			@DBColumn
-//			public Integer year;
-//		}
-//	}
 }

@@ -9,6 +9,6 @@ package nz.co.gregs.properties;
  *
  * @author gregorygraham
  */
-public interface ContainingClass {
+public interface PropertyContainer {
 	
 }

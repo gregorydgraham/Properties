@@ -1,10 +1,9 @@
 
 
-import nz.co.gregs.dbvolution.internal.properties.SafeOneWaySimpleTypeAdaptor;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
-import nz.co.gregs.dbvolution.datatypes.DBTypeAdaptor;
-import nz.co.gregs.dbvolution.internal.properties.SafeOneWaySimpleTypeAdaptor.Direction;
+import nz.co.gregs.properties.adapt.*;
+import nz.co.gregs.properties.adapt.SafeOneWaySimpleTypeAdaptor.Direction;
 
 import org.junit.Test;
 
@@ -103,7 +102,7 @@ public class SafeOneWayTypeAdaptorTest {
 		assertThat((String)result, is("23"));
 	}
 	
-	static class IntegerToStringAdaptor implements DBTypeAdaptor<Integer, String> {
+	static class IntegerToStringAdaptor implements TypeAdaptor<Integer, String> {
 		@Override
 		public Integer fromDatabaseValue(String dbvValue) {
 			return (dbvValue == null) ? null : Integer.parseInt(dbvValue);

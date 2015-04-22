@@ -1,5 +1,6 @@
 package nz.co.gregs.properties;
 
+import nz.co.gregs.properties.adapt.PropertyTypeHandler;
 import nz.co.gregs.properties.adapt.AdaptableType;
 import nz.co.gregs.properties.adapt.InternalAdaptableTypeProxy;
 import nz.co.gregs.properties.exceptions.*;
@@ -45,14 +46,14 @@ import nz.co.gregs.properties.exceptions.*;
  * This class is not serializable. References to it within serializable classes
  * should be marked as {@code transient}.
  */
-public class PropertyWrapperDefinition {
+public class PropertyDefinition {
 
-	private final ContainingClassWrapper classWrapper;
+	private final PropertyContainerClass classWrapper;
 	private final JavaProperty javaProperty;
 
 	private final PropertyTypeHandler typeHandler;
 
-	PropertyWrapperDefinition(ContainingClassWrapper classWrapper, JavaProperty javaProperty, boolean processIdentityOnly) {
+	PropertyDefinition(PropertyContainerClass classWrapper, JavaProperty javaProperty, boolean processIdentityOnly) {
 		this.classWrapper = classWrapper;
 		this.javaProperty = javaProperty;
 
@@ -117,10 +118,10 @@ public class PropertyWrapperDefinition {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof PropertyWrapperDefinition)) {
+		if (!(obj instanceof PropertyDefinition)) {
 			return false;
 		}
-		PropertyWrapperDefinition other = (PropertyWrapperDefinition) obj;
+		PropertyDefinition other = (PropertyDefinition) obj;
 		if (javaProperty == null) {
 			if (other.javaProperty != null) {
 				return false;
@@ -347,10 +348,10 @@ public class PropertyWrapperDefinition {
 	 * Gets the wrapper for the RowDefinition (DBRow or DBReport) subclass
 	 * containing this property.
 	 *
-	 * @return the ContainingClassWrapper representing the enclosing object
+	 * @return the PropertyContainerClass representing the enclosing object
  of this property
 	 */
-	public ContainingClassWrapper getRowDefinitionClassWrapper() {
+	public PropertyContainerClass getRowDefinitionClassWrapper() {
 		return classWrapper;
 	}
 

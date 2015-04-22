@@ -5,27 +5,58 @@
  */
 package nz.co.gregs.properties.adapt;
 
-import nz.co.gregs.properties.PropertyWrapperDefinition;
+import nz.co.gregs.properties.PropertyDefinition;
 
 /**
  *
  * @author gregorygraham
  */
-public interface AdaptableType {
+public abstract class AdaptableType {
 
-	public Object getLiteralValue();
 
-	public Object getOperator();
+	private Object literalValue = null;
+	private PropertyDefinition wrapper;
 
-	public void adaptTo(AdaptableType source);
+	public AdaptableType() {
+	}
 
-	public Object getValue();
+	protected AdaptableType(Object val) {
+		literalValue = val;
+	}
 
-	public void setValue(Object object);
+	protected final void setLiteralValue(Object object) {
+		this.literalValue = object;
+	}
 
-	public void setPropertyWrapper(PropertyWrapperDefinition propertyWrapperDefn);
-	
-	public boolean isNull();
-	
-	public void clear();
+	protected final Object getLiteralValue() {
+		return literalValue;
+	}
+
+	public Object getOperator() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	public void adaptTo(AdaptableType source) {
+		this.setValue(source.getValue());
+	}
+
+	public abstract void setValue(Object value);
+
+	public abstract Object getValue();
+
+	protected final void setPropertyWrapper(PropertyDefinition propertyWrapperDefn) {
+		this.wrapper = propertyWrapperDefn;
+	}
+
+	public final PropertyDefinition getPropertyWrapper() {
+		return this.wrapper;
+	}
+
+	public boolean isNull() {
+		return literalValue == null;
+	}
+
+	public void clear() {
+		literalValue = null;
+	}
 }

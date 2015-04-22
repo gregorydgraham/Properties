@@ -2,6 +2,7 @@ package nz.co.gregs.properties;
 
 
 
+import nz.co.gregs.properties.adapt.PropertyTypeHandler;
 import nz.co.gregs.properties.DBDate;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;

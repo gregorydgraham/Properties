@@ -1,6 +1,6 @@
 package nz.co.gregs.properties.adapt;
 
-import nz.co.gregs.properties.PropertyWrapperDefinition;
+import nz.co.gregs.properties.PropertyDefinition;
 
 /**
  * Internal class. Do not use.
@@ -38,7 +38,7 @@ public class InternalAdaptableTypeProxy {
 	 *
 	 * @param propertyWrapperDefn	 propertyWrapperDefn	
 	 */
-	public void setPropertyWrapper(PropertyWrapperDefinition propertyWrapperDefn) {
+	public void setPropertyWrapper(PropertyDefinition propertyWrapperDefn) {
 		qdt.setPropertyWrapper(propertyWrapperDefn);
 	}
 

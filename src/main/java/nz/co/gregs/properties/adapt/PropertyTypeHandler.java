@@ -1,15 +1,11 @@
-package nz.co.gregs.properties;
+package nz.co.gregs.properties.adapt;
 
-import nz.co.gregs.properties.adapt.AdaptableType;
-import nz.co.gregs.properties.adapt.AdaptableTypeSyncer;
-import nz.co.gregs.properties.adapt.SafeOneWaySimpleTypeAdaptor;
-import nz.co.gregs.properties.adapt.SimpleValueAdaptableTypeSyncer;
-import nz.co.gregs.properties.adapt.TypeAdaptor;
 import nz.co.gregs.properties.exceptions.UnsupportedType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-import nz.co.gregs.properties.adapt.AdaptType;
+import nz.co.gregs.properties.InterfaceInfo;
+import nz.co.gregs.properties.JavaProperty;
 
 import nz.co.gregs.properties.exceptions.PropertyException;
 import nz.co.gregs.properties.exceptions.DBThrownByEndUserCodeException;
@@ -56,6 +52,7 @@ public class PropertyTypeHandler {
     /**
      *
      * @param javaProperty the annotated property
+	 * @param processIdentityOnly indicates whether property's value needs to be tracked as well.
      */
     @SuppressWarnings("unchecked")
     public PropertyTypeHandler(JavaProperty javaProperty, boolean processIdentityOnly) {

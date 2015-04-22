@@ -13,14 +13,14 @@ public class PropertyWrapperDefinitionTest {
 
     @Test
     public void dotEqualsTrueWhenDifferentObjectAndSameClass() {
-        class MyClass implements ContainingClass{
+        class MyClass implements PropertyContainer{
 
             public DBInteger intField1 = new DBInteger();
             public DBInteger intField2 = new DBInteger();
         }
 
-        PropertyWrapperDefinition intField1_obj1 = propertyDefinitionOf(new MyClass(), "intField1");
-        PropertyWrapperDefinition intField1_obj2 = propertyDefinitionOf(new MyClass(), "intField1");
+        PropertyDefinition intField1_obj1 = propertyDefinitionOf(new MyClass(), "intField1");
+        PropertyDefinition intField1_obj2 = propertyDefinitionOf(new MyClass(), "intField1");
         assertThat(intField1_obj1 == intField1_obj2, is(false));
 
         assertThat(intField1_obj1.equals(intField1_obj2), is(true));
@@ -28,40 +28,40 @@ public class PropertyWrapperDefinitionTest {
 
     @Test
     public void dotEqualsTrueWhenDifferentButIdenticalClass() {
-        class MyClass1 implements ContainingClass {
+        class MyClass1 implements PropertyContainer {
 
             public DBInteger intField1 = new DBInteger();
             public DBInteger intField2 = new DBInteger();
         }
 
-        class MyClass2 implements ContainingClass{
+        class MyClass2 implements PropertyContainer{
 
             public DBInteger intField1 = new DBInteger();
             public DBInteger intField2 = new DBInteger();
         }
 
-        PropertyWrapperDefinition intField1_obj1 = propertyDefinitionOf(new MyClass1(), "intField1");
-        PropertyWrapperDefinition intField1_obj2 = propertyDefinitionOf(new MyClass2(), "intField1");
+        PropertyDefinition intField1_obj1 = propertyDefinitionOf(new MyClass1(), "intField1");
+        PropertyDefinition intField1_obj2 = propertyDefinitionOf(new MyClass2(), "intField1");
         assertThat(intField1_obj1.equals(intField1_obj2), is(false));
     }
 
 	@Test
 	public void getsTableNameViaProperty() {
-		class MyClass implements ContainingClass {
+		class MyClass implements PropertyContainer {
 			public DBInteger intField1 = new DBInteger();
 		}
 		
-		PropertyWrapperDefinition property = propertyDefinitionOf(new MyClass(), "intField1");
+		PropertyDefinition property = propertyDefinitionOf(new MyClass(), "intField1");
 		assertThat(property.javaName(), is("intField1"));
 	}
 	
-    private PropertyWrapperDefinition propertyDefinitionOf(ContainingClass target, String javaPropertyName) {
+    private PropertyDefinition propertyDefinitionOf(PropertyContainer target, String javaPropertyName) {
         return propertyDefinitionOf(target.getClass(), javaPropertyName);
     }
 
     // note: intentionally doesn't use a wrapper factory for tests on equals() methods
-    private PropertyWrapperDefinition propertyDefinitionOf(Class<? extends ContainingClass> clazz, String javaPropertyName) {
-        ContainingClassWrapper classWrapper = new ContainingClassWrapper(clazz);
+    private PropertyDefinition propertyDefinitionOf(Class<? extends PropertyContainer> clazz, String javaPropertyName) {
+        PropertyContainerClass classWrapper = new PropertyContainerClass(clazz);
         return classWrapper.getPropertyDefinitionByName(javaPropertyName);
     }
 }
