@@ -1,6 +1,7 @@
-package nz.co.gregs.properties.adapt;
+package nz.co.gregs.properties;
 
 import nz.co.gregs.properties.PropertyDefinition;
+import nz.co.gregs.properties.adapt.AdaptableType;
 
 /**
  * Internal class. Do not use.

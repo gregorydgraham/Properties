@@ -2,7 +2,6 @@ package nz.co.gregs.properties;
 
 import nz.co.gregs.properties.adapt.PropertyTypeHandler;
 import nz.co.gregs.properties.adapt.AdaptableType;
-import nz.co.gregs.properties.adapt.InternalAdaptableTypeProxy;
 import nz.co.gregs.properties.exceptions.*;
 
 /**

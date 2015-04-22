@@ -85,7 +85,6 @@ public class PropertyContainerClass {
 			PropertyDefinition property = new PropertyDefinition(this, javaProperty, processIdentityOnly);
 			properties.add(property);
 			propertiesByPropertyName.put(property.javaName(), property);
-			initialiseProperty(javaProperty, property);
 		}
 	}
 
@@ -245,10 +244,4 @@ public class PropertyContainerClass {
 		}
 		return properties;
 	}
-
-	public void initialiseProperty(JavaProperty javaProperty, PropertyDefinition propDefnWrapper) {
-		PropertyDefinition property = new PropertyDefinition(this, javaProperty, false);
-		properties.add(property);
-	}
-
 }

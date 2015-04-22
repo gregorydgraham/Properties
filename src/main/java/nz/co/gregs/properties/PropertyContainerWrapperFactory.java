@@ -33,11 +33,11 @@ public class PropertyContainerWrapperFactory {
 	 * @param clazz clazz
      * @return the class adaptor
      */
-    public PropertyContainerClass classWrapperFor(Class<? extends PropertyContainer> clazz) throws InstantiationException, IllegalAccessException {
+    public PropertyContainerClass classWrapperFor(Class<? extends PropertyContainer> clazz) {
         synchronized (classWrappersByClass) {
             PropertyContainerClass wrapper = classWrappersByClass.get(clazz);
             if (wrapper == null) {
-                wrapper =(PropertyContainerClass) clazz.newInstance();
+                wrapper =new PropertyContainerClass(clazz);
                 classWrappersByClass.put(clazz, wrapper);
             }
             return wrapper;

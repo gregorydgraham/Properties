@@ -10,6 +10,6 @@ package nz.co.gregs.properties;
  *
  * @author gregorygraham
  */
-public class DBRow implements PropertyContainer{
+public class DBRow extends PropertyContainer{
 	
 }

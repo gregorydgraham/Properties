@@ -2,7 +2,6 @@ package nz.co.gregs.properties;
 
 
 
-import nz.co.gregs.properties.adapt.AdaptableType;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -13,7 +12,7 @@ public class PropertyWrapperDefinitionTest {
 
     @Test
     public void dotEqualsTrueWhenDifferentObjectAndSameClass() {
-        class MyClass implements PropertyContainer{
+        class MyClass extends PropertyContainer{
 
             public DBInteger intField1 = new DBInteger();
             public DBInteger intField2 = new DBInteger();
@@ -28,13 +27,13 @@ public class PropertyWrapperDefinitionTest {
 
     @Test
     public void dotEqualsTrueWhenDifferentButIdenticalClass() {
-        class MyClass1 implements PropertyContainer {
+        class MyClass1 extends PropertyContainer {
 
             public DBInteger intField1 = new DBInteger();
             public DBInteger intField2 = new DBInteger();
         }
 
-        class MyClass2 implements PropertyContainer{
+        class MyClass2 extends PropertyContainer{
 
             public DBInteger intField1 = new DBInteger();
             public DBInteger intField2 = new DBInteger();
@@ -47,7 +46,7 @@ public class PropertyWrapperDefinitionTest {
 
 	@Test
 	public void getsTableNameViaProperty() {
-		class MyClass implements PropertyContainer {
+		class MyClass extends PropertyContainer {
 			public DBInteger intField1 = new DBInteger();
 		}
 		

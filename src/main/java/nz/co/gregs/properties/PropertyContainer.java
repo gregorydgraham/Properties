@@ -9,6 +9,15 @@ package nz.co.gregs.properties;
  *
  * @author gregorygraham
  */
-public interface PropertyContainer {
+public class PropertyContainer {
+	protected PropertyDefinition wrapper;
+
+	protected final PropertyDefinition getPropertyWrapper() {
+		return this.wrapper;
+	}
+
+	protected final void setPropertyWrapper(PropertyDefinition propertyWrapperDefn) {
+		this.wrapper = propertyWrapperDefn;
+	}
 	
 }

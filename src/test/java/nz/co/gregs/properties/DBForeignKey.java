@@ -10,5 +10,5 @@ package nz.co.gregs.properties;
  * @author gregorygraham
  */
 public @interface DBForeignKey {
-	Class value() default Object.class;
+	Class<? extends PropertyContainer> value() default PropertyContainer.class;
 }
