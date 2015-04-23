@@ -6,6 +6,7 @@
 package nz.co.gregs.properties.adapt;
 
 import nz.co.gregs.properties.PropertyContainer;
+import nz.co.gregs.properties.PropertyDefinition;
 
 /**
  *
@@ -13,6 +14,7 @@ import nz.co.gregs.properties.PropertyContainer;
  */
 public abstract class AdaptableType extends PropertyContainer{
 
+	transient private PropertyDefinition propertyDefn; // no guarantees whether this gets set
 
 	private Object literalValue = null;
 
@@ -50,5 +52,16 @@ public abstract class AdaptableType extends PropertyContainer{
 
 	public void clear() {
 		literalValue = null;
+	}
+
+	public void setPropertyDefinition(PropertyDefinition propertyWrapperDefn) {
+		this.propertyDefn = propertyWrapperDefn;
+	}
+
+	/**
+	 * @return the propertyDefn
+	 */
+	public PropertyDefinition getPropertyDefinition() {
+		return propertyDefn;
 	}
 }

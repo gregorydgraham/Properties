@@ -5,16 +5,16 @@ import nz.co.gregs.properties.adapt.AdaptableType;
 
 /**
  * Internal class. Do not use.
- *
- * Used internally to bridge between packages. Makes it possible to hide
- * internal methods on the QueryableDatatype so that they don't pollute the API
- * or JavaDocs, while still providing access to the internal methods from other
- * packages within DBvolution.
- *
- * For example QueryableDatatype.setPropertyWrapper() is set to package-private,
- * so the only way of calling it from other packages is via this class. If
- * QueryableDatatype.setPropertyWrapper() was public, then this class wouldn't
- * be needed, but it would pollute the public API.
+
+ Used internally to bridge between packages. Makes it possible to hide
+ internal methods on the QueryableDatatype so that they don't pollute the API
+ or JavaDocs, while still providing access to the internal methods from other
+ packages within DBvolution.
+
+ For example QueryableDatatype.setPropertyDefinition() is set to package-private,
+ so the only way of calling it from other packages is via this class. If
+ QueryableDatatype.setPropertyDefinition() was public, then this class wouldn't
+ be needed, but it would pollute the public API.
  */
 public class InternalAdaptableTypeProxy {
 
@@ -40,7 +40,7 @@ public class InternalAdaptableTypeProxy {
 	 * @param propertyWrapperDefn	 propertyWrapperDefn	
 	 */
 	public void setPropertyWrapper(PropertyDefinition propertyWrapperDefn) {
-		qdt.setPropertyWrapper(propertyWrapperDefn);
+		qdt.setPropertyDefinition(propertyWrapperDefn);
 	}
 
 	/**
