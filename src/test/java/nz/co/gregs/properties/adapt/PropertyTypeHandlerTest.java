@@ -31,7 +31,7 @@ public class PropertyTypeHandlerTest {
 	public ExpectedException thrown = ExpectedException.none();
 	
 	@Test
-	public void errorsOnConstructionGivenValidTypeAdaptorWithWrongExplicitDBvType() {
+	public void errorsOnConstructionGivenValidTypeAdaptorWithWrongExplicitDBvType()  {
 		class MyClass extends DBRow {
 			@DBColumn
 			@AdaptType(value=StringLongAdaptor.class, type=DBString.class)
@@ -40,11 +40,11 @@ public class PropertyTypeHandlerTest {
 		
 		thrown.expect(InvalidDeclaredTypeException.class);
 		thrown.expectMessage("internal Long type is not compatible");
-		new PropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
 	}
 
 	@Test
-	public void errorsOnConstructionGivenTypeAdaptorWithWrongExternalType() {
+	public void errorsOnConstructionGivenTypeAdaptorWithWrongExternalType()  {
 		class MyClass extends DBRow {
 			@DBColumn
 			@AdaptType(value=LongStringAdaptor.class)
@@ -53,7 +53,7 @@ public class PropertyTypeHandlerTest {
 		
 		thrown.expect(InvalidDeclaredTypeException.class);
 		thrown.expectMessage("external Long type is not compatible");
-		new PropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
 	}
 	
 	@Test
@@ -66,7 +66,7 @@ public class PropertyTypeHandlerTest {
 		
 		thrown.expect(InvalidDeclaredTypeException.class);
 		thrown.expectMessage("external type must not");
-		new PropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
 	}
 	
 	@Test
@@ -79,7 +79,7 @@ public class PropertyTypeHandlerTest {
 		
 		thrown.expect(InvalidDeclaredTypeException.class);
 		thrown.expectMessage("internal type must not");
-		new PropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
 	}
 	
 	@Test(expected=InvalidDeclaredTypeException.class)
@@ -90,7 +90,7 @@ public class PropertyTypeHandlerTest {
 			public DBInteger field;
 		}
 		
-		new PropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
 	}
 	
 	@Test
@@ -104,7 +104,7 @@ public class PropertyTypeHandlerTest {
 		thrown.expect(InvalidDeclaredTypeException.class);
 		thrown.expectMessage("must be");
 		thrown.expectMessage("concrete");
-		new PropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
 	}
 
 	@Test
@@ -115,7 +115,7 @@ public class PropertyTypeHandlerTest {
 			public Integer field;
 		}
 		
-		PropertyTypeHandler propertyHandler = new PropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler propertyHandler = PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
 		assertThat(propertyHandler, is(not(nullValue())));
 	}
 	
@@ -127,7 +127,7 @@ public class PropertyTypeHandlerTest {
 			public Integer field;
 		}
 		
-		PropertyTypeHandler propertyHandler = new PropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler propertyHandler = PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
 		assertThat(propertyHandler, is(not(nullValue())));
 	}
 
@@ -139,7 +139,7 @@ public class PropertyTypeHandlerTest {
 			public Long field;
 		}
 		
-		PropertyTypeHandler propertyHandler = new PropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler propertyHandler = PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
 		assertThat(propertyHandler, is(not(nullValue())));
 	}
 
@@ -151,7 +151,7 @@ public class PropertyTypeHandlerTest {
 			public Integer field;
 		}
 		
-		PropertyTypeHandler propertyHandler = new PropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler propertyHandler = PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
 		assertThat(propertyHandler, is(not(nullValue())));
 	}
 	
@@ -163,7 +163,7 @@ public class PropertyTypeHandlerTest {
 			public String field;
 		}
 		
-		PropertyTypeHandler propertyHandler = new PropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler propertyHandler = PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
 		assertThat(propertyHandler, is(not(nullValue())));
 	}
 	
@@ -613,7 +613,7 @@ public class PropertyTypeHandlerTest {
 	}
 	
 	private PropertyTypeHandler propertyHandlerOf(Class<?> clazz, String javaPropertyName) {
-		return new PropertyTypeHandler(propertyOf(clazz, javaPropertyName), false);
+		return PropertyTypeHandler.create(propertyOf(clazz, javaPropertyName), false);
 	}
 	
 	private JavaProperty propertyOf(Class<?> clazz, String javaPropertyName) {

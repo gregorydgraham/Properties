@@ -5,14 +5,14 @@
  */
 package nz.co.gregs.properties.adapt;
 
-import nz.co.gregs.properties.PropertyContainer;
 import nz.co.gregs.properties.PropertyDefinition;
 
 /**
  *
  * @author gregorygraham
+ * @param <A>
  */
-public abstract class AdaptableType extends PropertyContainer{
+public abstract class AdaptableType<A extends Object> {
 
 	transient private PropertyDefinition propertyDefn; // no guarantees whether this gets set
 
@@ -21,30 +21,32 @@ public abstract class AdaptableType extends PropertyContainer{
 	public AdaptableType() {
 	}
 
-	protected AdaptableType(Object val) {
+	protected AdaptableType(A val) {
 		literalValue = val;
 	}
 
-	protected final void setLiteralValue(Object object) {
+	protected final void setLiteralValue(A object) {
 		this.literalValue = object;
 	}
 
-	protected final Object getLiteralValue() {
-		return literalValue;
+	@SuppressWarnings("unchecked")
+	protected final A getLiteralValue() {
+		return (A) literalValue;
 	}
 
-	public Object getOperator() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	@SuppressWarnings("unchecked")
+	protected A getLiteralType() {
+		return (A) getLiteralValue();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void adaptTo(AdaptableType source) {
-		this.setValue(source.getValue());
+		this.setValue((A)source.getValue());
 	}
 
-	public abstract void setValue(Object value);
+	public abstract void setValue(A value);
 
-	public abstract Object getValue();
-
+	public abstract A getValue();
 
 	public boolean isNull() {
 		return literalValue == null;

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import nz.co.gregs.properties.JavaPropertyFinder.PropertyType;
 import nz.co.gregs.properties.JavaPropertyFinder.Visibility;
 
@@ -35,8 +37,8 @@ public class PropertyContainerClass {
 	private final Class<? extends PropertyContainer> adapteeClass;
 	private final boolean identityOnly;
 	/**
-	 * All properties of which DBvolution is aware, ordered as first
-	 * encountered. Properties are only included if they are columns.
+	 * All properties of which DBvolution is aware, ordered as first encountered.
+	 * Properties are only included if they are columns.
 	 */
 	private final List<PropertyDefinition> properties;
 
@@ -67,8 +69,8 @@ public class PropertyContainerClass {
 	 *
 	 * @param processIdentityOnly pass {@code true} to only process the set of
 	 * columns and primary keys, and to ensure that the primary key columns are
-	 * valid, but to exclude all other validations on non-primary key columns
-	 * and types etc.
+	 * valid, but to exclude all other validations on non-primary key columns and
+	 * types etc.
 	 */
 	PropertyContainerClass(Class<? extends PropertyContainer> clazz, boolean processIdentityOnly) {
 		adapteeClass = clazz;
@@ -82,9 +84,14 @@ public class PropertyContainerClass {
 		// identity-only: extract only primary key properties
 		JavaPropertyFinder propertyFinder = getJavaPropertyFinder();
 		for (JavaProperty javaProperty : propertyFinder.getPropertiesOf(clazz)) {
-			PropertyDefinition property = new PropertyDefinition(this, javaProperty, processIdentityOnly);
-			properties.add(property);
-			propertiesByPropertyName.put(property.javaName(), property);
+			PropertyDefinition property;
+			try {
+				property = new PropertyDefinition(this, javaProperty, processIdentityOnly);
+				properties.add(property);
+				propertiesByPropertyName.put(property.javaName(), property);
+			} catch (Exception ex) {
+				Logger.getLogger(PropertyContainerClass.class.getName()).log(Level.SEVERE, null, ex);
+			}
 		}
 	}
 
@@ -106,7 +113,7 @@ public class PropertyContainerClass {
 	 *
 	 */
 	@SuppressWarnings("empty-statement")
-	protected void checkForRemainingErrorsOnAcccess(){
+	protected void checkForRemainingErrorsOnAcccess() {
 		;
 	}
 
@@ -139,8 +146,7 @@ public class PropertyContainerClass {
 	 * classes.
 	 *
 	 * @param obj	obj
-	 * @return {@code true} if the two objects are equal, {@code false}
-	 * otherwise.
+	 * @return {@code true} if the two objects are equal, {@code false} otherwise.
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -217,13 +223,13 @@ public class PropertyContainerClass {
 	 * Only provides access to properties annotated with {@code DBColumn}.
 	 *
 	 * <p>
-	 * It's legal for a field and bean-property to have the same name, and to
-	 * both be annotated, but for different columns. This method doesn't handle
-	 * that well and returns only the first one it sees.
+	 * It's legal for a field and bean-property to have the same name, and to both
+	 * be annotated, but for different columns. This method doesn't handle that
+	 * well and returns only the first one it sees.
 	 *
 	 * @param propertyName	propertyName
-	 * @return the PropertyDefinition for the named object property Null
- if no such property is found.
+	 * @return the PropertyDefinition for the named object property Null if no
+	 * such property is found.
 	 * @throws AssertionError if called when in {@code identityOnly} mode.
 	 */
 	public PropertyDefinition getPropertyDefinitionByName(String propertyName) {

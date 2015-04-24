@@ -8,7 +8,6 @@ import nz.co.gregs.properties.examples.DBInteger;
 import nz.co.gregs.properties.examples.DBRow;
 import nz.co.gregs.properties.examples.DBString;
 import nz.co.gregs.properties.examples.DBTableName;
-import nz.co.gregs.properties.adapt.*;
 
 import org.junit.Test;
 
@@ -231,19 +230,19 @@ public class TypeAdaptorUsabilityTest {
 	@Test
 	public void stringFieldAdaptedAsCustomQDT_whenAdaptingOnSimpleTypes() {
 
-		class MyQDT extends AdaptableType {
+		class MyQDT extends AdaptableType<Integer> {
 
 			@SuppressWarnings("unused")
 			MyQDT() {
 				super(23);
 			}
 
-			public Object getValue() {
-				throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+			public Integer getValue() {
+				return getLiteralValue();
 			}
 
-			public void setValue(Object object) {
-				throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+			public void setValue(Integer anInt) {
+				this.setLiteralValue(anInt);
 			}
 		}
 

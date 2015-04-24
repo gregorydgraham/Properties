@@ -162,10 +162,6 @@ public class AdaptableTypeSyncer {
 			buf.append(qdt);
 			buf.append(", ");
 			buf.append("literal=").append(literalStr);
-			if (qdt.getOperator() != null) {
-				buf.append(", ");
-				buf.append(qdt.getOperator().getClass().getSimpleName());
-			}
 			buf.append("]");
 		}
 		return buf.toString();

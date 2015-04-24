@@ -4,6 +4,8 @@ import nz.co.gregs.properties.exceptions.UnsupportedType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import nz.co.gregs.properties.InterfaceInfo;
 import nz.co.gregs.properties.JavaProperty;
 
@@ -30,6 +32,17 @@ import nz.co.gregs.properties.exceptions.InvalidDeclaredTypeException;
 // are simple types, and we need to automatically convert between DBv data types.
 public class PropertyTypeHandler {
 
+	public static PropertyTypeHandler create(JavaProperty javaProperty, boolean processIdentityOnly) {
+		try {
+			return new PropertyTypeHandler(javaProperty, processIdentityOnly);
+		} catch (InstantiationException ex) {
+			Logger.getLogger(PropertyTypeHandler.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (IllegalAccessException ex) {
+			Logger.getLogger(PropertyTypeHandler.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return null;
+	}
+
 //    private static Log logger = LogFactory.getLog(PropertyTypeHandler.class);
     private final JavaProperty javaProperty;
     private final Class<? extends AdaptableType> dbvPropertyType;
@@ -54,8 +67,7 @@ public class PropertyTypeHandler {
      * @param javaProperty the annotated property
 	 * @param processIdentityOnly indicates whether property's value needs to be tracked as well.
      */
-    @SuppressWarnings("unchecked")
-    public PropertyTypeHandler(JavaProperty javaProperty, boolean processIdentityOnly) {
+    private PropertyTypeHandler(JavaProperty javaProperty, boolean processIdentityOnly) throws InstantiationException, IllegalAccessException {
         this.javaProperty = javaProperty;
         this.identityOnly = processIdentityOnly;
         this.annotation = javaProperty.getAnnotation(AdaptType.class);
@@ -352,8 +364,8 @@ public class PropertyTypeHandler {
 	 * @param type     
      * @return
      */
-    public Class<?> literalTypeOf(Class<? extends AdaptableType> type){
-			return Object.class;
+    public Class<?> literalTypeOf(Class<? extends AdaptableType> type) throws InstantiationException, IllegalAccessException{
+			return type.newInstance().getLiteralType().getClass();
 		}
 
     /**
