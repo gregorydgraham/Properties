@@ -11,30 +11,17 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregory.graham
  */
-public class DBNumber extends AdaptableType {
-
-	public Number getValue() {
-		return (Number) getLiteralValue();
-	}
+public class DBNumber extends AdaptableType<Double> {
 
 	public void setValue(Integer object) {
-		setLiteralValue(object.longValue());
+		setLiteralValue(object.doubleValue());
 	}
 
 	public void setValue(Long object) {
-		setLiteralValue(object);
-	}
-
-	public void setValue(Double object) {
-		setLiteralValue(object);
+		setLiteralValue(object.doubleValue());
 	}
 
 	public void setValue(String object) {
 		setLiteralValue(Double.parseDouble(object));
 	}
-
-	public void setValue(Object object) {
-		setValue(object.toString());
-	}
-
 }

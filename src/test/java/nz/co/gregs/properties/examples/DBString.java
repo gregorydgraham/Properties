@@ -11,7 +11,7 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregory.graham
  */
-public class DBString extends AdaptableType {
+public class DBString extends AdaptableType<String> {
 
 	public DBString(String string) {
 		super(string);
@@ -21,19 +21,7 @@ public class DBString extends AdaptableType {
 		super();
 	}
 
-	public String getValue() {
-		return (String) getLiteralValue();
-	}
-
 	public String stringValue() {
 		return getValue();
-	}
-
-	public void setValue(String object) {
-		setLiteralValue(object);
-	}
-
-	public void setValue(Object object) {
-		setValue(object.toString());
 	}
 }

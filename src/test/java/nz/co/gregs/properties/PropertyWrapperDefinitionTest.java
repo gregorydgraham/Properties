@@ -3,6 +3,8 @@ package nz.co.gregs.properties;
 
 
 import nz.co.gregs.properties.examples.DBInteger;
+import nz.co.gregs.properties.examples.DBPropertyTypeHandler;
+import nz.co.gregs.properties.examples.DBRow;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -13,10 +15,11 @@ public class PropertyWrapperDefinitionTest {
 
     @Test
     public void dotEqualsTrueWhenDifferentObjectAndSameClass() {
-        class MyClass extends PropertyContainer{
+        class MyClass extends DBRow{
 
             public DBInteger intField1 = new DBInteger();
             public DBInteger intField2 = new DBInteger();
+
         }
 
         PropertyDefinition intField1_obj1 = propertyDefinitionOf(new MyClass(), "intField1");
@@ -28,13 +31,13 @@ public class PropertyWrapperDefinitionTest {
 
     @Test
     public void dotEqualsTrueWhenDifferentButIdenticalClass() {
-        class MyClass1 extends PropertyContainer {
+        class MyClass1 extends DBRow {
 
             public DBInteger intField1 = new DBInteger();
             public DBInteger intField2 = new DBInteger();
         }
 
-        class MyClass2 extends PropertyContainer{
+        class MyClass2 extends DBRow{
 
             public DBInteger intField1 = new DBInteger();
             public DBInteger intField2 = new DBInteger();
@@ -47,7 +50,7 @@ public class PropertyWrapperDefinitionTest {
 
 	@Test
 	public void getsTableNameViaProperty() {
-		class MyClass extends PropertyContainer {
+		class MyClass extends DBRow {
 			public DBInteger intField1 = new DBInteger();
 		}
 		
@@ -61,7 +64,7 @@ public class PropertyWrapperDefinitionTest {
 
     // note: intentionally doesn't use a wrapper factory for tests on equals() methods
     private PropertyDefinition propertyDefinitionOf(Class<? extends PropertyContainer> clazz, String javaPropertyName) {
-        PropertyContainerClass classWrapper = new PropertyContainerClass(clazz);
+        PropertyContainerClass classWrapper = new PropertyContainerClass(clazz,  new DBPropertyTypeHandler());
         return classWrapper.getPropertyDefinitionByName(javaPropertyName);
     }
 }

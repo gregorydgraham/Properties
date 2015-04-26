@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import nz.co.gregs.properties.JavaPropertyFinder.PropertyType;
 import nz.co.gregs.properties.JavaPropertyFinder.Visibility;
+import nz.co.gregs.properties.adapt.PropertyTypeHandler;
 
 import nz.co.gregs.properties.exceptions.*;
 
@@ -54,8 +55,8 @@ public class PropertyContainerClass {
 	 * @param clazz the {@code DBRow} class to wrap
 	 * @throws DBPebkacException on any validation errors
 	 */
-	public PropertyContainerClass(Class<? extends PropertyContainer> clazz) {
-		this(clazz, false);
+	public PropertyContainerClass(Class<? extends PropertyContainer> clazz, PropertyTypeHandler handler) {
+		this(clazz, handler, false);
 	}
 
 	/**
@@ -72,7 +73,7 @@ public class PropertyContainerClass {
 	 * valid, but to exclude all other validations on non-primary key columns and
 	 * types etc.
 	 */
-	PropertyContainerClass(Class<? extends PropertyContainer> clazz, boolean processIdentityOnly) {
+	PropertyContainerClass(Class<? extends PropertyContainer> clazz, PropertyTypeHandler handler, boolean processIdentityOnly) {
 		adapteeClass = clazz;
 		identityOnly = processIdentityOnly;
 
@@ -86,7 +87,7 @@ public class PropertyContainerClass {
 		for (JavaProperty javaProperty : propertyFinder.getPropertiesOf(clazz)) {
 			PropertyDefinition property;
 			try {
-				property = new PropertyDefinition(this, javaProperty, processIdentityOnly);
+				property = new PropertyDefinition(this, javaProperty, handler, processIdentityOnly);
 				properties.add(property);
 				propertiesByPropertyName.put(property.javaName(), property);
 			} catch (Exception ex) {

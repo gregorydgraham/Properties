@@ -106,12 +106,12 @@ public class SafeOneWayTypeAdaptorTest {
 	
 	static class IntegerToStringAdaptor implements TypeAdaptor<Integer, String> {
 		@Override
-		public Integer fromDatabaseValue(String dbvValue) {
+		public Integer fromInternalValue(String dbvValue) {
 			return (dbvValue == null) ? null : Integer.parseInt(dbvValue);
 		}
 
 		@Override
-		public String toDatabaseValue(Integer objectValue) {
+		public String fromExternalValue(Integer objectValue) {
 			return (objectValue == null) ? null : objectValue.toString();
 		}
 	}

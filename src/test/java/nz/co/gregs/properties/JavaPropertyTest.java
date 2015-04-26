@@ -422,10 +422,10 @@ public class JavaPropertyTest {
     @Test(expected = DBPebkacException.class)
     public void errorsWhenRetrievingAnnotationGivenDifferentDuplicatedComplexAnnotationOnGetterAndSetter() {
     	class MyAdaptor implements TypeAdaptor<Object, DBInteger> {
-			public Object fromDatabaseValue(DBInteger dbvValue) {
+			public Object fromInternalValue(DBInteger dbvValue) {
 				return null;
 			}
-			public DBInteger toDatabaseValue(Object objectValue) {
+			public DBInteger fromExternalValue(Object objectValue) {
 				return null;
 			}
     	}
@@ -448,10 +448,10 @@ public class JavaPropertyTest {
     @Test(expected = DBPebkacException.class)
     public void errorsWhenRetrievingAnnotationGivenDifferentDuplicatedDefaultedComplexAnnotationOnGetterAndSetter() {
     	class MyAdaptor implements TypeAdaptor<Object, DBInteger> {
-			public Object fromDatabaseValue(DBInteger dbvValue) {
+			public Object fromInternalValue(DBInteger dbvValue) {
 				return null;
 			}
-			public DBInteger toDatabaseValue(Object objectValue) {
+			public DBInteger fromExternalValue(Object objectValue) {
 				return null;
 			}
     	}

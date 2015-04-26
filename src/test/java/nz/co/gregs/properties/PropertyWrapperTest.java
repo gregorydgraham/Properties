@@ -5,6 +5,7 @@ package nz.co.gregs.properties;
 import nz.co.gregs.properties.examples.DBColumn;
 import nz.co.gregs.properties.examples.DBRow;
 import nz.co.gregs.properties.examples.DBInteger;
+import nz.co.gregs.properties.examples.DBPropertyTypeHandler;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -72,7 +73,7 @@ public class PropertyWrapperTest {
 
 	// note: intentionally doesn't use a wrapper factory for tests on equals() methods
 	private Property propertyOf(PropertyContainer target, String javaPropertyName) {
-		PropertyContainerClass classWrapper = new PropertyContainerClass(target.getClass());
+		PropertyContainerClass classWrapper = new PropertyContainerClass(target.getClass(), new DBPropertyTypeHandler());
 		return classWrapper.instanceWrapperFor(target).getPropertyByName(javaPropertyName);
 	}
 }

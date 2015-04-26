@@ -42,12 +42,12 @@ public interface TypeAdaptor<J, D> {
 	 * @param dbValue	 dbValue	
 	 * @return The database value transformed into the Java value
 	 */
-	public J fromDatabaseValue(D dbValue);
+	public J fromInternalValue(D dbValue);
 
 	/**
 	 * Null values must be handled correctly.
 	 * @param javaValue	 javaValue	
 	 * @return The Java value transformed into the database value
 	 */
-	public D toDatabaseValue(J javaValue);
+	public D fromExternalValue(J javaValue);
 }

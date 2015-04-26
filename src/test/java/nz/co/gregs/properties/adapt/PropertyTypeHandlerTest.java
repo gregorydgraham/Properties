@@ -15,6 +15,7 @@ import nz.co.gregs.properties.JavaProperty;
 import nz.co.gregs.properties.JavaPropertyFinder;
 import nz.co.gregs.properties.exceptions.*;
 import static nz.co.gregs.properties.PropertyMatchers.*;
+import nz.co.gregs.properties.examples.DBPropertyTypeHandler;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,7 +41,7 @@ public class PropertyTypeHandlerTest {
 		
 		thrown.expect(InvalidDeclaredTypeException.class);
 		thrown.expectMessage("internal Long type is not compatible");
-		PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
+		new DBPropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
 	}
 
 	@Test
@@ -53,7 +54,7 @@ public class PropertyTypeHandlerTest {
 		
 		thrown.expect(InvalidDeclaredTypeException.class);
 		thrown.expectMessage("external Long type is not compatible");
-		PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
+		new DBPropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
 	}
 	
 	@Test
@@ -66,7 +67,7 @@ public class PropertyTypeHandlerTest {
 		
 		thrown.expect(InvalidDeclaredTypeException.class);
 		thrown.expectMessage("external type must not");
-		PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
+		new DBPropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
 	}
 	
 	@Test
@@ -79,7 +80,7 @@ public class PropertyTypeHandlerTest {
 		
 		thrown.expect(InvalidDeclaredTypeException.class);
 		thrown.expectMessage("internal type must not");
-		PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
+		new DBPropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
 	}
 	
 	@Test(expected=InvalidDeclaredTypeException.class)
@@ -90,21 +91,7 @@ public class PropertyTypeHandlerTest {
 			public DBInteger field;
 		}
 		
-		PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
-	}
-	
-	@Test
-	public void errorsOnConstructionGivenTypeAdaptorWithAbstractExplicitType() {
-		class MyClass extends DBRow {
-			@DBColumn
-			@AdaptType(value=IntegerLongAdaptor.class, type=AdaptableType.class)
-			public Integer field;
-		}
-		
-		thrown.expect(InvalidDeclaredTypeException.class);
-		thrown.expectMessage("must be");
-		thrown.expectMessage("concrete");
-		PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
+		new DBPropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
 	}
 
 	@Test
@@ -115,7 +102,7 @@ public class PropertyTypeHandlerTest {
 			public Integer field;
 		}
 		
-		PropertyTypeHandler propertyHandler = PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler propertyHandler = new DBPropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
 		assertThat(propertyHandler, is(not(nullValue())));
 	}
 	
@@ -127,7 +114,7 @@ public class PropertyTypeHandlerTest {
 			public Integer field;
 		}
 		
-		PropertyTypeHandler propertyHandler = PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler propertyHandler =new DBPropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
 		assertThat(propertyHandler, is(not(nullValue())));
 	}
 
@@ -139,7 +126,7 @@ public class PropertyTypeHandlerTest {
 			public Long field;
 		}
 		
-		PropertyTypeHandler propertyHandler = PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler propertyHandler = new DBPropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
 		assertThat(propertyHandler, is(not(nullValue())));
 	}
 
@@ -151,7 +138,7 @@ public class PropertyTypeHandlerTest {
 			public Integer field;
 		}
 		
-		PropertyTypeHandler propertyHandler = PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler propertyHandler = new DBPropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
 		assertThat(propertyHandler, is(not(nullValue())));
 	}
 	
@@ -163,7 +150,7 @@ public class PropertyTypeHandlerTest {
 			public String field;
 		}
 		
-		PropertyTypeHandler propertyHandler = PropertyTypeHandler.create(propertyOf(MyClass.class, "field"), false);
+		PropertyTypeHandler propertyHandler = new DBPropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
 		assertThat(propertyHandler, is(not(nullValue())));
 	}
 	
@@ -613,7 +600,8 @@ public class PropertyTypeHandlerTest {
 	}
 	
 	private PropertyTypeHandler propertyHandlerOf(Class<?> clazz, String javaPropertyName) {
-		return PropertyTypeHandler.create(propertyOf(clazz, javaPropertyName), false);
+		DBPropertyTypeHandler dbPropertyTypeHandler = new DBPropertyTypeHandler( propertyOf(clazz, javaPropertyName), false);
+		return dbPropertyTypeHandler;		
 	}
 	
 	private JavaProperty propertyOf(Class<?> clazz, String javaPropertyName) {
@@ -627,7 +615,7 @@ public class PropertyTypeHandlerTest {
 
 	public static class IntegerStringAdaptor implements TypeAdaptor<Integer,String> {
 		@Override
-		public Integer fromDatabaseValue(String dbvValue) {
+		public Integer fromInternalValue(String dbvValue) {
 			if (dbvValue != null) {
 				return Integer.parseInt(dbvValue);
 			}
@@ -635,7 +623,7 @@ public class PropertyTypeHandlerTest {
 		}
 
 		@Override
-		public String toDatabaseValue(Integer objectValue) {
+		public String fromExternalValue(Integer objectValue) {
 			if (objectValue != null) {
 				return objectValue.toString();
 			}
@@ -645,7 +633,7 @@ public class PropertyTypeHandlerTest {
 
 	public static class StringIntegerAdaptor implements TypeAdaptor<String,Integer> {
 		@Override
-		public String fromDatabaseValue(Integer dbvValue) {
+		public String fromInternalValue(Integer dbvValue) {
 			if (dbvValue != null) {
 				return dbvValue.toString();
 			}
@@ -653,7 +641,7 @@ public class PropertyTypeHandlerTest {
 		}
 
 		@Override
-		public Integer toDatabaseValue(String objectValue) {
+		public Integer fromExternalValue(String objectValue) {
 			if (objectValue != null) {
 				return Integer.parseInt(objectValue);
 			}
@@ -663,17 +651,17 @@ public class PropertyTypeHandlerTest {
 	
 	public static class LongStringAdaptor implements TypeAdaptor<Long,String> {
 		@Override
-		public Long fromDatabaseValue(String dbvValue) {
-			if (dbvValue != null) {
-				return Long.parseLong(dbvValue);
+		public Long fromInternalValue(String internalValue) {
+			if (internalValue != null) {
+				return Long.parseLong(internalValue);
 			}
 			return null;
 		}
 
 		@Override
-		public String toDatabaseValue(Long objectValue) {
-			if (objectValue != null) {
-				return objectValue.toString();
+		public String fromExternalValue(Long internalValue) {
+			if (internalValue != null) {
+				return internalValue.toString();
 			}
 			return null;
 		}
@@ -681,7 +669,7 @@ public class PropertyTypeHandlerTest {
 
 	public static class StringLongAdaptor implements TypeAdaptor<String,Long> {
 		@Override
-		public String fromDatabaseValue(Long dbvValue) {
+		public String fromInternalValue(Long dbvValue) {
 			if (dbvValue != null) {
 				return dbvValue.toString();
 			}
@@ -689,7 +677,7 @@ public class PropertyTypeHandlerTest {
 		}
 
 		@Override
-		public Long toDatabaseValue(String objectValue) {
+		public Long fromExternalValue(String objectValue) {
 			if (objectValue != null) {
 				return Long.parseLong(objectValue);
 			}
@@ -699,7 +687,7 @@ public class PropertyTypeHandlerTest {
 
 	public static class DateLongAdaptor implements TypeAdaptor<Date, Long> {
                 @Override
-		public Date fromDatabaseValue(Long dbvValue) {
+		public Date fromInternalValue(Long dbvValue) {
 			if (dbvValue != null) {
 				Calendar c = Calendar.getInstance();
 				c.clear();
@@ -710,7 +698,7 @@ public class PropertyTypeHandlerTest {
 		}
 
                 @Override
-		public Long toDatabaseValue(Date objectValue) {
+		public Long fromExternalValue(Date objectValue) {
 			Calendar c = Calendar.getInstance();
 			c.setTime(objectValue);
 			return (long)c.get(Calendar.YEAR);
@@ -719,14 +707,14 @@ public class PropertyTypeHandlerTest {
 
 	public static class LongDateAdaptor implements TypeAdaptor<Long, Date> {
                 @Override
-		public Long fromDatabaseValue(Date dbvValue) {
+		public Long fromInternalValue(Date dbvValue) {
 			Calendar c = Calendar.getInstance();
 			c.setTime(dbvValue);
 			return (long)c.get(Calendar.YEAR);
 		}
 
                 @Override
-		public Date toDatabaseValue(Long objectValue) {
+		public Date fromExternalValue(Long objectValue) {
 			if (objectValue != null) {
 				Calendar c = Calendar.getInstance();
 				c.clear();
@@ -739,36 +727,36 @@ public class PropertyTypeHandlerTest {
 	
 	public static class IntegerLongAdaptor implements TypeAdaptor<Integer, Long> {
                 @Override
-		public Integer fromDatabaseValue(Long dbvValue) {
+		public Integer fromInternalValue(Long dbvValue) {
 			return null;
 		}
 
                 @Override
-		public Long toDatabaseValue(Integer objectValue) {
+		public Long fromExternalValue(Integer objectValue) {
 			return null;
 		}
 	}
 	
 	public static class IntegerDBIntegerAdaptor implements TypeAdaptor<Integer, DBInteger> {
                 @Override
-		public Integer fromDatabaseValue(DBInteger dbvValue) {
+		public Integer fromInternalValue(DBInteger dbvValue) {
 			return null;
 		}
 
                 @Override
-		public DBInteger toDatabaseValue(Integer objectValue) {
+		public DBInteger fromExternalValue(Integer objectValue) {
 			return null;
 		}
 	}
 
 	public static class DBStringIntegerAdaptor implements TypeAdaptor<DBString, Integer> {
                 @Override
-		public DBString fromDatabaseValue(Integer dbvValue) {
+		public DBString fromInternalValue(Integer dbvValue) {
 			return null;
 		}
 
                 @Override
-		public Integer toDatabaseValue(DBString objectValue) {
+		public Integer fromExternalValue(DBString objectValue) {
 			return null;
 		}
 	}

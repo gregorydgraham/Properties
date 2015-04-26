@@ -8,7 +8,8 @@ import nz.co.gregs.properties.examples.DBPrimaryKey;
 import nz.co.gregs.properties.examples.DBString;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Observer;
+import nz.co.gregs.properties.examples.DBPropertyTypeHandler;
+import nz.co.gregs.properties.examples.DBRow;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -26,7 +27,7 @@ public class PropertyContainerClassTest {
 
 	@Test
 	public void getsProperties() {
-		PropertyContainerClass classAdaptor = new PropertyContainerClass(MyTable1.class);
+		PropertyContainerClass classAdaptor = new PropertyContainerClass(MyTable1.class, new DBPropertyTypeHandler());
 		List<PropertyDefinition> propertyDefinitions = classAdaptor.getPropertyDefinitions();
 		for (PropertyDefinition propertyDefinition : propertyDefinitions) {
 			System.out.println(propertyDefinition.qualifiedJavaName());
@@ -35,7 +36,7 @@ public class PropertyContainerClassTest {
 	}
 
 	@SuppressWarnings("serial")
-	public static class MyTable1 extends PropertyContainer {
+	public static class MyTable1 extends DBRow {
 
 		@DBPrimaryKey
 		@DBColumn
@@ -49,7 +50,7 @@ public class PropertyContainerClassTest {
 
 	@SuppressWarnings("serial")
 	@DBTableName("table2")
-	public static class MyTable2 extends PropertyContainer {
+	public static class MyTable2 extends DBRow {
 
 		@DBPrimaryKey
 		@DBColumn("uid_2")

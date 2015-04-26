@@ -16,7 +16,7 @@ public abstract class AdaptableType<A extends Object> {
 
 	transient private PropertyDefinition propertyDefn; // no guarantees whether this gets set
 
-	private Object literalValue = null;
+	private A literalValue = null;
 
 	public AdaptableType() {
 	}
@@ -29,24 +29,26 @@ public abstract class AdaptableType<A extends Object> {
 		this.literalValue = object;
 	}
 
-	@SuppressWarnings("unchecked")
 	protected final A getLiteralValue() {
-		return (A) literalValue;
+		return literalValue;
 	}
 
-	@SuppressWarnings("unchecked")
 	protected A getLiteralType() {
-		return (A) getLiteralValue();
+		return getLiteralValue();
 	}
 
 	@SuppressWarnings("unchecked")
-	public void adaptTo(AdaptableType source) {
-		this.setValue((A)source.getValue());
+	public void adaptTo(AdaptableType<A> source) {
+		this.setValue(source.getValue());
 	}
 
-	public abstract void setValue(A value);
+	public void setValue(A value) {
+		setLiteralValue(value);
+	}
 
-	public abstract A getValue();
+	public A getValue() {
+		return getLiteralValue();
+	}
 
 	public boolean isNull() {
 		return literalValue == null;

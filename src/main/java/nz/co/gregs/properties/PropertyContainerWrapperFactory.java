@@ -2,6 +2,7 @@ package nz.co.gregs.properties;
 
 import java.util.HashMap;
 import java.util.Map;
+import nz.co.gregs.properties.adapt.PropertyTypeHandler;
 
 /**
  * Constructs class adaptors for DB table classes and maintains an in-memory
@@ -24,6 +25,12 @@ public class PropertyContainerWrapperFactory {
      * Thread-safety: access to this object must be synchronized on it
      */
     private final Map<Class<?>, PropertyContainerClass> classWrappersByClass = new HashMap<Class<?>, PropertyContainerClass>();
+	private final PropertyTypeHandler handler;
+		
+		
+		public PropertyContainerWrapperFactory(PropertyTypeHandler handler){
+			this.handler = handler;
+		}
 
     /**
      * Gets the class adaptor for the given class. If an adaptor for the given
@@ -37,7 +44,7 @@ public class PropertyContainerWrapperFactory {
         synchronized (classWrappersByClass) {
             PropertyContainerClass wrapper = classWrappersByClass.get(clazz);
             if (wrapper == null) {
-                wrapper =new PropertyContainerClass(clazz);
+                wrapper =new PropertyContainerClass(clazz, handler);
                 classWrappersByClass.put(clazz, wrapper);
             }
             return wrapper;

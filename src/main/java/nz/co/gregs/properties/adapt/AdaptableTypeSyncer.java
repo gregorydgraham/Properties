@@ -15,8 +15,6 @@
  */
 package nz.co.gregs.properties.adapt;
 
-import nz.co.gregs.properties.adapt.SafeOneWaySimpleTypeAdaptor;
-import nz.co.gregs.properties.adapt.TypeAdaptor;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
@@ -280,7 +278,7 @@ public class AdaptableTypeSyncer {
 			}
 			observedSourcesAndTargets.add(new SimpleEntry<AdaptableType, AdaptableType>(sourceAdaptableType, targetAdaptableType));
 
-			targetAdaptableType.adaptTo(sourceAdaptableType);
+			targetAdaptableType.setValue(simpleTypeAdaptor.convert(sourceAdaptableType.getValue()));
 		}
 
 		// factory method

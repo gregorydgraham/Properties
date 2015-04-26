@@ -11,7 +11,7 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregory.graham
  */
-public class DBInteger extends AdaptableType {
+public class DBInteger extends AdaptableType<Long> {
 
 	public DBInteger() {
 	}
@@ -22,14 +22,6 @@ public class DBInteger extends AdaptableType {
 
 	public DBInteger(Long val) {
 		super(val);
-	}
-
-	public Object getOperator() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	public Long getValue() {
-		return (Long) getLiteralValue();
 	}
 
 	public Integer intValue() {
@@ -44,16 +36,7 @@ public class DBInteger extends AdaptableType {
 		setLiteralValue(new Long(object));
 	}
 
-	public void setValue(Long object) {
-		setLiteralValue(object);
-	}
-
 	public void setValue(String object) {
 		setLiteralValue(Long.parseLong(object));
 	}
-
-	public void setValue(Object object) {
-		setValue(object.toString());
-	}
-
 }

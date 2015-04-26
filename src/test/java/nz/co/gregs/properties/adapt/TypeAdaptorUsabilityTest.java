@@ -23,12 +23,12 @@ public class TypeAdaptorUsabilityTest {
 		class MyTypeAdaptor implements TypeAdaptor<Integer, Integer> {
 
 			@Override
-			public Integer fromDatabaseValue(Integer dbvValue) {
+			public Integer fromInternalValue(Integer dbvValue) {
 				return dbvValue;
 			}
 
 			@Override
-			public Integer toDatabaseValue(Integer objectValue) {
+			public Integer fromExternalValue(Integer objectValue) {
 				return objectValue;
 			}
 		}
@@ -47,12 +47,12 @@ public class TypeAdaptorUsabilityTest {
 		class MyTypeAdaptor implements TypeAdaptor<String, Long> {
 
 			@Override
-			public String fromDatabaseValue(Long dbvValue) {
+			public String fromInternalValue(Long dbvValue) {
 				return (dbvValue == null) ? null : dbvValue.toString();
 			}
 
 			@Override
-			public Long toDatabaseValue(String objectValue) {
+			public Long fromExternalValue(String objectValue) {
 				return (objectValue == null) ? null : Long.parseLong(objectValue);
 			}
 		}
@@ -71,12 +71,12 @@ public class TypeAdaptorUsabilityTest {
 		class MyTypeAdaptor implements TypeAdaptor<String, Long> {
 
 			@Override
-			public String fromDatabaseValue(Long dbvValue) {
+			public String fromInternalValue(Long dbvValue) {
 				return (dbvValue == null) ? null : dbvValue.toString();
 			}
 
 			@Override
-			public Long toDatabaseValue(String objectValue) {
+			public Long fromExternalValue(String objectValue) {
 				return (objectValue == null) ? null : Long.parseLong(objectValue);
 			}
 		}
@@ -96,12 +96,12 @@ public class TypeAdaptorUsabilityTest {
 		class MyTypeAdaptor implements TypeAdaptor<Integer, Date> {
 
 			@Override
-			public Integer fromDatabaseValue(Date dbvValue) {
+			public Integer fromInternalValue(Date dbvValue) {
 				return (dbvValue == null) ? null : dbvValue.getYear() + 1900;
 			}
 
 			@Override
-			public Date toDatabaseValue(Integer objectValue) {
+			public Date fromExternalValue(Integer objectValue) {
 				return (objectValue == null) ? null : new Date(objectValue - 1900, 0, 1);
 			}
 		}
@@ -121,12 +121,12 @@ public class TypeAdaptorUsabilityTest {
 		class MyTypeAdaptor implements TypeAdaptor<Long, Date> {
 
 			@Override
-			public Long fromDatabaseValue(Date dbvValue) {
+			public Long fromInternalValue(Date dbvValue) {
 				return (dbvValue == null) ? null : (long) (dbvValue.getYear() + 1900);
 			}
 
 			@Override
-			public Date toDatabaseValue(Long objectValue) {
+			public Date fromExternalValue(Long objectValue) {
 				return (objectValue == null) ? null : new Date(objectValue.intValue() - 1900, 0, 1);
 			}
 		}
@@ -146,12 +146,12 @@ public class TypeAdaptorUsabilityTest {
 		class MyTypeAdaptor implements TypeAdaptor<Date, Integer> {
 
 			@Override
-			public Date fromDatabaseValue(Integer dbvValue) {
+			public Date fromInternalValue(Integer dbvValue) {
 				return (dbvValue == null) ? null : new Date(dbvValue - 1900, 0, 1);
 			}
 
 			@Override
-			public Integer toDatabaseValue(Date objectValue) {
+			public Integer fromExternalValue(Date objectValue) {
 				return (objectValue == null) ? null : objectValue.getYear() + 1900;
 			}
 		}
@@ -171,12 +171,12 @@ public class TypeAdaptorUsabilityTest {
 		class MyTypeAdaptor implements TypeAdaptor<Date, Integer> {
 
 			@Override
-			public Date fromDatabaseValue(Integer dbvValue) {
+			public Date fromInternalValue(Integer dbvValue) {
 				return (dbvValue == null) ? null : new Date(dbvValue - 1900, 0, 1);
 			}
 
 			@Override
-			public Integer toDatabaseValue(Date objectValue) {
+			public Integer fromExternalValue(Date objectValue) {
 				return (objectValue == null) ? null : objectValue.getYear() + 1900;
 			}
 		}
@@ -207,12 +207,12 @@ public class TypeAdaptorUsabilityTest {
 		class MyTypeAdaptor implements TypeAdaptor<MyDataType, String> {
 
 			@Override
-			public MyDataType fromDatabaseValue(String dbvValue) {
+			public MyDataType fromInternalValue(String dbvValue) {
 				return (dbvValue == null) ? null : new MyDataType().parse(dbvValue);
 			}
 
 			@Override
-			public String toDatabaseValue(MyDataType objectValue) {
+			public String fromExternalValue(MyDataType objectValue) {
 				return (objectValue == null) ? null : objectValue.toString();
 			}
 		}
@@ -249,12 +249,12 @@ public class TypeAdaptorUsabilityTest {
 		class MyTypeAdaptor implements TypeAdaptor<String, Integer> {
 
 			@Override
-			public String fromDatabaseValue(Integer dbvValue) {
+			public String fromInternalValue(Integer dbvValue) {
 				return (dbvValue == null) ? null : dbvValue.toString();
 			}
 
 			@Override
-			public Integer toDatabaseValue(String objectValue) {
+			public Integer fromExternalValue(String objectValue) {
 				return (objectValue == null) ? null : Integer.parseInt(objectValue);
 			}
 		}

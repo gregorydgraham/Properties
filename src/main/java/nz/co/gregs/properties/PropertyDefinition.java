@@ -52,12 +52,13 @@ public class PropertyDefinition {
 
 	private final PropertyTypeHandler typeHandler;
 
-	PropertyDefinition(PropertyContainerClass classWrapper, JavaProperty javaProperty, boolean processIdentityOnly) throws InstantiationException, IllegalAccessException {
+	PropertyDefinition(PropertyContainerClass classWrapper, JavaProperty javaProperty, PropertyTypeHandler handler, boolean processIdentityOnly) throws InstantiationException, IllegalAccessException {
 		this.classWrapper = classWrapper;
 		this.javaProperty = javaProperty;
 
 		// handlers
-		this.typeHandler = PropertyTypeHandler.create(javaProperty, processIdentityOnly);
+		this.typeHandler = handler;
+		typeHandler.initialiseHandler(javaProperty, processIdentityOnly);
 	}
 
 	JavaProperty getRawJavaProperty() {

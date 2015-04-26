@@ -27,13 +27,7 @@ public class SafeOneWaySimpleTypeAdaptor {
 	 */
 	public static enum Direction {
 
-        /**
-         * To DBvolution-centric type. toDatabaseValue() method
-         */
         TO_INTERNAL,
-        /**
-         * To end-user declared type of field. fromDatabaseValue() method
-         */
         TO_EXTERNAL
     }
 
@@ -58,17 +52,17 @@ public class SafeOneWaySimpleTypeAdaptor {
 
     static {
         try {
-            toExternalMethod = TypeAdaptor.class.getMethod("fromDatabaseValue", Object.class);
+            toExternalMethod = TypeAdaptor.class.getMethod("fromInternalValue", Object.class);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException(TypeAdaptor.class.getSimpleName() + " does not have a 'fromDatabaseValue' method", e);
+            throw new RuntimeException(TypeAdaptor.class.getSimpleName() + " does not have a 'fromInternalValue' method", e);
         } catch (SecurityException e) {
             throw new RuntimeException(e);
         }
 
         try {
-            toInternalMethod = TypeAdaptor.class.getMethod("toDatabaseValue", Object.class);
+            toInternalMethod = TypeAdaptor.class.getMethod("fromExternalValue", Object.class);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException(TypeAdaptor.class.getSimpleName() + " does not have a 'toDatabaseValue' method", e);
+            throw new RuntimeException(TypeAdaptor.class.getSimpleName() + " does not have a 'fromExternalValue' method", e);
         } catch (SecurityException e) {
             throw new RuntimeException(e);
         }
@@ -264,7 +258,7 @@ public class SafeOneWaySimpleTypeAdaptor {
         Object result;
         if (direction == Direction.TO_EXTERNAL) {
             try {
-                result = typeAdaptor.fromDatabaseValue(value);
+                result = typeAdaptor.fromInternalValue(value);
             } catch (NullPointerException e) {
                 String msg = (e.getLocalizedMessage() == null) ? "" : ": " + e.getLocalizedMessage();
                 throw new DBThrownByEndUserCodeException("Type adaptor "+typeAdaptor.getClass().getSimpleName()+" threw " + e.getClass().getSimpleName()
@@ -276,7 +270,7 @@ public class SafeOneWaySimpleTypeAdaptor {
             }
         } else {
             try {
-                result = typeAdaptor.toDatabaseValue(value);
+                result = typeAdaptor.fromExternalValue(value);
             } catch (NullPointerException e) {
                 String msg = (e.getLocalizedMessage() == null) ? "" : ": " + e.getLocalizedMessage();
                 throw new DBThrownByEndUserCodeException("Type adaptor "+typeAdaptor.getClass().getSimpleName()+" threw " + e.getClass().getSimpleName()

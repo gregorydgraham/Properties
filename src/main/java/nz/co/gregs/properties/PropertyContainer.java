@@ -13,7 +13,11 @@ import java.util.List;
  */
 public class PropertyContainer {
 	private transient PropertyContainerInstance wrapper;
-	private static final PropertyContainerWrapperFactory wrapperFactory = new PropertyContainerWrapperFactory();
+	private final PropertyContainerWrapperFactory wrapperFactory;
+
+	public PropertyContainer(PropertyContainerWrapperFactory factory) {
+		wrapperFactory=factory;
+	}
 
 	/**
 	 * Gets a wrapper for the underlying property (field or method) given the
