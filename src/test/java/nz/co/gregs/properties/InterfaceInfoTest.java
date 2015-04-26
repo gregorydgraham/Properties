@@ -2,8 +2,8 @@ package nz.co.gregs.properties;
 
 
 
-import nz.co.gregs.properties.examples.DBInteger;
-import nz.co.gregs.properties.examples.DBNumber;
+import nz.co.gregs.properties.examples.IntegerProperty;
+import nz.co.gregs.properties.examples.NumberProperty;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -35,13 +35,13 @@ public class InterfaceInfoTest {
 		assertThat(bounds[0].upperType(), is((Object)Integer.class));
 		assertThat(bounds[0].lowerType(), is(nullValue()));
 		
-		assertThat(bounds[1].upperType(), is((Object)DBInteger.class));
+		assertThat(bounds[1].upperType(), is((Object)IntegerProperty.class));
 		assertThat(bounds[1].lowerType(), is(nullValue()));
 	}
 	
 	@Test
 	public void getsBoundsGivenDirectImplementationUsingTypeVariableArguments() {
-		class GenericIntegerDBIntegerImpl<A extends Number, B extends DBNumber> implements MyInterface<A, B> {
+		class GenericIntegerDBIntegerImpl<A extends Number, B extends NumberProperty> implements MyInterface<A, B> {
 			public A toExternalValue(B dbvValue) {
 				return null;
 			}
@@ -57,23 +57,23 @@ public class InterfaceInfoTest {
 		assertThat(bounds[0].upperType(), is((Object)Number.class));
 		assertThat(bounds[0].lowerType(), is(nullValue()));
 		
-		assertThat(bounds[1].upperType(), is((Object)DBNumber.class));
+		assertThat(bounds[1].upperType(), is((Object)NumberProperty.class));
 		assertThat(bounds[1].lowerType(), is(nullValue()));
 	}
 	
 	@Test
 	public void getsBoundsGivenDirectImplementationUsingClassTypeArgumentsAndExtraneousMethods() {
-		class MyIntegerDBIntegerAdaptorWithNumberDBNumberMethods implements MyInterface<Integer, DBInteger> {
-			public Integer toExternalValue(DBInteger dbvValue) {
+		class MyIntegerDBIntegerAdaptorWithNumberDBNumberMethods implements MyInterface<Integer, IntegerProperty> {
+			public Integer toExternalValue(IntegerProperty dbvValue) {
 				throw new UnsupportedOperationException("toObjectValue(DBInteger): Integer");
 			}
-			public Number toExternalValue(DBNumber dbvValue) {
+			public Number toExternalValue(NumberProperty dbvValue) {
 				throw new UnsupportedOperationException("toObjectValue(DBNumber): Number");
 			}
-			public DBInteger toInternalValue(Integer objectValue) {
+			public IntegerProperty toInternalValue(Integer objectValue) {
 				throw new UnsupportedOperationException("toDBvValue(Integer): DBInteger");
 			}
-			public DBInteger toInternalValue(Number objectValue) {
+			public IntegerProperty toInternalValue(Number objectValue) {
 				throw new UnsupportedOperationException("toDBvValue(Number): DBNumber");
 			}
 		}
@@ -84,7 +84,7 @@ public class InterfaceInfoTest {
 		assertThat(bounds[0].upperType(), is((Object)Integer.class));
 		assertThat(bounds[0].lowerType(), is(nullValue()));
 		
-		assertThat(bounds[1].upperType(), is((Object)DBInteger.class));
+		assertThat(bounds[1].upperType(), is((Object)IntegerProperty.class));
 		assertThat(bounds[1].lowerType(), is(nullValue()));
 	}
 	
@@ -92,7 +92,7 @@ public class InterfaceInfoTest {
 	public void getsBoundsGivenIndirectImplementationUsingClassTypeArguments() {
 		class ConcretePartialImplementationOfConcreteType
 				extends AbstractPartialImplementationWithConcreteType {
-			public DBNumber toInternalValue(Number objectValue) {
+			public NumberProperty toInternalValue(Number objectValue) {
 				return null;
 			}
 		}
@@ -103,15 +103,15 @@ public class InterfaceInfoTest {
 		assertThat(bounds[0].upperType(), is((Object)Number.class));
 		assertThat(bounds[0].lowerType(), is(nullValue()));
 		
-		assertThat(bounds[1].upperType(), is((Object)DBNumber.class));
+		assertThat(bounds[1].upperType(), is((Object)NumberProperty.class));
 		assertThat(bounds[1].lowerType(), is(nullValue()));
 	}
 	
 	@Test
 	public void getsBoundsGivenIndirectImplementationUsingConcretizedWildcardTypeArguments() {
 		class ConcretePartialImplementationOfWildcardType
-				extends AbstractPartialImplementationWithWildcardType<Integer, DBInteger> {
-			public DBInteger toInternalValue(Integer objectValue) {
+				extends AbstractPartialImplementationWithWildcardType<Integer, IntegerProperty> {
+			public IntegerProperty toInternalValue(Integer objectValue) {
 				return null;
 			}
 		}
@@ -122,15 +122,15 @@ public class InterfaceInfoTest {
 		assertThat(bounds[0].upperType(), is((Object)Integer.class));
 		assertThat(bounds[0].lowerType(), is(nullValue()));
 		
-		assertThat(bounds[1].upperType(), is((Object)DBInteger.class));
+		assertThat(bounds[1].upperType(), is((Object)IntegerProperty.class));
 		assertThat(bounds[1].lowerType(), is(nullValue()));
 	}
 	
 	@Test
 	public void getsBoundsGivenDoublyIndirectImplementationAndScatteredClassTypeArguments() {
 		abstract class AbstractPartialReImplementationOfWildcardTypeWithWildcardType<I extends Integer>
-				extends AbstractPartialImplementationWithWildcardType<I, DBInteger> {
-			public DBInteger toInternalValue(I objectValue) {
+				extends AbstractPartialImplementationWithWildcardType<I, IntegerProperty> {
+			public IntegerProperty toInternalValue(I objectValue) {
 				return null;
 			}
 		}
@@ -145,7 +145,7 @@ public class InterfaceInfoTest {
 		assertThat(bounds[0].upperType(), is((Object)Integer.class));
 		assertThat(bounds[0].lowerType(), is(nullValue()));
 		
-		assertThat(bounds[1].upperType(), is((Object)DBInteger.class));
+		assertThat(bounds[1].upperType(), is((Object)IntegerProperty.class));
 		assertThat(bounds[1].lowerType(), is(nullValue()));
 	}
 	
@@ -333,22 +333,22 @@ public class InterfaceInfoTest {
 	
 	
 	
-	public static class SimpleIntegerMyIntegerImpl implements MyInterface<Integer, DBInteger> {
+	public static class SimpleIntegerMyIntegerImpl implements MyInterface<Integer, IntegerProperty> {
                 @Override
-		public Integer toExternalValue(DBInteger dbvValue) {
+		public Integer toExternalValue(IntegerProperty dbvValue) {
 			return null;
 		}
 
 		@Override
-		public DBInteger toInternalValue(Integer objectValue) {
+		public IntegerProperty toInternalValue(Integer objectValue) {
 			return null;
 		}
 	}
 
 	
-	public abstract class AbstractPartialImplementationWithConcreteType implements MyInterface<Number, DBNumber> {
+	public abstract class AbstractPartialImplementationWithConcreteType implements MyInterface<Number, NumberProperty> {
 		@Override
-		public Number toExternalValue(DBNumber dbvValue) {
+		public Number toExternalValue(NumberProperty dbvValue) {
 			return null;
 		}
 	}

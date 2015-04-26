@@ -11,16 +11,16 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregory.graham
  */
-public class DBInteger extends AdaptableType<Long> {
+public class IntegerProperty extends AdaptableType<Long> {
 
-	public DBInteger() {
+	public IntegerProperty() {
 	}
 
-	public DBInteger(int val) {
+	public IntegerProperty(int val) {
 		super(new Integer(val).longValue());
 	}
 
-	public DBInteger(Long val) {
+	public IntegerProperty(Long val) {
 		super(val);
 	}
 

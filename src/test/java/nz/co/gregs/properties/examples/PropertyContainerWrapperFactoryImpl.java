@@ -11,9 +11,9 @@ import nz.co.gregs.properties.PropertyContainerWrapperFactory;
  *
  * @author gregorygraham
  */
-class DBPropertyContainerWrapperFactory extends PropertyContainerWrapperFactory {
+class PropertyContainerWrapperFactoryImpl extends PropertyContainerWrapperFactory {
 
-	public DBPropertyContainerWrapperFactory() {
+	public PropertyContainerWrapperFactoryImpl() {
 		super(new DBPropertyTypeHandler());
 	}
 

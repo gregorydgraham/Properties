@@ -27,20 +27,20 @@ public class DBPropertyTypeHandler extends PropertyTypeHandler{
 	public Class<? extends AdaptableType> inferredAdaptableTypeForSimpleType(Class<?> simpleType) {
 		
         if (simpleType.equals(String.class)) {
-            return DBString.class;
+            return StringProperty.class;
         } else if (Number.class.isAssignableFrom(simpleType)) {
             if (Integer.class.isAssignableFrom(simpleType) || Long.class.isAssignableFrom(simpleType)) {
-                return DBInteger.class;
+                return IntegerProperty.class;
             }
             if (Float.class.isAssignableFrom(simpleType) || Double.class.isAssignableFrom(simpleType)) {
-                return DBNumber.class;
+                return NumberProperty.class;
             } else {
-                return DBNumber.class;
+                return NumberProperty.class;
             }
         } else if (Date.class.isAssignableFrom(simpleType)) {
-            return DBDate.class;
+            return DateProperty.class;
         } else if (Boolean.class.isAssignableFrom(simpleType)) {
-            return DBBoolean.class;
+            return BooleanProperty.class;
         }
 
         // all remaining types require explicit declaration
@@ -48,15 +48,15 @@ public class DBPropertyTypeHandler extends PropertyTypeHandler{
 
 	@Override
 	public Class<?> literalTypeOf(Class<? extends AdaptableType> type) {
-        if (type.equals(DBString.class)) {
+        if (type.equals(StringProperty.class)) {
             return String.class;
-        } else if (type.equals(DBNumber.class)) {
+        } else if (type.equals(NumberProperty.class)) {
             return Double.class;
-        } else if (type.equals(DBInteger.class)) {
+        } else if (type.equals(IntegerProperty.class)) {
             return Long.class;
-        } else if (type.equals(DBDate.class)) {
+        } else if (type.equals(DateProperty.class)) {
             return Date.class;
-        } else if (type.equals(DBBoolean.class)) {
+        } else if (type.equals(BooleanProperty.class)) {
             return Boolean.class;
         } else {
             throw new RuntimeException("Unrecognised AdptableType-type " + type.getSimpleName());

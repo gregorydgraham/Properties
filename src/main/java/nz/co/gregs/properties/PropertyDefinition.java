@@ -251,9 +251,9 @@ public class PropertyDefinition {
 	 * exception
 	 */
 	public AdaptableType getAdaptableType(Object target) {
-		AdaptableType qdt = typeHandler.getJavaPropertyAsQueryableDatatype(target);
-		new InternalAdaptableTypeProxy(qdt).setPropertyWrapper(this);
-		return qdt;
+		AdaptableType adaptable = typeHandler.getJavaPropertyAsQueryableDatatype(target);
+		new InternalAdaptableTypeProxy(adaptable).setPropertyWrapper(this);
+		return adaptable;
 	}
 
 	/**

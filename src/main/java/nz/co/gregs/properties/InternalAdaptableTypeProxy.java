@@ -18,15 +18,15 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  */
 public class InternalAdaptableTypeProxy {
 
-	private final AdaptableType qdt;
+	private final AdaptableType adaptableType;
 
 	/**
 	 * Internal class, do not use.
 	 *
-	 * @param qdt	 qdt	
+	 * @param adaptableType	 qdt	
 	 */
-	public InternalAdaptableTypeProxy(AdaptableType qdt) {
-		this.qdt = qdt;
+	public InternalAdaptableTypeProxy(AdaptableType adaptableType) {
+		this.adaptableType = adaptableType;
 	}
 
 	/**
@@ -40,18 +40,19 @@ public class InternalAdaptableTypeProxy {
 	 * @param propertyWrapperDefn	 propertyWrapperDefn	
 	 */
 	public void setPropertyWrapper(PropertyDefinition propertyWrapperDefn) {
-		qdt.setPropertyDefinition(propertyWrapperDefn);
+		adaptableType.setPropertyDefinition(propertyWrapperDefn);
 	}
 
 	/**
 	 * Internal class, do not use.
 	 * <p>
-	 * Hides the generic setValue(Object) method within QueryableDatatype while
+	 * Hides the generic setValue(Object) method within AdaptableType while
 	 * allowing it to be used.
 	 *
 	 * @param obj	 obj	
 	 */
+	@SuppressWarnings("unchecked")
 	public void setValue(Object obj) {
-		qdt.setValue(obj);
+		adaptableType.setValue(obj);
 	}
 }

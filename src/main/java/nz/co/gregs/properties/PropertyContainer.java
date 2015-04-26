@@ -31,16 +31,16 @@ public class PropertyContainer {
 	 * getPropertyWrapperOf(customer.name);
 	 * </pre>
 	 *
-	 * @param qdt	 qdt	
+	 * @param obj	 a object in a field or bean of the PropertyContainer	
 	 * @return the PropertyWrapper associated with the Object suppled or NULL.
 	 */
-	public Property getPropertyOf(Object qdt) throws InstantiationException, IllegalAccessException {
+	public Property getPropertyOf(Object obj) throws InstantiationException, IllegalAccessException {
 		List<Property> props = getWrapper().getPropertyWrappers();
 
-		Object qdtOfProp;
+		Object maybeTheObj;
 		for (Property prop : props) {
-			qdtOfProp = prop.rawJavaValue();
-			if (qdtOfProp == qdt) {
+			maybeTheObj = prop.rawJavaValue();
+			if (maybeTheObj == obj) {
 				return prop;
 			}
 		}

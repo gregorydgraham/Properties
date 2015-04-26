@@ -3,11 +3,10 @@ package nz.co.gregs.properties.adapt;
 
 import java.util.Date;
 import nz.co.gregs.properties.examples.DBColumn;
-import nz.co.gregs.properties.examples.DBDate;
-import nz.co.gregs.properties.examples.DBInteger;
-import nz.co.gregs.properties.examples.DBRow;
-import nz.co.gregs.properties.examples.DBString;
-import nz.co.gregs.properties.examples.DBTableName;
+import nz.co.gregs.properties.examples.DateProperty;
+import nz.co.gregs.properties.examples.IntegerProperty;
+import nz.co.gregs.properties.examples.PropertyContainerImpl;
+import nz.co.gregs.properties.examples.StringProperty;
 
 import org.junit.Test;
 
@@ -33,8 +32,7 @@ public class TypeAdaptorUsabilityTest {
 			}
 		}
 
-		@DBTableName("Customer")
-		class MyTable extends DBRow {
+		class MyTable extends PropertyContainerImpl {
 
 			@DBColumn
 			@AdaptType(MyTypeAdaptor.class)
@@ -57,11 +55,10 @@ public class TypeAdaptorUsabilityTest {
 			}
 		}
 
-		@DBTableName("Customer")
-		class MyTable extends DBRow {
+		class MyTable extends PropertyContainerImpl {
 
 			@DBColumn
-			@AdaptType(value = MyTypeAdaptor.class, type = DBInteger.class)
+			@AdaptType(value = MyTypeAdaptor.class, type = IntegerProperty.class)
 			public String year;
 		}
 	}
@@ -81,12 +78,11 @@ public class TypeAdaptorUsabilityTest {
 			}
 		}
 
-		@DBTableName("Customer")
-		class MyTable extends DBRow {
+		class MyTable extends PropertyContainerImpl {
 
 			@DBColumn
 			@AdaptType(MyTypeAdaptor.class)
-			public DBString year;
+			public StringProperty year;
 		}
 	}
 
@@ -106,8 +102,7 @@ public class TypeAdaptorUsabilityTest {
 			}
 		}
 
-		@DBTableName("Customer")
-		class MyTable extends DBRow {
+		class MyTable extends PropertyContainerImpl {
 
 			@DBColumn
 			@AdaptType(MyTypeAdaptor.class)
@@ -131,12 +126,11 @@ public class TypeAdaptorUsabilityTest {
 			}
 		}
 
-		@DBTableName("Customer")
-		class MyTable extends DBRow {
+		class MyTable extends PropertyContainerImpl {
 
 			@DBColumn
 			@AdaptType(MyTypeAdaptor.class)
-			public DBInteger year;
+			public IntegerProperty year;
 		}
 	}
 
@@ -156,11 +150,10 @@ public class TypeAdaptorUsabilityTest {
 			}
 		}
 
-		@DBTableName("Customer")
-		class MyTable extends DBRow {
+		class MyTable extends PropertyContainerImpl {
 
 			@DBColumn
-			@AdaptType(value = MyTypeAdaptor.class, type = DBInteger.class)
+			@AdaptType(value = MyTypeAdaptor.class, type = IntegerProperty.class)
 			public Date year;
 		}
 	}
@@ -181,12 +174,11 @@ public class TypeAdaptorUsabilityTest {
 			}
 		}
 
-		@DBTableName("Customer")
-		class MyTable extends DBRow {
+		class MyTable extends PropertyContainerImpl {
 
 			@DBColumn
 			@AdaptType(MyTypeAdaptor.class)
-			public DBDate year;
+			public DateProperty year;
 		}
 	}
 
@@ -217,8 +209,7 @@ public class TypeAdaptorUsabilityTest {
 			}
 		}
 
-		@DBTableName("Customer")
-		class MyTable extends DBRow {
+		class MyTable extends PropertyContainerImpl {
 
 			@DBColumn
 			@AdaptType(MyTypeAdaptor.class)
@@ -236,14 +227,6 @@ public class TypeAdaptorUsabilityTest {
 			MyQDT() {
 				super(23);
 			}
-
-			public Integer getValue() {
-				return getLiteralValue();
-			}
-
-			public void setValue(Integer anInt) {
-				this.setLiteralValue(anInt);
-			}
 		}
 
 		class MyTypeAdaptor implements TypeAdaptor<String, Integer> {
@@ -259,8 +242,7 @@ public class TypeAdaptorUsabilityTest {
 			}
 		}
 
-		@DBTableName("Customer")
-		class MyTable extends DBRow {
+		class MyTable extends PropertyContainerImpl {
 
 			@DBColumn
 			@AdaptType(value = MyTypeAdaptor.class, type = MyQDT.class)

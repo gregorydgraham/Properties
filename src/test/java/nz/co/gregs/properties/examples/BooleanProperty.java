@@ -5,10 +5,12 @@
  */
 package nz.co.gregs.properties.examples;
 
+import nz.co.gregs.properties.adapt.AdaptableType;
+
 /**
  *
  * @author gregorygraham
  */
-public @interface DBTableName {
-	String value();
+class BooleanProperty extends AdaptableType<Boolean> {
+	
 }

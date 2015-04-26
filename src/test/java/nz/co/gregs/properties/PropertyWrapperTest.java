@@ -3,8 +3,8 @@ package nz.co.gregs.properties;
 
 
 import nz.co.gregs.properties.examples.DBColumn;
-import nz.co.gregs.properties.examples.DBRow;
-import nz.co.gregs.properties.examples.DBInteger;
+import nz.co.gregs.properties.examples.PropertyContainerImpl;
+import nz.co.gregs.properties.examples.IntegerProperty;
 import nz.co.gregs.properties.examples.DBPropertyTypeHandler;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -15,12 +15,12 @@ import org.junit.Test;
 public class PropertyWrapperTest {
 	@Test
 	public void dotEqualsFalseWhenSameFieldOnSameObjectButRetrievedSeparately() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			public DBInteger intField1 = new DBInteger();
+			public IntegerProperty intField1 = new IntegerProperty();
 
 			@DBColumn
-			public DBInteger intField2 = new DBInteger();
+			public IntegerProperty intField2 = new IntegerProperty();
 		}
 		
 		MyClass obj = new MyClass();
@@ -33,12 +33,12 @@ public class PropertyWrapperTest {
 	
 	@Test
 	public void dotEqualsFalseWhenSameFieldOnDifferentObject() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			public DBInteger intField1 = new DBInteger();
+			public IntegerProperty intField1 = new IntegerProperty();
 
 			@DBColumn
-			public DBInteger intField2 = new DBInteger();
+			public IntegerProperty intField2 = new IntegerProperty();
 		}
 		
 		Property intField1_obj1 = propertyOf(new MyClass(), "intField1");
@@ -50,20 +50,20 @@ public class PropertyWrapperTest {
 
 	@Test
 	public void dotEqualsTrueWhenDifferentButIdenticalClass() {
-		class MyClass1 extends DBRow {
+		class MyClass1 extends PropertyContainerImpl {
 			@DBColumn
-			public DBInteger intField1 = new DBInteger();
+			public IntegerProperty intField1 = new IntegerProperty();
 
 			@DBColumn
-			public DBInteger intField2 = new DBInteger();
+			public IntegerProperty intField2 = new IntegerProperty();
 		}
 
-		class MyClass2 extends DBRow {
+		class MyClass2 extends PropertyContainerImpl {
 			@DBColumn
-			public DBInteger intField1 = new DBInteger();
+			public IntegerProperty intField1 = new IntegerProperty();
 
 			@DBColumn
-			public DBInteger intField2 = new DBInteger();
+			public IntegerProperty intField2 = new IntegerProperty();
 		}
 		
 		Property intField1_obj1 = propertyOf(new MyClass1(), "intField1");

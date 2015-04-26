@@ -11,7 +11,7 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregory.graham
  */
-public class DBNumber extends AdaptableType<Double> {
+public class NumberProperty extends AdaptableType<Double> {
 
 	public void setValue(Integer object) {
 		setLiteralValue(object.doubleValue());

@@ -13,11 +13,11 @@ import nz.co.gregs.properties.PropertyContainerWrapperFactory;
  *
  * @author gregorygraham
  */
-public class DBRow extends PropertyContainer{
+public class PropertyContainerImpl extends PropertyContainer{
 	
-	private static final PropertyContainerWrapperFactory dbFactory = new DBPropertyContainerWrapperFactory();
+	private static final PropertyContainerWrapperFactory dbFactory = new PropertyContainerWrapperFactoryImpl();
 
-	public DBRow() {
+	public PropertyContainerImpl() {
 		super(dbFactory);
 	}
 	

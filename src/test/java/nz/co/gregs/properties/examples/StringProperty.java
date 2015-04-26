@@ -11,13 +11,13 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregory.graham
  */
-public class DBString extends AdaptableType<String> {
+public class StringProperty extends AdaptableType<String> {
 
-	public DBString(String string) {
+	public StringProperty(String string) {
 		super(string);
 	}
 
-	public DBString() {
+	public StringProperty() {
 		super();
 	}
 

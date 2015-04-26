@@ -14,13 +14,13 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  *
  * @author gregorygraham
  */
-public class DBDate extends AdaptableType<Date> {
+public class DateProperty extends AdaptableType<Date> {
 
-	public DBDate() {
+	public DateProperty() {
 		super();
 	}
 
-	public DBDate(Date date) {
+	public DateProperty(Date date) {
 		super(date);
 	}
 

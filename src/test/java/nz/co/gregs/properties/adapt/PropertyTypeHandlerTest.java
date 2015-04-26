@@ -7,10 +7,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import nz.co.gregs.properties.examples.DBColumn;
-import nz.co.gregs.properties.examples.DBDate;
-import nz.co.gregs.properties.examples.DBInteger;
-import nz.co.gregs.properties.examples.DBRow;
-import nz.co.gregs.properties.examples.DBString;
+import nz.co.gregs.properties.examples.DateProperty;
+import nz.co.gregs.properties.examples.IntegerProperty;
+import nz.co.gregs.properties.examples.PropertyContainerImpl;
+import nz.co.gregs.properties.examples.StringProperty;
 import nz.co.gregs.properties.JavaProperty;
 import nz.co.gregs.properties.JavaPropertyFinder;
 import nz.co.gregs.properties.exceptions.*;
@@ -33,10 +33,10 @@ public class PropertyTypeHandlerTest {
 	
 	@Test
 	public void errorsOnConstructionGivenValidTypeAdaptorWithWrongExplicitDBvType()  {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			@AdaptType(value=StringLongAdaptor.class, type=DBString.class)
-			public DBString field = new DBString();
+			@AdaptType(value=StringLongAdaptor.class, type=StringProperty.class)
+			public StringProperty field = new StringProperty();
 		}
 		
 		thrown.expect(InvalidDeclaredTypeException.class);
@@ -46,10 +46,10 @@ public class PropertyTypeHandlerTest {
 
 	@Test
 	public void errorsOnConstructionGivenTypeAdaptorWithWrongExternalType()  {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
 			@AdaptType(value=LongStringAdaptor.class)
-			public DBString field = new DBString();
+			public StringProperty field = new StringProperty();
 		}
 		
 		thrown.expect(InvalidDeclaredTypeException.class);
@@ -59,10 +59,10 @@ public class PropertyTypeHandlerTest {
 	
 	@Test
 	public void errorsOnConstructionGivenInvalidAdaptorWithNonSimpleFirstType() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			@AdaptType(value=DBStringIntegerAdaptor.class, type=DBInteger.class)
-			public DBString field = new DBString();
+			@AdaptType(value=DBStringIntegerAdaptor.class, type=IntegerProperty.class)
+			public StringProperty field = new StringProperty();
 		}
 		
 		thrown.expect(InvalidDeclaredTypeException.class);
@@ -72,10 +72,10 @@ public class PropertyTypeHandlerTest {
 	
 	@Test
 	public void errorsOnConstructionGivenInvalidAdaptorWithNonSimpleSecondType() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			@AdaptType(value=IntegerDBIntegerAdaptor.class, type=DBInteger.class)
-			public DBString field = new DBString();
+			@AdaptType(value=IntegerDBIntegerAdaptor.class, type=IntegerProperty.class)
+			public StringProperty field = new StringProperty();
 		}
 		
 		thrown.expect(InvalidDeclaredTypeException.class);
@@ -85,10 +85,10 @@ public class PropertyTypeHandlerTest {
 	
 	@Test(expected=InvalidDeclaredTypeException.class)
 	public void errorsOnConstructionGivenInterfaceTypeAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			@AdaptType(value=AdaptorInterface.class, type=DBInteger.class)
-			public DBInteger field;
+			@AdaptType(value=AdaptorInterface.class, type=IntegerProperty.class)
+			public IntegerProperty field;
 		}
 		
 		new DBPropertyTypeHandler(propertyOf(MyClass.class, "field"), false);
@@ -96,7 +96,7 @@ public class PropertyTypeHandlerTest {
 
 	@Test
 	public void acceptsOnConstructionGivenValidTypeAdaptorWithImplicitDBvType() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
 			@AdaptType(value=IntegerLongAdaptor.class)
 			public Integer field;
@@ -108,9 +108,9 @@ public class PropertyTypeHandlerTest {
 	
 	@Test
 	public void acceptsOnConstructionGivenValidTypeAdaptorWithCorrectExplicitDBvType() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			@AdaptType(value=IntegerLongAdaptor.class, type=DBInteger.class)
+			@AdaptType(value=IntegerLongAdaptor.class, type=IntegerProperty.class)
 			public Integer field;
 		}
 		
@@ -120,7 +120,7 @@ public class PropertyTypeHandlerTest {
 
 	@Test
 	public void acceptsOnConstructionGivenValidTypeAdaptorWithExternalSimpleTypeUpcast() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
 			@AdaptType(value=IntegerStringAdaptor.class)
 			public Long field;
@@ -132,7 +132,7 @@ public class PropertyTypeHandlerTest {
 
 	@Test
 	public void acceptsOnConstructionGivenValidTypeAdaptorWithExternalSimpleTypeDowncast() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
 			@AdaptType(value=LongStringAdaptor.class)
 			public Integer field;
@@ -144,7 +144,7 @@ public class PropertyTypeHandlerTest {
 	
 	@Test
 	public void acceptsOnConstructionGivenValidTypeAdaptorWithInternalSimpleTypeUpcast() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
 			@AdaptType(value=StringIntegerAdaptor.class)
 			public String field;
@@ -156,23 +156,23 @@ public class PropertyTypeHandlerTest {
 	
 	@Test
 	public void infersDBIntegerGivenStringLongAdaptorOnDBStringField() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=StringLongAdaptor.class)
 			@DBColumn
-			public DBString field = new DBString("23");
+			public StringProperty field = new StringProperty("23");
 		}
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		AdaptableType qdt = propertyHandler.getJavaPropertyAsQueryableDatatype(new MyClass());
-		assertThat(propertyHandler.getType(), is((Object) DBInteger.class));
-		assertThat(qdt, is(instanceOf(DBInteger.class)));
+		assertThat(propertyHandler.getType(), is((Object) IntegerProperty.class));
+		assertThat(qdt, is(instanceOf(IntegerProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Long.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new DBInteger(42));
+		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new IntegerProperty(42));
 	}
 	
 	@Test
 	public void infersDBIntegerGivenStringLongAdaptorOnStringField() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=StringLongAdaptor.class)
 			@DBColumn
 			public String field = "23";
@@ -180,31 +180,31 @@ public class PropertyTypeHandlerTest {
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		AdaptableType qdt = propertyHandler.getJavaPropertyAsQueryableDatatype(new MyClass());
-		assertThat(propertyHandler.getType(), is((Object) DBInteger.class));
-		assertThat(qdt, is(instanceOf(DBInteger.class)));
+		assertThat(propertyHandler.getType(), is((Object) IntegerProperty.class));
+		assertThat(qdt, is(instanceOf(IntegerProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Long.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new DBInteger(42));
+		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new IntegerProperty(42));
 	}
 
 	@Test
 	public void infersDBIntegerGivenStringIntegerAdaptorOnDBStringField() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=StringIntegerAdaptor.class)
 			@DBColumn
-			public DBString field = new DBString("23");
+			public StringProperty field = new StringProperty("23");
 		}
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		AdaptableType qdt = propertyHandler.getJavaPropertyAsQueryableDatatype(new MyClass());
-		assertThat(propertyHandler.getType(), is((Object) DBInteger.class));
-		assertThat(qdt, is(instanceOf(DBInteger.class)));
+		assertThat(propertyHandler.getType(), is((Object) IntegerProperty.class));
+		assertThat(qdt, is(instanceOf(IntegerProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Long.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new DBInteger(42));
+		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new IntegerProperty(42));
 	}
 	
 	@Test
 	public void infersDBIntegerGivenStringIntegerAdaptorOnStringField() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=StringIntegerAdaptor.class)
 			@DBColumn
 			public String field = "23";
@@ -212,31 +212,31 @@ public class PropertyTypeHandlerTest {
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		AdaptableType qdt = propertyHandler.getJavaPropertyAsQueryableDatatype(new MyClass());
-		assertThat(propertyHandler.getType(), is((Object) DBInteger.class));
-		assertThat(qdt, is(instanceOf(DBInteger.class)));
+		assertThat(propertyHandler.getType(), is((Object) IntegerProperty.class));
+		assertThat(qdt, is(instanceOf(IntegerProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Long.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new DBInteger(42));
+		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new IntegerProperty(42));
 	}
 	
 	@Test
 	public void infersDBStringGivenLongStringAdaptorOnDBIntegerField() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=LongStringAdaptor.class)
 			@DBColumn
-			public DBInteger field = new DBInteger(23);
+			public IntegerProperty field = new IntegerProperty(23);
 		}
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		AdaptableType qdt = propertyHandler.getJavaPropertyAsQueryableDatatype(new MyClass());
-		assertThat(propertyHandler.getType(), is((Object) DBString.class));
-		assertThat(qdt, is(instanceOf(DBString.class)));
+		assertThat(propertyHandler.getType(), is((Object) StringProperty.class));
+		assertThat(qdt, is(instanceOf(StringProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(String.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new DBString("42"));
+		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new StringProperty("42"));
 	}
 
 	@Test
 	public void infersDBStringGivenLongStringAdaptorOnLongField() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=LongStringAdaptor.class)
 			@DBColumn
 			public Long field = 23L;
@@ -244,15 +244,15 @@ public class PropertyTypeHandlerTest {
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		AdaptableType qdt = propertyHandler.getJavaPropertyAsQueryableDatatype(new MyClass());
-		assertThat(propertyHandler.getType(), is((Object) DBString.class));
-		assertThat(qdt, is(instanceOf(DBString.class)));
+		assertThat(propertyHandler.getType(), is((Object) StringProperty.class));
+		assertThat(qdt, is(instanceOf(StringProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(String.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new DBString("42"));
+		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new StringProperty("42"));
 	}
 	
 	@Test
 	public void infersDBStringGivenLongStringAdaptorOnIntegerField() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=LongStringAdaptor.class)
 			@DBColumn
 			public Integer field = 23;
@@ -260,15 +260,15 @@ public class PropertyTypeHandlerTest {
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		AdaptableType qdt = propertyHandler.getJavaPropertyAsQueryableDatatype(new MyClass());
-		assertThat(propertyHandler.getType(), is((Object) DBString.class));
-		assertThat(qdt, is(instanceOf(DBString.class)));
+		assertThat(propertyHandler.getType(), is((Object) StringProperty.class));
+		assertThat(qdt, is(instanceOf(StringProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(String.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new DBString("42"));
+		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new StringProperty("42"));
 	}
 
 	@Test
 	public void infersDBStringGivenIntegerStringAdaptorOnLongField() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=IntegerStringAdaptor.class)
 			@DBColumn
 			public Long field = 23L;
@@ -276,31 +276,31 @@ public class PropertyTypeHandlerTest {
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		AdaptableType qdt = propertyHandler.getJavaPropertyAsQueryableDatatype(new MyClass());
-		assertThat(propertyHandler.getType(), is((Object) DBString.class));
-		assertThat(qdt, is(instanceOf(DBString.class)));
+		assertThat(propertyHandler.getType(), is((Object) StringProperty.class));
+		assertThat(qdt, is(instanceOf(StringProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(String.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new DBString("42"));
+		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new StringProperty("42"));
 	}
 	
 	@Test
 	public void infersLongGivenDateLongAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=DateLongAdaptor.class)
 			@DBColumn
-			public DBDate field = new DBDate(new Date());
+			public DateProperty field = new DateProperty(new Date());
 		}
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		AdaptableType qdt = propertyHandler.getJavaPropertyAsQueryableDatatype(new MyClass());
-		assertThat(propertyHandler.getType(), is((Object) DBInteger.class));
-		assertThat(qdt, is(instanceOf(DBInteger.class)));
+		assertThat(propertyHandler.getType(), is((Object) IntegerProperty.class));
+		assertThat(qdt, is(instanceOf(IntegerProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Long.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new DBInteger(42));
+		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new IntegerProperty(42));
 	}
 
 	@Test
 	public void infersDBDateGivenIntegerStringAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=LongDateAdaptor.class)
 			@DBColumn
 			public Long field = 2013L;
@@ -308,32 +308,32 @@ public class PropertyTypeHandlerTest {
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		AdaptableType qdt = propertyHandler.getJavaPropertyAsQueryableDatatype(new MyClass());
-		assertThat(propertyHandler.getType(), is((Object) DBDate.class));
-		assertThat(qdt, is(instanceOf(DBDate.class)));
+		assertThat(propertyHandler.getType(), is((Object) DateProperty.class));
+		assertThat(qdt, is(instanceOf(DateProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Date.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new DBDate(new Date()));
+		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new DateProperty(new Date()));
 	}
 	
 	@Test
 	public void acceptsDBIntegerGivenIntegerAdaptorAndExplicitType() {
-		class MyClass extends DBRow {
-			@AdaptType(value=StringIntegerAdaptor.class, type=DBInteger.class)
+		class MyClass extends PropertyContainerImpl {
+			@AdaptType(value=StringIntegerAdaptor.class, type=IntegerProperty.class)
 			@DBColumn
 			public String field = "23";
 		}
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		AdaptableType qdt = propertyHandler.getJavaPropertyAsQueryableDatatype(new MyClass());
-		assertThat(propertyHandler.getType(), is((Object) DBInteger.class));
-		assertThat(qdt, is(instanceOf(DBInteger.class)));
+		assertThat(propertyHandler.getType(), is((Object) IntegerProperty.class));
+		assertThat(qdt, is(instanceOf(IntegerProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Long.class)));
 	}
         
         
-	// Obsolete since DBInteger is now a separate type
+	// Obsolete since IntegerProperty is now a separate type
 //	@Test
 //	public void acceptsDBNumberGivenIntegerAdaptorAndExplicitType() {
-//		class MyClass extends DBRow {
+//		class MyClass extends PropertyContainerImpl {
 //			@AdaptType(value=StringIntegerAdaptor.class, type=DBNumber.class)
 //			@DBColumn
 //			public String field = "23";
@@ -348,53 +348,53 @@ public class PropertyTypeHandlerTest {
 	
 	@Test
 	public void getsQDTValueGivenValidFieldAndNoTypeAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			public DBInteger field = new DBInteger();
+			public IntegerProperty field = new IntegerProperty();
 		}
 		
 		MyClass myObj = new MyClass();
 		myObj.field.setValue(23);
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
-		DBInteger qdt = (DBInteger)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
+		IntegerProperty qdt = (IntegerProperty)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
 		assertThat(qdt.getValue().intValue(), is(23));
 	}
 
 	@Test
 	public void getsUnchangedQDTInstanceGivenValidFieldAndNoTypeAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			public DBInteger field = new DBInteger();
+			public IntegerProperty field = new IntegerProperty();
 		}
 		
 		MyClass myObj = new MyClass();
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
-		DBInteger qdt = (DBInteger)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
+		IntegerProperty qdt = (IntegerProperty)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
 		assertThat(qdt == myObj.field, is(true));
 	}
 	
 	@Test
 	public void getsNullQDTValueGivenValidNullQDTFieldAndNoTypeAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			public DBInteger field = null;
+			public IntegerProperty field = null;
 		}
 		
 		MyClass myObj = new MyClass();
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
-		DBInteger qdt = (DBInteger)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
+		IntegerProperty qdt = (IntegerProperty)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
 		assertThat(qdt, is(nullValue()));
 	}
 
 	@Test
 	public void getsNullAdaptedQDTValueGivenNullQDTFieldAndTypeAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
 			@AdaptType(value=LongStringAdaptor.class)
-			public DBInteger field = null;
+			public IntegerProperty field = null;
 		}
 		
 		MyClass myObj = new MyClass();
@@ -406,7 +406,7 @@ public class PropertyTypeHandlerTest {
 
 	@Test
 	public void getsIsNullAdaptedQDTValueGivenNullSimpleFieldAndTypeAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
 			@AdaptType(value=LongStringAdaptor.class)
 			public Long field = null;
@@ -422,47 +422,47 @@ public class PropertyTypeHandlerTest {
 	
 	@Test
 	public void getsCorrectInternalValueTypeGivenIntegerStringAdaptorOnDBIntegerField() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=LongStringAdaptor.class)
 			@DBColumn
-			public DBInteger field = new DBInteger();
+			public IntegerProperty field = new IntegerProperty();
 		}
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		AdaptableType qdt = propertyHandler.getJavaPropertyAsQueryableDatatype(new MyClass());
-		assertThat(qdt, is(instanceOf(DBString.class)));
+		assertThat(qdt, is(instanceOf(StringProperty.class)));
 	}
 
 	@Test
 	public void getsCorrectInternalValueGivenLongStringAdaptorOnDBIntegerField() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=LongStringAdaptor.class)
 			@DBColumn
-			public DBInteger field = new DBInteger();
+			public IntegerProperty field = new IntegerProperty();
 		}
 		
 		MyClass myObj = new MyClass();
 		myObj.field.setValue(23);
 		
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
-		DBString qdt = (DBString)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
+		StringProperty qdt = (StringProperty)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
 		
 		assertThat(qdt.stringValue(), is("23"));
 	}
 	
 	@Test
 	public void getsSameInstanceOnConsecutiveReadsGivenAdaptorWhenUsingSameHandler() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=LongStringAdaptor.class)
 			@DBColumn
-			public DBInteger field = new DBInteger();
+			public IntegerProperty field = new IntegerProperty();
 		}
 		
 		MyClass myObj = new MyClass();
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
-		DBString qdt1 = (DBString)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
-		DBString qdt2 = (DBString)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
-		DBString qdt3 = (DBString)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
+		StringProperty qdt1 = (StringProperty)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
+		StringProperty qdt2 = (StringProperty)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
+		StringProperty qdt3 = (StringProperty)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
 		
 		assertThat(qdt2 == qdt1, is(true));
 		assertThat(qdt3 == qdt1, is(true));
@@ -470,21 +470,21 @@ public class PropertyTypeHandlerTest {
 
 	@Test
 	public void getsDifferentInstanceOnConsecutiveReadsAndWritesGivenAdaptorWhenUsingSameHandler() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=LongStringAdaptor.class)
 			@DBColumn
-			public DBInteger field = new DBInteger();
+			public IntegerProperty field = new IntegerProperty();
 		}
 		
 		MyClass myObj = new MyClass();
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
-		DBString qdt1 = (DBString)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
+		StringProperty qdt1 = (StringProperty)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
 		
-		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, new DBString());
-		DBString qdt2 = (DBString)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
+		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, new StringProperty());
+		StringProperty qdt2 = (StringProperty)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
 		
-		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, new DBString());
-		DBString qdt3 = (DBString)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
+		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, new StringProperty());
+		StringProperty qdt3 = (StringProperty)propertyHandler.getJavaPropertyAsQueryableDatatype(myObj);
 		
 		assertThat(qdt2 == qdt1, is(false));
 		assertThat(qdt3 == qdt1, is(false));
@@ -493,15 +493,15 @@ public class PropertyTypeHandlerTest {
 	
 	@Test
 	public void setsFieldValueGivenValidFieldAndNoTypeAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			public DBInteger field = new DBInteger();
+			public IntegerProperty field = new IntegerProperty();
 		}
 		
 		MyClass myObj = new MyClass();
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		
-		DBInteger qdt = new DBInteger();
+		IntegerProperty qdt = new IntegerProperty();
 		qdt.setValue(23);
 		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, qdt);
 		
@@ -510,16 +510,16 @@ public class PropertyTypeHandlerTest {
 
 	@Test
 	public void setsFieldValueGivenValidFieldAndTypeAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
 			@AdaptType(StringLongAdaptor.class)
-			public DBString field = new DBString();
+			public StringProperty field = new StringProperty();
 		}
 		
 		MyClass myObj = new MyClass();
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		
-		DBInteger qdt = new DBInteger();
+		IntegerProperty qdt = new IntegerProperty();
 		qdt.setValue(23);
 		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, qdt);
 		
@@ -528,15 +528,15 @@ public class PropertyTypeHandlerTest {
 	
 	@Test
 	public void setsUnchangedFieldReferenceGivenValidObjectAndNoTypeAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			public DBInteger field = new DBInteger();
+			public IntegerProperty field = new IntegerProperty();
 		}
 		
 		MyClass myObj = new MyClass();
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 
-		DBInteger qdt = new DBInteger();
+		IntegerProperty qdt = new IntegerProperty();
 		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, qdt);
 		
 		assertThat(myObj.field == qdt, is(true));
@@ -544,9 +544,9 @@ public class PropertyTypeHandlerTest {
 	
 	@Test
 	public void setsQDTFieldNullGivenNullQDTAndNoTypeAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
-			public DBInteger field = new DBInteger();
+			public IntegerProperty field = new IntegerProperty();
 		}
 		
 		MyClass myObj = new MyClass();
@@ -558,10 +558,10 @@ public class PropertyTypeHandlerTest {
 
 	@Test
 	public void setsQDTFieldNullGivenNullQDTAndTypeAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@DBColumn
 			@AdaptType(value=IntegerStringAdaptor.class)
-			public DBInteger field = new DBInteger();
+			public IntegerProperty field = new IntegerProperty();
 		}
 		
 		MyClass myObj = new MyClass();
@@ -573,29 +573,29 @@ public class PropertyTypeHandlerTest {
 	
 	@Test
 	public void setsAsDBIntegerWithLongGivenLongAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=StringLongAdaptor.class)
 			@DBColumn
-			public DBString field = new DBString();
+			public StringProperty field = new StringProperty();
 		}
 
 		MyClass obj = new MyClass();
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
-		propertyHandler.setJavaPropertyAsQueryableDatatype(obj, new DBInteger(42L));
+		propertyHandler.setJavaPropertyAsQueryableDatatype(obj, new IntegerProperty(42L));
 		assertThat(obj.field.getValue(), is((Object)"42"));
 	}
 
 	@Test
 	public void setsAsDBIntegerWithIntegerGivenLongAdaptor() {
-		class MyClass extends DBRow {
+		class MyClass extends PropertyContainerImpl {
 			@AdaptType(value=StringLongAdaptor.class)
 			@DBColumn
-			public DBString field = new DBString();
+			public StringProperty field = new StringProperty();
 		}
 
 		MyClass obj = new MyClass();
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
-		propertyHandler.setJavaPropertyAsQueryableDatatype(obj, new DBInteger(42));
+		propertyHandler.setJavaPropertyAsQueryableDatatype(obj, new IntegerProperty(42));
 		assertThat(obj.field.getValue(), is((Object)"42"));
 	}
 	
@@ -737,26 +737,26 @@ public class PropertyTypeHandlerTest {
 		}
 	}
 	
-	public static class IntegerDBIntegerAdaptor implements TypeAdaptor<Integer, DBInteger> {
+	public static class IntegerDBIntegerAdaptor implements TypeAdaptor<Integer, IntegerProperty> {
                 @Override
-		public Integer fromInternalValue(DBInteger dbvValue) {
+		public Integer fromInternalValue(IntegerProperty dbvValue) {
 			return null;
 		}
 
                 @Override
-		public DBInteger fromExternalValue(Integer objectValue) {
+		public IntegerProperty fromExternalValue(Integer objectValue) {
 			return null;
 		}
 	}
 
-	public static class DBStringIntegerAdaptor implements TypeAdaptor<DBString, Integer> {
+	public static class DBStringIntegerAdaptor implements TypeAdaptor<StringProperty, Integer> {
                 @Override
-		public DBString fromInternalValue(Integer dbvValue) {
+		public StringProperty fromInternalValue(Integer dbvValue) {
 			return null;
 		}
 
                 @Override
-		public Integer fromExternalValue(DBString objectValue) {
+		public Integer fromExternalValue(StringProperty objectValue) {
 			return null;
 		}
 	}

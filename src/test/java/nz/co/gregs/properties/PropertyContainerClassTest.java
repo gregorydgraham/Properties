@@ -1,15 +1,14 @@
 package nz.co.gregs.properties;
 
 import nz.co.gregs.properties.examples.DBColumn;
-import nz.co.gregs.properties.examples.DBInteger;
-import nz.co.gregs.properties.examples.DBTableName;
+import nz.co.gregs.properties.examples.IntegerProperty;
 import nz.co.gregs.properties.examples.DBForeignKey;
 import nz.co.gregs.properties.examples.DBPrimaryKey;
-import nz.co.gregs.properties.examples.DBString;
+import nz.co.gregs.properties.examples.StringProperty;
 import java.sql.SQLException;
 import java.util.List;
 import nz.co.gregs.properties.examples.DBPropertyTypeHandler;
-import nz.co.gregs.properties.examples.DBRow;
+import nz.co.gregs.properties.examples.PropertyContainerImpl;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -36,24 +35,23 @@ public class PropertyContainerClassTest {
 	}
 
 	@SuppressWarnings("serial")
-	public static class MyTable1 extends DBRow {
+	public static class MyTable1 extends PropertyContainerImpl {
 
 		@DBPrimaryKey
 		@DBColumn
-		public DBInteger uid = new DBInteger();
+		public IntegerProperty uid = new IntegerProperty();
 		@DBColumn("table_text")
-		public DBString text = new DBString();
+		public StringProperty text = new StringProperty();
 		@DBColumn
 		@DBForeignKey(value = MyTable2.class)
-		public DBInteger fkTable2 = new DBInteger();
+		public IntegerProperty fkTable2 = new IntegerProperty();
 	}
 
 	@SuppressWarnings("serial")
-	@DBTableName("table2")
-	public static class MyTable2 extends DBRow {
+	public static class MyTable2 extends PropertyContainerImpl {
 
 		@DBPrimaryKey
 		@DBColumn("uid_2")
-		public DBInteger uid = new DBInteger();
+		public IntegerProperty uid = new IntegerProperty();
 	}
 }

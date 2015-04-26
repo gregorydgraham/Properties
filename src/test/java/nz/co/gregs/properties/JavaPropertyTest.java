@@ -17,8 +17,8 @@ import nz.co.gregs.properties.JavaPropertyFinder.PropertyType;
 import nz.co.gregs.properties.JavaPropertyFinder.Visibility;
 import nz.co.gregs.properties.JavaProperty;
 import nz.co.gregs.properties.JavaPropertyFinder;
-import nz.co.gregs.properties.examples.DBInteger;
-import nz.co.gregs.properties.examples.DBString;
+import nz.co.gregs.properties.examples.IntegerProperty;
+import nz.co.gregs.properties.examples.StringProperty;
 import nz.co.gregs.properties.adapt.AdaptType;
 import nz.co.gregs.properties.adapt.TypeAdaptor;
 
@@ -421,22 +421,22 @@ public class JavaPropertyTest {
     
     @Test(expected = DBPebkacException.class)
     public void errorsWhenRetrievingAnnotationGivenDifferentDuplicatedComplexAnnotationOnGetterAndSetter() {
-    	class MyAdaptor implements TypeAdaptor<Object, DBInteger> {
-			public Object fromInternalValue(DBInteger dbvValue) {
+    	class MyAdaptor implements TypeAdaptor<Object, IntegerProperty> {
+			public Object fromInternalValue(IntegerProperty dbvValue) {
 				return null;
 			}
-			public DBInteger fromExternalValue(Object objectValue) {
+			public IntegerProperty fromExternalValue(Object objectValue) {
 				return null;
 			}
     	}
     	
         class TestClass {
-            @AdaptType(value=MyAdaptor.class, type=DBString.class)
+            @AdaptType(value=MyAdaptor.class, type=StringProperty.class)
             public int getProperty() {
                 return 0;
             }
 
-            @AdaptType(value=MyAdaptor.class, type=DBInteger.class)
+            @AdaptType(value=MyAdaptor.class, type=IntegerProperty.class)
             public void setProperty(int value) {
             }
         }
@@ -447,11 +447,11 @@ public class JavaPropertyTest {
 
     @Test(expected = DBPebkacException.class)
     public void errorsWhenRetrievingAnnotationGivenDifferentDuplicatedDefaultedComplexAnnotationOnGetterAndSetter() {
-    	class MyAdaptor implements TypeAdaptor<Object, DBInteger> {
-			public Object fromInternalValue(DBInteger dbvValue) {
+    	class MyAdaptor implements TypeAdaptor<Object, IntegerProperty> {
+			public Object fromInternalValue(IntegerProperty dbvValue) {
 				return null;
 			}
-			public DBInteger fromExternalValue(Object objectValue) {
+			public IntegerProperty fromExternalValue(Object objectValue) {
 				return null;
 			}
     	}
@@ -462,7 +462,7 @@ public class JavaPropertyTest {
                 return 0;
             }
 
-            @AdaptType(value=MyAdaptor.class, type=DBInteger.class)
+            @AdaptType(value=MyAdaptor.class, type=IntegerProperty.class)
             public void setProperty(int value) {
             }
         }

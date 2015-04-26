@@ -205,7 +205,7 @@ public class Property {
      * Use {@link #getRawJavaType()} in the rare case that you need to know the
      * underlying java property type.
      *
-     * @return the Class of the QDT used internally to handle database values.
+     * @return the Class of the AdaptableType used internally to handle database values.
      */
     public Class<? extends AdaptableType> type() {
         return propertyDefinition.type();
@@ -265,7 +265,7 @@ public class Property {
      * Use {@link #isReadable()} beforehand to check whether the property can be
      * read.
      *
-	 * @param <A> the QDT type
+	 * @param <A> the AdaptableType type
      * @return The queryableDatatype instance representing this property
      * @throws IllegalStateException if not readable (you should have called
      * isReadable() first)
