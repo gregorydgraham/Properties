@@ -52,7 +52,7 @@ public class PropertyDefinition {
 
 	private final PropertyTypeHandler typeHandler;
 
-	PropertyDefinition(PropertyContainerClass classWrapper, JavaProperty javaProperty, PropertyTypeHandler handler, boolean processIdentityOnly) throws InstantiationException, IllegalAccessException {
+	public PropertyDefinition(PropertyContainerClass classWrapper, JavaProperty javaProperty, PropertyTypeHandler handler, boolean processIdentityOnly) {
 		this.classWrapper = classWrapper;
 		this.javaProperty = javaProperty;
 
@@ -61,7 +61,7 @@ public class PropertyDefinition {
 		typeHandler.initialiseHandler(javaProperty, processIdentityOnly);
 	}
 
-	JavaProperty getRawJavaProperty() {
+	public JavaProperty getRawJavaProperty() {
 		return javaProperty;
 	}
 
@@ -251,7 +251,7 @@ public class PropertyDefinition {
 	 * exception
 	 */
 	public AdaptableType getAdaptableType(Object target) {
-		AdaptableType adaptable = typeHandler.getJavaPropertyAsQueryableDatatype(target);
+		AdaptableType adaptable = typeHandler.getJavaPropertyAsAdaptableType(target);
 		new InternalAdaptableTypeProxy(adaptable).setPropertyWrapper(this);
 		return adaptable;
 	}
@@ -351,7 +351,7 @@ public class PropertyDefinition {
 	 * @return the PropertyContainerClass representing the enclosing object
  of this property
 	 */
-	public PropertyContainerClass getRowDefinitionClassWrapper() {
+	public PropertyContainerClass getPropertyContainerClass() {
 		return classWrapper;
 	}
 

@@ -25,11 +25,11 @@ public abstract class AdaptableType<A extends Object> {
 		literalValue = val;
 	}
 
-	protected final void setLiteralValue(A object) {
+	protected void setLiteralValue(A object) {
 		this.literalValue = object;
 	}
 
-	protected final A getLiteralValue() {
+	protected A getLiteralValue() {
 		return literalValue;
 	}
 
@@ -54,8 +54,9 @@ public abstract class AdaptableType<A extends Object> {
 		return literalValue == null;
 	}
 
-	public void clear() {
+	public AdaptableType<A> clear() {
 		literalValue = null;
+		return this;
 	}
 
 	public void setPropertyDefinition(PropertyDefinition propertyWrapperDefn) {

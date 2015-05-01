@@ -4,8 +4,6 @@ import nz.co.gregs.properties.exceptions.UnsupportedType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import nz.co.gregs.properties.InterfaceInfo;
 import nz.co.gregs.properties.JavaProperty;
 
@@ -379,7 +377,7 @@ public abstract class PropertyTypeHandler {
      * @throws IllegalStateException if the underlying java property is not
      * readable
      */
-    public AdaptableType getJavaPropertyAsQueryableDatatype(Object target) {
+    public AdaptableType getJavaPropertyAsAdaptableType(Object target) {
         if (identityOnly) {
             throw new AssertionError("Attempt to read value from identity-only property");
         }

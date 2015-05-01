@@ -229,7 +229,7 @@ public class AdaptableTypeSyncer {
 			if (!(source instanceof AdaptableType)) {
 				return source;
 			} else {
-				AdaptableType sourceQDT = (AdaptableType) source;
+				AdaptableType sourceQDT = source;
 				try {
 					// cycle-detection
 					// (note: important that it uses reference equality, not object equality)
