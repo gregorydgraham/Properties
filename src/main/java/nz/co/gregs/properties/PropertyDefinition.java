@@ -276,7 +276,7 @@ public class PropertyDefinition {
 	 */
 	public void setAdaptableType(Object target, AdaptableType value) {
 		new InternalAdaptableTypeProxy(value).setPropertyWrapper(this);
-		typeHandler.setJavaPropertyAsQueryableDatatype(target, value);
+		typeHandler.setJavaPropertyAsAdaptableType(target, value);
 	}
 
 	/**

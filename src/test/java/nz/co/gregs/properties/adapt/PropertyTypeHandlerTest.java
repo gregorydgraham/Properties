@@ -167,7 +167,7 @@ public class PropertyTypeHandlerTest {
 		assertThat(propertyHandler.getType(), is((Object) IntegerProperty.class));
 		assertThat(qdt, is(instanceOf(IntegerProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Long.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new IntegerProperty(42));
+		propertyHandler.setJavaPropertyAsAdaptableType(new MyClass(), new IntegerProperty(42));
 	}
 	
 	@Test
@@ -183,7 +183,7 @@ public class PropertyTypeHandlerTest {
 		assertThat(propertyHandler.getType(), is((Object) IntegerProperty.class));
 		assertThat(qdt, is(instanceOf(IntegerProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Long.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new IntegerProperty(42));
+		propertyHandler.setJavaPropertyAsAdaptableType(new MyClass(), new IntegerProperty(42));
 	}
 
 	@Test
@@ -199,7 +199,7 @@ public class PropertyTypeHandlerTest {
 		assertThat(propertyHandler.getType(), is((Object) IntegerProperty.class));
 		assertThat(qdt, is(instanceOf(IntegerProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Long.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new IntegerProperty(42));
+		propertyHandler.setJavaPropertyAsAdaptableType(new MyClass(), new IntegerProperty(42));
 	}
 	
 	@Test
@@ -215,7 +215,7 @@ public class PropertyTypeHandlerTest {
 		assertThat(propertyHandler.getType(), is((Object) IntegerProperty.class));
 		assertThat(qdt, is(instanceOf(IntegerProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Long.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new IntegerProperty(42));
+		propertyHandler.setJavaPropertyAsAdaptableType(new MyClass(), new IntegerProperty(42));
 	}
 	
 	@Test
@@ -231,7 +231,7 @@ public class PropertyTypeHandlerTest {
 		assertThat(propertyHandler.getType(), is((Object) StringProperty.class));
 		assertThat(qdt, is(instanceOf(StringProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(String.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new StringProperty("42"));
+		propertyHandler.setJavaPropertyAsAdaptableType(new MyClass(), new StringProperty("42"));
 	}
 
 	@Test
@@ -247,7 +247,7 @@ public class PropertyTypeHandlerTest {
 		assertThat(propertyHandler.getType(), is((Object) StringProperty.class));
 		assertThat(qdt, is(instanceOf(StringProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(String.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new StringProperty("42"));
+		propertyHandler.setJavaPropertyAsAdaptableType(new MyClass(), new StringProperty("42"));
 	}
 	
 	@Test
@@ -263,7 +263,7 @@ public class PropertyTypeHandlerTest {
 		assertThat(propertyHandler.getType(), is((Object) StringProperty.class));
 		assertThat(qdt, is(instanceOf(StringProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(String.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new StringProperty("42"));
+		propertyHandler.setJavaPropertyAsAdaptableType(new MyClass(), new StringProperty("42"));
 	}
 
 	@Test
@@ -279,7 +279,7 @@ public class PropertyTypeHandlerTest {
 		assertThat(propertyHandler.getType(), is((Object) StringProperty.class));
 		assertThat(qdt, is(instanceOf(StringProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(String.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new StringProperty("42"));
+		propertyHandler.setJavaPropertyAsAdaptableType(new MyClass(), new StringProperty("42"));
 	}
 	
 	@Test
@@ -295,7 +295,7 @@ public class PropertyTypeHandlerTest {
 		assertThat(propertyHandler.getType(), is((Object) IntegerProperty.class));
 		assertThat(qdt, is(instanceOf(IntegerProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Long.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new IntegerProperty(42));
+		propertyHandler.setJavaPropertyAsAdaptableType(new MyClass(), new IntegerProperty(42));
 	}
 
 	@Test
@@ -311,7 +311,7 @@ public class PropertyTypeHandlerTest {
 		assertThat(propertyHandler.getType(), is((Object) DateProperty.class));
 		assertThat(qdt, is(instanceOf(DateProperty.class)));
 		assertThat(qdt.getValue(), is(instanceOf(Date.class)));
-		propertyHandler.setJavaPropertyAsQueryableDatatype(new MyClass(), new DateProperty(new Date()));
+		propertyHandler.setJavaPropertyAsAdaptableType(new MyClass(), new DateProperty(new Date()));
 	}
 	
 	@Test
@@ -480,10 +480,10 @@ public class PropertyTypeHandlerTest {
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 		StringProperty qdt1 = (StringProperty)propertyHandler.getJavaPropertyAsAdaptableType(myObj);
 		
-		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, new StringProperty());
+		propertyHandler.setJavaPropertyAsAdaptableType(myObj, new StringProperty());
 		StringProperty qdt2 = (StringProperty)propertyHandler.getJavaPropertyAsAdaptableType(myObj);
 		
-		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, new StringProperty());
+		propertyHandler.setJavaPropertyAsAdaptableType(myObj, new StringProperty());
 		StringProperty qdt3 = (StringProperty)propertyHandler.getJavaPropertyAsAdaptableType(myObj);
 		
 		assertThat(qdt2 == qdt1, is(false));
@@ -503,7 +503,7 @@ public class PropertyTypeHandlerTest {
 		
 		IntegerProperty qdt = new IntegerProperty();
 		qdt.setValue(23);
-		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, qdt);
+		propertyHandler.setJavaPropertyAsAdaptableType(myObj, qdt);
 		
 		assertThat(myObj.field.getValue().intValue(), is(23));
 	}
@@ -521,7 +521,7 @@ public class PropertyTypeHandlerTest {
 		
 		IntegerProperty qdt = new IntegerProperty();
 		qdt.setValue(23);
-		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, qdt);
+		propertyHandler.setJavaPropertyAsAdaptableType(myObj, qdt);
 		
 		assertThat(myObj.field.stringValue(), is("23"));
 	}
@@ -537,7 +537,7 @@ public class PropertyTypeHandlerTest {
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 
 		IntegerProperty qdt = new IntegerProperty();
-		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, qdt);
+		propertyHandler.setJavaPropertyAsAdaptableType(myObj, qdt);
 		
 		assertThat(myObj.field == qdt, is(true));
 	}
@@ -552,7 +552,7 @@ public class PropertyTypeHandlerTest {
 		MyClass myObj = new MyClass();
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 
-		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, null);
+		propertyHandler.setJavaPropertyAsAdaptableType(myObj, null);
 		assertThat(myObj.field, is(nullValue()));
 	}
 
@@ -567,7 +567,7 @@ public class PropertyTypeHandlerTest {
 		MyClass myObj = new MyClass();
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
 
-		propertyHandler.setJavaPropertyAsQueryableDatatype(myObj, null);
+		propertyHandler.setJavaPropertyAsAdaptableType(myObj, null);
 		assertThat(myObj.field, is(nullValue()));
 	}
 	
@@ -581,7 +581,7 @@ public class PropertyTypeHandlerTest {
 
 		MyClass obj = new MyClass();
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
-		propertyHandler.setJavaPropertyAsQueryableDatatype(obj, new IntegerProperty(42L));
+		propertyHandler.setJavaPropertyAsAdaptableType(obj, new IntegerProperty(42L));
 		assertThat(obj.field.getValue(), is((Object)"42"));
 	}
 
@@ -595,7 +595,7 @@ public class PropertyTypeHandlerTest {
 
 		MyClass obj = new MyClass();
 		PropertyTypeHandler propertyHandler = propertyHandlerOf(MyClass.class, "field");
-		propertyHandler.setJavaPropertyAsQueryableDatatype(obj, new IntegerProperty(42));
+		propertyHandler.setJavaPropertyAsAdaptableType(obj, new IntegerProperty(42));
 		assertThat(obj.field.getValue(), is((Object)"42"));
 	}
 	
