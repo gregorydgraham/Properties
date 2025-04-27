@@ -4,7 +4,6 @@ package nz.co.gregs.properties.adapt;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
-import nz.co.gregs.properties.adapt.*;
 import nz.co.gregs.properties.adapt.SafeOneWaySimpleTypeAdaptor.Direction;
 
 import org.junit.Test;
@@ -107,7 +106,7 @@ public class SafeOneWayTypeAdaptorTest {
 	static class IntegerToStringAdaptor implements TypeAdaptor<Integer, String> {
 		@Override
 		public Integer fromInternalValue(String dbvValue) {
-			return (dbvValue == null) ? null : Integer.parseInt(dbvValue);
+			return (dbvValue == null) ? null : Integer.valueOf(dbvValue);
 		}
 
 		@Override

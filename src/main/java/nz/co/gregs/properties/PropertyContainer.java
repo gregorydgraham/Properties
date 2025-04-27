@@ -8,8 +8,9 @@ package nz.co.gregs.properties;
 import java.util.List;
 
 /**
+ * A container of Properties.
  *
- * @author gregorygraham
+ * @author Gregory Graham
  */
 public class PropertyContainer {
 	private transient PropertyContainerInstance wrapper;
@@ -33,6 +34,8 @@ public class PropertyContainer {
 	 *
 	 * @param obj	 a object in a field or bean of the PropertyContainer	
 	 * @return the PropertyWrapper associated with the Object suppled or NULL.
+   * @throws java.lang.InstantiationException
+   * @throws java.lang.IllegalAccessException
 	 */
 	public Property getPropertyOf(Object obj) throws InstantiationException, IllegalAccessException {
 		List<Property> props = getWrapper().getPropertyWrappers();

@@ -11,8 +11,8 @@ import nz.co.gregs.properties.exceptions.PropertyException;
  *
  * <p>
  * To create instances of this type, call
- * {@link RowDefinitionWrapperFactory#instanceWrapperFor(nz.co.gregs.dbvolution.query.RowDefinition)}
- * on the appropriate {@link RowDefinition}.
+ * {@link PropertyContainerWrapperFactory#instanceWrapperFor(nz.co.gregs.properties.PropertyContainer) }
+ * on the appropriate {@link PropertyContainer}.
  *
  * <p>
  * Instances of this class are lightweight and efficient to create, and they are

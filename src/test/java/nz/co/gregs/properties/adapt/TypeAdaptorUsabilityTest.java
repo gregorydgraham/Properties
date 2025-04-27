@@ -74,7 +74,7 @@ public class TypeAdaptorUsabilityTest {
 
 			@Override
 			public Long fromExternalValue(String objectValue) {
-				return (objectValue == null) ? null : Long.parseLong(objectValue);
+				return (objectValue == null) ? null : Long.valueOf(objectValue);
 			}
 		}
 

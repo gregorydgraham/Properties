@@ -5,27 +5,27 @@ import nz.co.gregs.properties.exceptions.*;
 
 /**
  * Abstracts a java field or bean-property on a target object as a
- * DBvolution-centric property, which contains values from a specific column in
- * a database table. Transparently handles all annotations associated with the
- * property, including type adaption.
+ * storage-centric property, which contains values from a specific value from an 
+ * external storage system, such as a database or file system. Transparently 
+ * handles all annotations associated with the property, including type adaption.
  *
  * <p>
  * Provides access to the meta-data defined on a single java property of a
  * class, and provides methods for reading and writing the value of the property
- * on a single bound object, given a specified database definition.
+ * on a single bound object.
  *
  * <p>
- * DB properties can be seen to have the types and values in the table that
+ * properties can be seen to have the types and values in the table that
  * follows. This class provides a virtual view over the property whereby the
- * DBv-centric type and value are easily accessible via the
+ * Java-centric type and value are easily accessible via the
  * {@link #getAdaptableType()} and
- * {@link #setQueryableDatatype(QueryableDatatype) } methods.
+ * {@link #setAdaptableType(nz.co.gregs.properties.adapt.AdaptableType)} methods.
  * <ul>
  * <li> rawType/rawValue - the type and value actually stored on the declared
  * java property
- * <li> dbvType/dbvValue - the type and value used within DBv (a
- * QueryableDataType)
- * <li> databaseType/databaseValue - the type and value of the database column
+ * <li> referenceType/referenceValue - the type and value used within Properties (a
+ * Property type)
+ * <li> externalType/externalValue - the type and value of the external store
  * itself (this class doesn't deal with these)
  * </ul>
  *
@@ -61,10 +61,6 @@ public class Property {
     /**
      * Gets a string representation of the wrapped property, suitable for
      * debugging and logging.
-     *
-     * <p>
-     * For example: <br>
-     * {@code "DBInteger nz.co.mycompany.myproject.Vehicle.fkSpecOptionColour<fk_17> = [15241672]"}
      *
      * @return a String representing this Property
      */
@@ -197,7 +193,7 @@ public class Property {
     }
 
     /**
-     * Gets the DBvolution-centric type of the property. If a type adaptor is
+     * Gets the Java-centric type of the property. If a type adaptor is
      * present, then this is the type after conversion from the target object's
      * actual property type.
      *
@@ -212,11 +208,11 @@ public class Property {
     }
 
     /**
-     * Convenience method for testing the type of the QueryableDatatype.
+     * Convenience method for testing the type of the reference type.
      * Equivalent to {@code refType.isAssignableFrom(this.type())}.
      *
 	 * @param refType refType
-     * @return TRUE if this property's internal QueryableDatatype is the similar to that of the supplied instance.
+     * @return TRUE if this property's internal reference type is the similar to that of the supplied instance.
      */
     public boolean isInstanceOf(Class<? extends AdaptableType> refType) {
         return propertyDefinition.isInstanceOf(refType);
@@ -257,7 +253,7 @@ public class Property {
     }
 
     /**
-     * Gets the DBvolution-centric value of the property. The value returned may
+     * Gets the Java-centric value of the property. The value returned may
      * have undergone type conversion from the target object's actual property
      * type, if a type adaptor is present.
      *
@@ -278,7 +274,7 @@ public class Property {
     }
 
     /**
-     * Sets the DBvolution-centric value of the property. The value set may have
+     * Sets the Java-centric value of the property. The value set may have
      * undergone type conversion to the target object's actual property type, if
      * a type adaptor is present.
      *
@@ -298,12 +294,12 @@ public class Property {
 
     /**
      * Gets the value of the declared property in the end-user's target object,
-     * prior to type conversion to the DBvolution-centric type.
+     * prior to type conversion to the Java-centric type.
      *
      * <p>
      * In most cases you will not need to call this method, as type conversion
      * is done transparently via the {@link #getAdaptableType()} and
-     * {@link #setQueryableDatatype(QueryableDatatype)} methods.
+     * {@link #setAdaptableType(nz.co.gregs.properties.adapt.AdaptableType)} methods.
      *
      * <p>
      * Use {@link #isReadable()} beforehand to check whether the property can be
@@ -326,7 +322,7 @@ public class Property {
      * <p>
      * In most cases you will not need to call this method, as type conversion
      * is done transparently via the {@link #getAdaptableType()} and
-     * {@link #setQueryableDatatype(QueryableDatatype)} methods.
+     * {@link #setAdaptableType(nz.co.gregs.properties.adapt.AdaptableType) } methods.
      *
      * <p>
      * Use {@link #isWritable()} beforehand to check whether the property can be
@@ -349,7 +345,7 @@ public class Property {
      * <p>
      * In most cases you will not need to call this method, as type conversion
      * is done transparently via the {@link #getAdaptableType()} and
-     * {@link #setQueryableDatatype(QueryableDatatype)} methods. Use the
+     * {@link #setAdaptableType(nz.co.gregs.properties.adapt.AdaptableType) } methods. Use the
      * {@link #type()} method to get the DBv-centric property type, after type
      * conversion.
      *

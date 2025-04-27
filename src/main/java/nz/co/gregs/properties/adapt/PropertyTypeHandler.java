@@ -19,7 +19,7 @@ import nz.co.gregs.properties.exceptions.InvalidDeclaredTypeException;
  *
  * <p>
  * This class handles the majority of the type support logic that is exposed by
- * the {@link DBPropertyDefinition} class, which just delegates to this class.
+ * the {@link nz.co.gregs.properties.PropertyDefinition} class, which just delegates to this class.
  *
  * <p>
  * This class behaves correctly when no {@link AdaptType} property is present.

@@ -18,14 +18,14 @@ import nz.co.gregs.properties.exceptions.*;
  *
  * <p>
  * For binding to specific target objects and database definitions, use the
- * {@link PropertyWrapper} class.
+ * {@link PropertyContainer} class.
  *
  * <p>
  * DB properties can be seen to have the types and values in the table that
  * follows. This class provides a virtual view over the property whereby the
  * DBv-centric type and value are easily accessible via the
  * {@link #getAdaptableType(Object) value()} and
- * {@link #setQueryableDatatype(Object, QueryableDatatype) setValue()} methods.
+ * {@link #setAdaptableType(java.lang.Object, nz.co.gregs.properties.adapt.AdaptableType) setValue()} methods.
  * <ul>
  * <li> rawType/rawValue - the type and value actually stored on the declared
  * java property
