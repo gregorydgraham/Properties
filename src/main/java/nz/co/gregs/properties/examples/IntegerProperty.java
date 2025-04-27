@@ -17,7 +17,7 @@ public class IntegerProperty extends AdaptableType<Long> {
 	}
 
 	public IntegerProperty(int val) {
-		super(new Integer(val).longValue());
+		super(Integer.valueOf(val).longValue());
 	}
 
 	public IntegerProperty(Long val) {
@@ -33,10 +33,10 @@ public class IntegerProperty extends AdaptableType<Long> {
 	}
 
 	public void setValue(Integer object) {
-		setLiteralValue(new Long(object));
+		setLiteralValue(object.longValue());
 	}
 
 	public void setValue(String object) {
-		setLiteralValue(Long.parseLong(object));
+		setLiteralValue(Long.valueOf(object));
 	}
 }
