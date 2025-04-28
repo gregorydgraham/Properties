@@ -23,6 +23,7 @@ import nz.co.gregs.properties.exceptions.InvalidDeclaredTypeException;
  * This class behaves correctly when no {@link AdaptType} property is present.
  *
  * @author Malcolm Lett
+ * @author Gregory Graham
  */
 public abstract class PropertyTypeHandler {
 
@@ -37,7 +38,7 @@ public abstract class PropertyTypeHandler {
    * Create a new PropertyTypeHandler.
    *
    * @param javaProperty the annotated property
-   * @param processIdentityOnly indicates whether property's value needs to be tracked as well.
+   * @param processIdentityOnly indicates that Property is not to track the value and only process the identity.
    */
   public PropertyTypeHandler(JavaProperty javaProperty, boolean processIdentityOnly) {
     initialiseHandler(javaProperty, processIdentityOnly);
@@ -513,13 +514,19 @@ public abstract class PropertyTypeHandler {
   }
 
   /**
-   * @return the identityOnly
+   * Indicates if the Property is an IdentityOnly Property or not.
+   * 
+   * <p>IndentityOnly Properties do not track the value of the property.</p>
+   * 
+   * @return returns true if the Property's value is not tracked
    */
   public boolean isIdentityOnly() {
     return identityOnly;
   }
 
   /**
+   * Returns the Java property.
+   * 
    * @return the javaProperty
    */
   public JavaProperty getJavaProperty() {
@@ -527,13 +534,17 @@ public abstract class PropertyTypeHandler {
   }
 
   /**
-   * @return the adaptableTypeClass
+   * Returns class of the AdaptableType.
+   * 
+   * @return the adaptableType Class
    */
   public Class<? extends AdaptableType> getAdaptableTypeClass() {
     return adaptableTypeClass;
   }
 
   /**
+   * Returns the TypeAdaptor
+   * 
    * @return the typeAdaptor
    */
   public TypeAdaptor<Object, Object> getTypeAdaptor() {
@@ -541,13 +552,17 @@ public abstract class PropertyTypeHandler {
   }
 
   /**
-   * @return the internalQdtSyncer
+   * Returns the internal AdaptableTypeSyncer
+   * 
+   * @return the internalAdaptableTypeSyncer
    */
   public AdaptableTypeSyncer getInternalAdaptableTypeSyncer() {
     return internalAdaptableTypeSyncer;
   }
 
   /**
+   * Returns the annotation.
+   * 
    * @return the annotation
    */
   public AdaptType getAnnotation() {

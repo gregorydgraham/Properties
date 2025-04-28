@@ -9,35 +9,70 @@ import nz.co.gregs.properties.adapt.AdaptableType;
 
 /**
  * A Property for handling both Integers and Longs
- * 
+ *
  * @author Gregory Graham
  */
 public class IntegerProperty extends AdaptableType<Long> {
 
-	public IntegerProperty() {
-	}
+  /**
+   * default constructor
+   *
+   */
+  public IntegerProperty() {
+  }
 
-	public IntegerProperty(int val) {
-		super(Integer.valueOf(val).longValue());
-	}
+  /**
+   * int constructor
+   *
+   * @param val initial value
+   */
+  public IntegerProperty(int val) {
+    super(Integer.valueOf(val).longValue());
+  }
 
-	public IntegerProperty(Long val) {
-		super(val);
-	}
+  /**
+   * Long constructor
+   *
+   * @param val initial value
+   */
+  public IntegerProperty(Long val) {
+    super(val);
+  }
 
-	public Integer intValue() {
-		return getValue().intValue();
-	}
+  /**
+   * Returns the integer value
+   *
+   * @return an integer of the internal value
+   */
+  public Integer intValue() {
+    return getValue().intValue();
+  }
 
-	public long longValue() {
-		return getValue();
-	}
+  /**
+   * Returns the long value
+   *
+   * @return a long of the internal value
+   */
+  public long longValue() {
+    return getValue();
+  }
 
-	public void setValue(Integer object) {
-		setLiteralValue(object.longValue());
-	}
+  /**
+   * Set the internal value to the new value
+   *
+   * @param integer the new value
+   */
+  public void setValue(Integer integer) {
+    setLiteralValue(integer.longValue());
+  }
 
-	public void setValue(String object) {
-		setLiteralValue(Long.valueOf(object));
-	}
+  /**
+   * Set the internal value to the new value
+   *
+   * @param stringValue the new value
+   * @throws NumberFormatException If the string cannot be parsed as a {@code long}.
+   */
+  public void setValue(String stringValue) throws NumberFormatException {
+    setLiteralValue(Long.valueOf(stringValue));
+  }
 }

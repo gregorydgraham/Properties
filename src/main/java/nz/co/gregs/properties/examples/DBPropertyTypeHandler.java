@@ -17,11 +17,21 @@ import nz.co.gregs.properties.adapt.PropertyTypeHandler;
  */
 public class DBPropertyTypeHandler extends PropertyTypeHandler{
 
-	public DBPropertyTypeHandler() {
+  /**
+   * Default constructor of DBPropertyTypeHandler
+   *
+   */
+  public DBPropertyTypeHandler() {
 	}
 
-	public DBPropertyTypeHandler(JavaProperty propertyOf, boolean b) {
-		super(propertyOf, b);
+  /**
+   * a standard constructor of DBPropertyTypeHandler
+   *
+   * @param property a property
+   * @param identityOnly is it an identityonly property? (probably not)
+   */
+	public DBPropertyTypeHandler(JavaProperty property, boolean identityOnly) {
+		super(property, identityOnly);
 	}
 
 	@Override
