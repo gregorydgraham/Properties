@@ -11,8 +11,9 @@ import nz.co.gregs.properties.adapt.AdaptableType;
 import nz.co.gregs.properties.adapt.PropertyTypeHandler;
 
 /**
+ * A simple implementation of PropertyTypeHandler that handles boolean, int, long, String, and Date types.
  *
- * @author gregorygraham
+ * @author Gregory Graham
  */
 public class DBPropertyTypeHandler extends PropertyTypeHandler{
 
@@ -59,7 +60,7 @@ public class DBPropertyTypeHandler extends PropertyTypeHandler{
         } else if (type.equals(BooleanProperty.class)) {
             return Boolean.class;
         } else {
-            throw new RuntimeException("Unrecognised AdptableType-type " + type.getSimpleName());
+            throw new RuntimeException("Unrecognised AdaptableType-type " + type.getSimpleName());
         }
 	}
 	

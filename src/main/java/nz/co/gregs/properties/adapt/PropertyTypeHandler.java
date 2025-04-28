@@ -31,11 +31,12 @@ public abstract class PropertyTypeHandler {
 	private JavaProperty javaProperty;
 	private Class<? extends AdaptableType> adaptableTypeClass;
 	private TypeAdaptor<Object, Object> typeAdaptor;
-	private AdaptableTypeSyncer internalQdtSyncer;
+	private AdaptableTypeSyncer internalAdaptableTypeSyncer;
 	private boolean identityOnly;
 	private AdaptType annotation;
 
 	/**
+   * Create a new PropertyTypeHandler.
 	 *
 	 * @param javaProperty the annotated property
 	 * @param processIdentityOnly indicates whether property's value needs to be
@@ -48,7 +49,7 @@ public abstract class PropertyTypeHandler {
 	public PropertyTypeHandler() {
 	}
 
-	public void initialiseHandler(JavaProperty javaProperty1, boolean processIdentityOnly) throws NullPointerException, InvalidDeclaredTypeException {
+	public final void initialiseHandler(JavaProperty javaProperty1, boolean processIdentityOnly) throws NullPointerException, InvalidDeclaredTypeException {
 		this.javaProperty = javaProperty1;
 		this.identityOnly = processIdentityOnly;
 		this.annotation = javaProperty1.getAnnotation(AdaptType.class);
@@ -200,7 +201,7 @@ public abstract class PropertyTypeHandler {
 			// populate when no annotation
 			this.typeAdaptor = null;
 			this.adaptableTypeClass = (Class<? extends AdaptableType>) javaProperty1.type();
-			this.internalQdtSyncer = null;
+			this.internalAdaptableTypeSyncer = null;
 		} else if (isIdentityOnly()) {
 			// populate identity-only information when type adaptor declared
 			Class<? extends AdaptableType> type = explicitTypeOrNullOf(getAnnotation());
@@ -213,7 +214,7 @@ public abstract class PropertyTypeHandler {
 			this.adaptableTypeClass = type;
 
 			this.typeAdaptor = null;
-			this.internalQdtSyncer = null;
+			this.internalAdaptableTypeSyncer = null;
 		} else {
 			// initialise type adapting
 			this.typeAdaptor = newTypeAdaptorInstanceGiven(javaProperty1, getAnnotation());
@@ -233,55 +234,57 @@ public abstract class PropertyTypeHandler {
 				externalLiteralType = javaProperty1.type();
 			}
 			if (AdaptableType.class.isAssignableFrom(javaProperty1.type())) {
-				this.internalQdtSyncer = new AdaptableTypeSyncer(javaProperty1.qualifiedName(), this.getAdaptableTypeClass(), internalLiteralType, externalLiteralType, this.getTypeAdaptor());
+				this.internalAdaptableTypeSyncer = new AdaptableTypeSyncer(javaProperty1.qualifiedName(), this.getAdaptableTypeClass(), internalLiteralType, externalLiteralType, this.getTypeAdaptor());
 			} else {
-				this.internalQdtSyncer = new SimpleValueAdaptableTypeSyncer(javaProperty1.qualifiedName(), this.getAdaptableTypeClass(), internalLiteralType, externalLiteralType, this.getTypeAdaptor());
+				this.internalAdaptableTypeSyncer = new SimpleValueAdaptableTypeSyncer(javaProperty1.qualifiedName(), this.getAdaptableTypeClass(), internalLiteralType, externalLiteralType, this.getTypeAdaptor());
 			}
 		}
 	}
 
 	/**
-	 * Infers the QDT-type that corresponds to the given simple type. Used to
-	 * infer the QDT-type that should be used internally, based on the type
+	 * Infers the AdaptableType-type that corresponds to the given simple type. Used to
+	 * infer the AdaptableType-type that should be used internally, based on the type
 	 * supplied by the type adaptor.
+   * 
+   * <p>Given a value A of class B, this method will return an AdaptableType class C that can store value A</p>
 	 *
 	 * <p>
 	 * Make sure to keep this in sync with {@link #literalTypeOf}.
 	 *
-	 * @param simpleType
-	 * @return
+	 * @param simpleType a class that needs to be stored in an AdaptableType
+	 * @return an AdaptableType that can store simpleType classes
 	 */
-	// FIXME: change to require exact matches, rather than 'instance of'
 	public abstract Class<? extends AdaptableType> inferredAdaptableTypeForSimpleType(Class<?> simpleType);
 
 	/**
+   * Returns the literal type of the AdaptableType Class supplied.
 	 *
 	 * <p>
 	 * Make sure to keep this in sync with
 	 * {@link #inferredAdaptableTypeForSimpleType}.
 	 *
 	 * @param type
-	 * @return
+	 * @return the class of the literal type
 	 */
 	public abstract Class<?> literalTypeOf(Class<? extends AdaptableType> type);
 
 	/**
-	 * Tests whether the simpleType is supported by the given QDT-type. A simple
-	 * type is supported by the QDT type iff the simple type implies a QDT-type,
+	 * Tests whether the simpleType is supported by the given adaptableType. A simple
+	 * type is supported by the adaptableType iff the simple type implies an AdaptableType,
 	 * and:
 	 * <ul>
-	 * <li> the implied QDT-type is exactly the same as the given QDT-type, or
-	 * <li> the implied QDT-type (eg: DBInteger) is instance-of assignable to the
-	 * given QDT-type (eg: DBNumber), or
-	 * <li> the implied QDT-type (eg: DBDate) is a super-class of the given given
-	 * QDT-type (eg: DBSpecialDate).
+	 * <li> the implied AdaptableType is exactly the same as the given adaptableType, or
+	 * <li> the implied AdaptableType (e.g. IntegerProperty) is instance-of assignable to the
+	 * given adaptableType (e.g. NumberProperty), or
+	 * <li> the implied AdaptableType (e.g. DateTimeProperty) is a super-class of the given
+	 * adaptableType (e.g. DateProperty).
 	 * </ul>
 	 *
 	 *
 	 *
 	 * @param simpleType
 	 * @param adaptableType
-	 * @return
+	 * @return true if the AdaptableType will store this simpleType
 	 */
 	public boolean isSimpleTypeSupportedByAdaptableType(
 			Class<?> simpleType,
@@ -299,7 +302,7 @@ public abstract class PropertyTypeHandler {
 	 * Internal helper to support the way annotation attribute defaulting works.
 	 *
 	 *
-	 * @return
+	 * @return annotation.type() or null
 	 */
 	private static Class<? extends AdaptableType> explicitTypeOrNullOf(AdaptType annotation) {
 		if (annotation == null) {
@@ -316,9 +319,9 @@ public abstract class PropertyTypeHandler {
 	}
 
 	/**
-	 * Gets the DBv-centric type of the property, possibly after type adaption.
+	 * Gets the AdaptableType-centric type of the property, possibly after type adaption.
 	 *
-	 * @return
+	 * @return the Class used internally by AdaptableType to hold the value
 	 */
 	public Class<? extends AdaptableType> getType() {
 		return getAdaptableTypeClass();
@@ -329,19 +332,19 @@ public abstract class PropertyTypeHandler {
 	 * type adaptor. (Note: at present there is no support for implicit type
 	 * adaptors)
 	 *
-	 * @return
+	 * @return return true if this Property is adapted, false otherwise
 	 */
 	public boolean isTypeAdapted() {
 		return (getAnnotation() != null);
 	}
 
 	/**
-	 * Gets the DBv-centric value from the underlying java property, converting if
+	 * Gets the AdaptableType-centric value from the underlying java property, converting if
 	 * needed. This method behaves correctly regardless of whether an
 	 * {@link AdaptType} annotation is present.
 	 *
 	 * @param target object containing the property
-	 * @return the DBv-centric property value
+	 * @return the AdaptableType-centric property value
 	 * @throws DBThrownByEndUserCodeException if any user code throws an exception
 	 * @throws IllegalStateException if the underlying java property is not
 	 * readable
@@ -352,8 +355,8 @@ public abstract class PropertyTypeHandler {
 		}
 
 		// get via type adaptor and simple-type java property
-		if (getTypeAdaptor() != null && getInternalQdtSyncer() instanceof SimpleValueAdaptableTypeSyncer) {
-			SimpleValueAdaptableTypeSyncer syncer = (SimpleValueAdaptableTypeSyncer) getInternalQdtSyncer();
+		if (getTypeAdaptor() != null && getInternalAdaptableTypeSyncer() instanceof SimpleValueAdaptableTypeSyncer) {
+			SimpleValueAdaptableTypeSyncer syncer = (SimpleValueAdaptableTypeSyncer) getInternalAdaptableTypeSyncer();
 			Object externalValue = getJavaProperty().get(target);
 
             // convert
@@ -367,7 +370,7 @@ public abstract class PropertyTypeHandler {
 			AdaptableType externalQdt = (AdaptableType) externalValue;
 
 			// convert
-			return getInternalQdtSyncer().setInternalQDTFromExternalQDT(externalQdt);
+			return getInternalAdaptableTypeSyncer().setInternalFromExternal(externalQdt);
 		} // get directly without type adaptor
 		// (note: type checking was performed at creation time)
 		else {
@@ -376,26 +379,26 @@ public abstract class PropertyTypeHandler {
 	}
 
 	/**
-	 * Sets the underlying java property according to the given DBv-centric value.
+	 * Sets the underlying java property according to the given AdaptableType-centric value.
 	 * This method behaves correctly regardless of whether an {@link AdaptType}
 	 * annotation is present.
 	 *
 	 * @param target object containing the property
-	 * @param dbvValue
+	 * @param source source value as an AdaptableType
 	 *
 	 * @throws DBThrownByEndUserCodeException if any user code throws an exception
 	 * @throws IllegalStateException if the underlying java property is not
 	 * writable
 	 */
-	public void setJavaPropertyAsAdaptableType(Object target, AdaptableType dbvValue) {
+	public void setJavaPropertyAsAdaptableType(Object target, AdaptableType source) {
 		if (isIdentityOnly()) {
 			throw new AssertionError("Attempt to write value to identity-only property");
 		}
 
 		// set via type adaptor and simple-type java property
-		if (getTypeAdaptor() != null && getInternalQdtSyncer() instanceof SimpleValueAdaptableTypeSyncer) {
-			SimpleValueAdaptableTypeSyncer syncer = (SimpleValueAdaptableTypeSyncer) getInternalQdtSyncer();
-			syncer.setInternalQueryableDatatype(dbvValue);
+		if (getTypeAdaptor() != null && getInternalAdaptableTypeSyncer() instanceof SimpleValueAdaptableTypeSyncer) {
+			SimpleValueAdaptableTypeSyncer syncer = (SimpleValueAdaptableTypeSyncer) getInternalAdaptableTypeSyncer();
+			syncer.setInternalAdaptableType(source);
 			Object externalValue = syncer.getExternalSimpleValueFromInternalQDT();
 
 			// TODO think this still needs some last-minute type checks
@@ -405,18 +408,18 @@ public abstract class PropertyTypeHandler {
 			Object externalValue = getJavaProperty().get(target);
 
 			// this should be completely safe by now
-			AdaptableType externalQdt = (AdaptableType) externalValue;
+			AdaptableType externalAdaptableType = (AdaptableType) externalValue;
 
 			// convert
-			getInternalQdtSyncer().setInternalQueryableDatatype(dbvValue);
-			externalQdt = getInternalQdtSyncer().setExternalFromInternalQDT(externalQdt);
-			if (externalQdt == null && externalValue != null) {
+			getInternalAdaptableTypeSyncer().setInternalAdaptableType(source);
+			externalAdaptableType = getInternalAdaptableTypeSyncer().setExternalFromInternal(externalAdaptableType);
+			if (externalAdaptableType == null && externalValue != null) {
 				getJavaProperty().set(target, null);
 			}
 		} // set directly without type adaptor
 		// (note: type checking was performed at creation time)
 		else {
-			getJavaProperty().set(target, dbvValue);
+			getJavaProperty().set(target, source);
 		}
 	}
 
@@ -539,8 +542,8 @@ public abstract class PropertyTypeHandler {
 	/**
 	 * @return the internalQdtSyncer
 	 */
-	public AdaptableTypeSyncer getInternalQdtSyncer() {
-		return internalQdtSyncer;
+	public AdaptableTypeSyncer getInternalAdaptableTypeSyncer() {
+		return internalAdaptableTypeSyncer;
 	}
 
 	/**

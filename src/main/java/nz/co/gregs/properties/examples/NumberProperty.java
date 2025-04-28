@@ -8,8 +8,9 @@ package nz.co.gregs.properties.examples;
 import nz.co.gregs.properties.adapt.AdaptableType;
 
 /**
+ * a Property for numbers stored as Double values.
  *
- * @author gregory.graham
+ * @author Gregory Graham
  */
 public class NumberProperty extends AdaptableType<Double> {
 
@@ -22,6 +23,6 @@ public class NumberProperty extends AdaptableType<Double> {
 	}
 
 	public void setValue(String object) {
-		setLiteralValue(Double.parseDouble(object));
+		setLiteralValue(Double.valueOf(object));
 	}
 }

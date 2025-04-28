@@ -11,13 +11,21 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * An example implementation representing a Primary Key relationship in an ORM layer.
+ * 
+ * <p>Note that the PK is a String in this example, an integer is more common. Properties with work with either, and others as well.</p>
  *
- * @author gregorygraham
+ * @author Gregory Graham
  */
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DBPrimaryKey {
 
-	String value() default "";
+  /**
+   * The name of the primary key column
+   *
+   * @return the name of the primary key column
+   */
+  String value() default "";
 	
 }

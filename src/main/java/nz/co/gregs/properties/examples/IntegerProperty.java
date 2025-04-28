@@ -8,8 +8,9 @@ package nz.co.gregs.properties.examples;
 import nz.co.gregs.properties.adapt.AdaptableType;
 
 /**
- *
- * @author gregory.graham
+ * A Property for handling both Integers and Longs
+ * 
+ * @author Gregory Graham
  */
 public class IntegerProperty extends AdaptableType<Long> {
 

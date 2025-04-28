@@ -8,8 +8,9 @@ package nz.co.gregs.properties.examples;
 import nz.co.gregs.properties.adapt.AdaptableType;
 
 /**
+ * a Property for values stored as Strings.
  *
- * @author gregory.graham
+ * @author Gregory Graham
  */
 public class StringProperty extends AdaptableType<String> {
 

@@ -1,6 +1,5 @@
 package nz.co.gregs.properties.adapt;
 
-import nz.co.gregs.properties.adapt.TypeAdaptor;
 import java.lang.reflect.Method;
 import nz.co.gregs.properties.InterfaceInfo;
 
@@ -12,7 +11,7 @@ import nz.co.gregs.properties.InterfaceInfo.ParameterBounds;
 import nz.co.gregs.properties.exceptions.UnsupportedType;
 
 /**
- * Internal class that wraps one direction of a {@link DBTypeAdaptor} with type
+ * Internal class that wraps one direction of a {@link TypeAdaptor} with type
  * checking, meaningful error messages, and automatic casting between number
  * types.
  */

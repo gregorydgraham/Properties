@@ -1,4 +1,4 @@
-package nz.co.gregs.properties;
+package nz.co.gregs.properties.adapt;
 
 import nz.co.gregs.properties.PropertyDefinition;
 import nz.co.gregs.properties.adapt.AdaptableType;
