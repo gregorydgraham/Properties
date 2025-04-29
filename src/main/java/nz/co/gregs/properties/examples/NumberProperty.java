@@ -14,15 +14,38 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  */
 public class NumberProperty extends AdaptableType<Double> {
 
-	public void setValue(Integer object) {
-		setLiteralValue(object.doubleValue());
-	}
+  /**
+   * Default constructor
+   *
+   */
+  public NumberProperty() {
+    super();
+  }
 
-	public void setValue(Long object) {
-		setLiteralValue(object.doubleValue());
-	}
+  /**
+   * Set value
+   *
+   * @param object an integer
+   */
+  public void setValue(Integer object) {
+    setLiteralValue(object.doubleValue());
+  }
 
-	public void setValue(String object) {
-		setLiteralValue(Double.valueOf(object));
-	}
+  /**
+   * Set value
+   *
+   * @param object an long
+   */
+  public void setValue(Long object) {
+    setLiteralValue(object.doubleValue());
+  }
+
+  /**
+   * Set value
+   *
+   * @param object a string
+   */
+  public void setValue(String object) {
+    setLiteralValue(Double.valueOf(object));
+  }
 }

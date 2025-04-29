@@ -626,18 +626,38 @@ public class InterfaceInfo {
 			return buf.toString();
 		}
 		
+    /**
+     * Returns true if any upper bound has been defined.
+     *
+     * @return true if there are any upper bounds
+     */
 		public boolean hasUpperBound() {
 			return (upperTypes != null);
 		}
 
-		public boolean hasLowerBound() {
+    /**
+     * Returns true if any lower bound has been defined.
+     *
+     * @return true if there are any lower bounds
+     */
+    public boolean hasLowerBound() {
 			return (lowerTypes != null);
 		}
 		
+    /**
+     * Returns true if any upper bound has been defined and there is more than one bound.
+     *
+     * @return true if there are multiple lower bounds
+     */
 		public boolean isUpperMulti() {
 			return (upperTypes != null) && (upperTypes.length > 1);
 		}
 
+    /**
+     * Returns true if any lower bound has been defined and there is more than one bound.
+     *
+     * @return true if there are multiple lower bounds
+     */
 		public boolean isLowerMulti() {
 			return (lowerTypes != null) && (lowerTypes.length > 1);
 		}

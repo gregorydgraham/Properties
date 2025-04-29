@@ -42,20 +42,24 @@ import nz.co.gregs.properties.exceptions.*;
  */
 public class Property {
 
-    private final PropertyContainerInstance dbRowInstanceWrapper;
+    private final PropertyContainerWrapper dbRowInstanceWrapper;
     private final PropertyDefinition propertyDefinition;
     private final Object target;
 
     /**
-	 * @param instanceWrapper instanceWrapper
+     * Property constructor
+     * 
+     * @param instanceWrapper instanceWrapper
      * @param classProperty the class-level wrapper
      * @param target the target object containing the given property
      */
-    public Property(PropertyContainerInstance instanceWrapper,
-            PropertyDefinition classProperty, Object target) {
-        this.dbRowInstanceWrapper = instanceWrapper;
-        this.propertyDefinition = classProperty;
-        this.target = target;
+    public Property(
+            PropertyContainerWrapper instanceWrapper,            
+            PropertyDefinition classProperty, 
+            Object target) {
+      this.dbRowInstanceWrapper = instanceWrapper;
+      this.propertyDefinition = classProperty;
+      this.target = target;
     }
 
     /**
@@ -152,10 +156,7 @@ public class Property {
 
     /**
      * Gets the name of the java property, without the containing class name.
-     * Mainly used within error messages. eg: {@code "uid"}
-     *
-     * <p>
-     * Use {@link #columnName()} to determine column name.
+     * Mainly used within error messages. e.g.: {@code "uid"}
      *
      * @return a String of the declared field name of this property
      */
@@ -168,10 +169,7 @@ public class Property {
      * the short-name of the containing class. Mainly used within logging and
      * error messages. eg: {@code "Customer.uid"}
      *
-     * <p>
-     * Use {@link #columnName()} to determine column name.
-     *
-     * @return a convenient String including the class name of the RowDefinition and the field name for this property
+     * @return a convenient String including the class name of the PropertyDefinition and the field name for this property
      */
     public String shortQualifiedJavaName() {
         return propertyDefinition.shortQualifiedJavaName();
@@ -180,13 +178,10 @@ public class Property {
     /**
      * Gets the fully qualified name of the underlying java property, including
      * the fully qualified name of the containing class. Mainly used within
-     * logging and error messages. eg:
+     * logging and error messages. e.g.:
      * {@code "nz.co.mycompany.myproject.Customer.uid"}
      *
-     * <p>
-     * Use {@link #columnName()} to determine column name.
-     *
-     * @return the String of the full class name of the containing RowDefinition.
+     * @return the String of the full class name of the containing PropertyDefinition.
      */
     public String qualifiedJavaName() {
         return propertyDefinition.qualifiedJavaName();
@@ -201,7 +196,7 @@ public class Property {
      * Use {@link #getRawJavaType()} in the rare case that you need to know the
      * underlying java property type.
      *
-     * @return the Class of the AdaptableType used internally to handle database values.
+     * @return the Class of the AdaptableType used internally to handle external values.
      */
     public Class<? extends AdaptableType> type() {
         return propertyDefinition.type();
@@ -369,7 +364,7 @@ public class Property {
      *
      * @return the PropertyContainerInstance for this property.
      */
-    public PropertyContainerInstance getContainingInstanceWrapper() {
+    public PropertyContainerWrapper getContainingInstanceWrapper() {
         return dbRowInstanceWrapper;
     }
 }

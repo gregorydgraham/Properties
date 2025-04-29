@@ -13,20 +13,19 @@ import nz.co.gregs.properties.adapt.PropertyTypeHandler;
 import nz.co.gregs.properties.exceptions.*;
 
 /**
- * Wraps the class-type of an end-user's data model object. Generally it's
+ * Wraps the class-type of an end-user's data model object. Originally it was
  * expected that the class is annotated with DBvolution annotations to mark the
  * table name and the fields or bean properties that map to columns, however
  * this class will work against any class type.
  *
  * <p>
  * To wrap a target object instance, use the
- * {@link #instanceWrapperFor(nz.co.gregs.dbvolution.query.RowDefinition) }
+ * {@link #instanceWrapperFor(nz.co.gregs.properties.PropertyContainer) }
  * method.
  *
  * <p>
  * Note: instances of this class are expensive to create, and are intended to be
- * cached and kept long-term. Instances can be safely shared between DBDatabase
- * instances for different database types.
+ * cached and kept long-term.
  *
  * <p>
  * Instances of this class are <i>thread-safe</i>.
@@ -38,8 +37,8 @@ public class PropertyContainerClass {
 	private final Class<? extends PropertyContainer> adapteeClass;
 	private final boolean identityOnly;
 	/**
-	 * All properties of which DBvolution is aware, ordered as first
-	 * encountered. Properties are only included if they are columns.
+	 * All properties of which Properties is aware, ordered as first
+	 * encountered.
 	 */
 	private final List<PropertyDefinition> properties;
 
@@ -53,6 +52,7 @@ public class PropertyContainerClass {
 	 * validations that can be performed up front.
 	 *
 	 * @param clazz the {@code DBRow} class to wrap
+   * @param handler a property of the class
 	 * @throws DBPebkacException on any validation errors
 	 */
 	public PropertyContainerClass(Class<? extends PropertyContainer> clazz, PropertyTypeHandler handler) {
@@ -126,12 +126,12 @@ public class PropertyContainerClass {
 	 * @param target the {@code DBRow} instance
 	 * @return A PropertyContainerInstance for the supplied target.
 	 */
-	public PropertyContainerInstance instanceWrapperFor(PropertyContainer target) {
+	public PropertyContainerWrapper instanceWrapperFor(PropertyContainer target) {
 		if (identityOnly) {
 			throw new AssertionError("Attempt to access non-identity information of identity-only DBRow class wrapper");
 		}
 //		checkForRemainingErrorsOnAcccess(database);
-		return new PropertyContainerInstance(this, target);
+		return new PropertyContainerWrapper(this, target);
 	}
 
 	/**
@@ -198,8 +198,6 @@ public class PropertyContainerClass {
 
 	/**
 	 * Gets the simple name of the class being wrapped by this adaptor.
-	 * <p>
-	 * Use {@link #tableName()} for the name of the table mapped to this class.
 	 *
 	 * <p>
 	 * Equivalent to {@code this.adaptee().getSimpleName();}
@@ -212,8 +210,6 @@ public class PropertyContainerClass {
 
 	/**
 	 * Gets the fully qualified name of the class being wrapped by this adaptor.
-	 * <p>
-	 * Use {@link #tableName()} for the name of the table mapped to this class.
 	 *
 	 * @return the fully qualified name of the class being wrapped.
 	 */

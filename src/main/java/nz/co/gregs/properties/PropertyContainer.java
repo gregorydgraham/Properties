@@ -13,10 +13,15 @@ import java.util.List;
  * @author Gregory Graham
  */
 public class PropertyContainer {
-	private transient PropertyContainerInstance wrapper;
+	private transient PropertyContainerWrapper wrapper;
 	private final PropertyContainerWrapperFactory wrapperFactory;
 
-	public PropertyContainer(PropertyContainerWrapperFactory factory) {
+  /**
+   * Standard Constructor.
+   *
+   * @param factory the wrapper factory to generate a wrapper for this PropertyContainer
+   */
+  public PropertyContainer(PropertyContainerWrapperFactory factory) {
 		wrapperFactory=factory;
 	}
 
@@ -33,11 +38,9 @@ public class PropertyContainer {
 	 * </pre>
 	 *
 	 * @param obj	 a object in a field or bean of the PropertyContainer	
-	 * @return the PropertyWrapper associated with the Object suppled or NULL.
-   * @throws java.lang.InstantiationException
-   * @throws java.lang.IllegalAccessException
+	 * @return the PropertyWrapper associated with the Object supplied or NULL.
 	 */
-	public Property getPropertyOf(Object obj) throws InstantiationException, IllegalAccessException {
+	public Property getPropertyOf(Object obj) {
 		List<Property> props = getWrapper().getPropertyWrappers();
 
 		Object maybeTheObj;
@@ -50,7 +53,14 @@ public class PropertyContainer {
 		return null;
 	}
 
-	protected PropertyContainerInstance getWrapper() throws InstantiationException, IllegalAccessException {
+  /**
+   * Returns the proper PropertyContainerWrapper for this object.
+   * 
+   * <p>If no wrapper exists, a new one is created.</p>
+   *
+   * @return the wrapper
+   */
+  protected PropertyContainerWrapper getWrapper() {
 		if (wrapper == null) {
 			wrapper = wrapperFactory.instanceWrapperFor(this);
 		}
@@ -63,7 +73,7 @@ public class PropertyContainer {
 	 *
 	 * @return non-null list of property wrappers, empty if none
 	 */
-	public List<PropertyDefinition> getPropertyWrappers() throws InstantiationException, IllegalAccessException {
+	public List<PropertyDefinition> getPropertyWrappers() {
 		return getWrapper().getPropertyDefinitions();
 	}
 	

@@ -5,7 +5,7 @@ import java.util.Map;
 import nz.co.gregs.properties.adapt.PropertyTypeHandler;
 
 /**
- * Constructs class adaptors for DB table classes and maintains an in-memory
+ * Constructs class adaptors for property containers classes and maintains an in-memory
  * cache for re-use. Creating class adaptors is expensive and this class is
  * provided as a convenience for anything that needs to access class adaptors
  * for multiple types and would benefit from the performance improvement of
@@ -52,14 +52,14 @@ public class PropertyContainerWrapperFactory {
     }
 
     /**
-     * Gets the object adaptor for the given object. If an adaptor for the
-     * object's class has not yet been created, one will be created and added to
-     * the internal cache.
+     * Gets the object adaptor for the given object.If an adaptor for the
+ object's class has not yet been created, one will be created and added to
+ the internal cache.
      *
      * @param object the DBRow instance to wrap
      * @return the object adaptor for the given object
      */
-    public PropertyContainerInstance instanceWrapperFor(PropertyContainer object) throws InstantiationException, IllegalAccessException {
+    public PropertyContainerWrapper instanceWrapperFor(PropertyContainer object) {
         return classWrapperFor(object.getClass()).instanceWrapperFor(object);
     }
 }

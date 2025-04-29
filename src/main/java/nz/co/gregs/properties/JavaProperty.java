@@ -26,22 +26,22 @@ public interface JavaProperty {
 	 * <li> Generates a message like: {@code "Invalid valid for field com.mycompany.myproject.MyTable.fieldName"}
 	 * </ul>
 	 * </ul>
-	 * @return 
+	 * @return the fully defined name of the property
 	 */
 	@Override
 	public String toString();
 
 	/**
 	 * Tests for equality, based entirely on whether the underlying java field or bean-property is the same.
-	 * @param other
-	 * @return 
+	 * @param other the other property to compare to
+	 * @return true if the two properties are the same
 	 */
 	@Override
 	public boolean equals(Object other);
 
 	/**
 	 * Hash-code based on the underlying java field or bean-property.
-	 * @return 
+	 * @return the hashcode of the property
 	 */
 	@Override
 	public int hashCode();
@@ -49,7 +49,7 @@ public interface JavaProperty {
 	/**
 	 * Indicates whether this java property is a field.
 	 *
-	 * @return {@code true} if a field, {@code false} if a bean-property.
+	 * @return {@code true} if a field, {@code false} if a bean-property (getter/setter)
 	 */
 	public boolean isField();
 
@@ -94,7 +94,7 @@ public interface JavaProperty {
 	public Class<?> type();
 
 	/**
-	 * Gets a <tt>Type</tt> object that represents the formal type of the property, including generic parameters, if
+	 * Gets a <code>Type</code> object that represents the formal type of the property, including generic parameters, if
 	 * any.
 	 *
 	 * @return the generic type of the property.
@@ -171,7 +171,7 @@ public interface JavaProperty {
 	 * circumstance, this method asserts that the declared annotations must be identical. If not, an exception is
 	 * thrown.
 	 *
-	 * @param A the annotation type
+	 * @param <A> the annotation type
 	 * @param annotationClass the annotation to check for
 	 * @return the annotation, or null if not found
 	 * @throws DBPebkacException if the annotation is duplicated and different

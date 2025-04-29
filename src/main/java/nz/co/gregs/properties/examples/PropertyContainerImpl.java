@@ -12,7 +12,10 @@ public class PropertyContainerImpl extends PropertyContainer{
 	
 	private static final PropertyContainerWrapperFactory dbFactory = new PropertyContainerWrapperFactoryImpl();
 
-	public PropertyContainerImpl() {
+  /**
+   * Default Constructor
+   */
+  public PropertyContainerImpl() {
 		super(dbFactory);
 	}
 	
