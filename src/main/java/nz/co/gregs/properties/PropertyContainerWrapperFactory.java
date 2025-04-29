@@ -22,9 +22,14 @@ public class PropertyContainerWrapperFactory {
   /**
    * Thread-safety: access to this object must be synchronized on it
    */
-  private final Map<Class<?>, PropertyContainerClass> classWrappersByClass = new HashMap<Class<?>, PropertyContainerClass>();
+  private final Map<Class<?>, PropertyContainerClass> classWrappersByClass = new HashMap<>();
   private final PropertyTypeHandler handler;
 
+  /**
+   * Creates a PropertyContainerWrapperFactory using the PropertyTypeHandler provided
+   *
+   * @param handler the PropertyTypeHandler 
+   */
   public PropertyContainerWrapperFactory(PropertyTypeHandler handler) {
     this.handler = handler;
   }

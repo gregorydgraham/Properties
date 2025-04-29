@@ -44,9 +44,21 @@ public abstract class PropertyTypeHandler {
     initialiseHandler(javaProperty, processIdentityOnly);
   }
 
+  /**
+   * Default constructor
+   *
+   */
   public PropertyTypeHandler() {
   }
 
+  /**
+   * Used to correctly prepare a handler.
+   * 
+   * @param javaProperty1
+   * @param processIdentityOnly
+   * @throws NullPointerException thrown if Properties can't obtain the annotation
+   * @throws InvalidDeclaredTypeException javaProperty is not an AdaptableType or correctly annotated
+   */
   public final void initialiseHandler(JavaProperty javaProperty1, boolean processIdentityOnly) throws NullPointerException, InvalidDeclaredTypeException {
     this.javaProperty = javaProperty1;
     this.identityOnly = processIdentityOnly;
@@ -60,7 +72,7 @@ public abstract class PropertyTypeHandler {
     // validation: must use type adaptor if java property not a QueryableDataType
     if (!AdaptableType.class.isAssignableFrom(javaProperty1.type())) {
       if (getAnnotation() == null) {
-        throw new InvalidDeclaredTypeException(javaProperty1.type().getName() + " is not a supported type on " + javaProperty1 + ". " + "Use one of the standard DB types, or use the @" + AdaptType.class.getSimpleName() + " annotation " + "to adapt from a non-standard type.");
+        throw new InvalidDeclaredTypeException(javaProperty1.type().getName() + " is not a supported type on " + javaProperty1 + ". " + "Use an AdaptableType extension, or use the @" + AdaptType.class.getSimpleName() + " annotation " + "to adapt from a non-standard type.");
       }
     }
     // validation: type adaptor must implement TypeAdaptor interface if used
@@ -207,7 +219,7 @@ public abstract class PropertyTypeHandler {
         type = inferredAdaptableTypeForSimpleType(typeAdaptorInternalType);
       }
       if (type == null) {
-        throw new NullPointerException("null dbvPropertyType, this is an internal bug");
+        throw new NullPointerException("null PropertyType, this is an internal bug");
       }
       this.adaptableTypeClass = type;
 
@@ -403,7 +415,7 @@ public abstract class PropertyTypeHandler {
     if (getTypeAdaptor() != null && getInternalAdaptableTypeSyncer() instanceof SimpleValueAdaptableTypeSyncer) {
       SimpleValueAdaptableTypeSyncer syncer = (SimpleValueAdaptableTypeSyncer) getInternalAdaptableTypeSyncer();
       syncer.setInternalAdaptableType(source);
-      Object externalValue = syncer.getExternalSimpleValueFromInternalQDT();
+      Object externalValue = syncer.getExternalSimpleValueFromInternalAdaptableType();
 
       // TODO think this still needs some last-minute type checks
       getJavaProperty().set(target, externalValue);

@@ -53,7 +53,15 @@ public class PropertyDefinition {
 
 	private final PropertyTypeHandler typeHandler;
 
-	public PropertyDefinition(PropertyContainerClass classWrapper, JavaProperty javaProperty, PropertyTypeHandler handler, boolean processIdentityOnly) {
+  /**
+   * The constructor for PropertyDefinition.
+   *
+   * @param classWrapper the wrapper for the object that contains the property
+   * @param javaProperty the property
+   * @param handler the handler for the PropertyContainer
+   * @param processIdentityOnly use true to indicate the field is tracked only for identification purposes
+   */
+  public PropertyDefinition(PropertyContainerClass classWrapper, JavaProperty javaProperty, PropertyTypeHandler handler, boolean processIdentityOnly) {
 		this.classWrapper = classWrapper;
 		this.javaProperty = javaProperty;
 
@@ -62,7 +70,12 @@ public class PropertyDefinition {
 		typeHandler.initialiseHandler(javaProperty, processIdentityOnly);
 	}
 
-	public JavaProperty getRawJavaProperty() {
+  /**
+   * Returns the field or bean as a JavaProperty.
+   * 
+   * @return a JavaProperty
+   */
+  public JavaProperty getRawJavaProperty() {
 		return javaProperty;
 	}
 
@@ -137,9 +150,6 @@ public class PropertyDefinition {
 	 * Gets the name of the java property, without the containing class name.
 	 * Mainly used within error messages. eg: {@code "uid"}
 	 *
-	 * <p>
-	 * Use {@link #getColumnName()} to determine column name.
-	 *
 	 * @return a String of the Java field name for this property
 	 */
 	public String javaName() {
@@ -150,9 +160,6 @@ public class PropertyDefinition {
 	 * Gets the partially qualified name of the underlying java property, using
 	 * the short-name of the containing class. Mainly used within logging and
 	 * error messages. eg: {@code "Customer.uid"}
-	 *
-	 * <p>
-	 * Use {@link #getColumnName()} to determine column name.
 	 *
 	 * @return a String of the short name of the declared class of this property
 	 */
@@ -165,9 +172,6 @@ public class PropertyDefinition {
 	 * the fully qualified name of the containing class. Mainly used within
 	 * logging and error messages. eg:
 	 * {@code "nz.co.mycompany.myproject.Customer.uid"}
-	 *
-	 * <p>
-	 * Use {@link #getColumnName()} to determine column name.
 	 *
 	 * @return a String of the full name of the class of this property
 	 */
@@ -287,7 +291,7 @@ public class PropertyDefinition {
 	 * <p>
 	 * In most cases you will not need to call this method, as type conversion
 	 * is done transparently via the {@link #getAdaptableType(Object)} and
-	 * {@link #setQueryableDatatype(Object, QueryableDatatype)} methods.
+	 * {@link #setAdaptableType(java.lang.Object, nz.co.gregs.properties.adapt.AdaptableType)} methods.
 	 *
 	 * <p>
 	 * Use {@link #isReadable()} beforehand to check whether the property can be
@@ -311,7 +315,7 @@ public class PropertyDefinition {
 	 * <p>
 	 * In most cases you will not need to call this method, as type conversion
 	 * is done transparently via the {@link #getAdaptableType(Object)} and
-	 * {@link #setQueryableDatatype(Object, QueryableDatatype)} methods.
+	 * {@link #setAdaptableType(java.lang.Object, nz.co.gregs.properties.adapt.AdaptableType) } methods.
 	 *
 	 * <p>
 	 * Use {@link #isWritable()} beforehand to check whether the property can be
@@ -335,7 +339,7 @@ public class PropertyDefinition {
 	 * <p>
 	 * In most cases you will not need to call this method, as type conversion
 	 * is done transparently via the {@link #getAdaptableType(Object) } and
-	 * {@link #setQueryableDatatype(Object, QueryableDatatype)} methods. Use the
+	 * {@link #setAdaptableType(java.lang.Object, nz.co.gregs.properties.adapt.AdaptableType) } methods. Use the
 	 * {@link #type()} method to get the DBv-centric property type, after type
 	 * conversion.
 	 *

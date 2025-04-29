@@ -15,27 +15,21 @@
  */
 package nz.co.gregs.properties.adapt;
 
-import nz.co.gregs.properties.adapt.TypeAdaptor;
-
 /**
- * Syncs between a simple-type external value and a QDT internal value.
+ * Syncs between a simple-type external value and an AdaptableType internal value.
  *
  * @author Malcolm Lett
  */
 public class SimpleValueAdaptableTypeSyncer extends AdaptableTypeSyncer {
 
 	/**
+   * Creates a Syncer for simple-type values and an AdaptableType 
 	 *
 	 * @param propertyName used in error messages
-	 * @param internalType internalQdtType
-	 * @param internalLiteralType internalQdtLiteralType
+	 * @param internalType internalAdaptableType
+	 * @param internalLiteralType internalLiteralType
 	 * @param typeAdaptor typeAdaptor
 	 * @param externalSimpleType externalSimpleType
-	 externalSimpleType
-	
-	 
-	 
-	 
 	 */
 	public SimpleValueAdaptableTypeSyncer(String propertyName, Class<? extends AdaptableType> internalType,
 			Class<?> internalLiteralType, Class<?> externalSimpleType, TypeAdaptor<Object, Object> typeAdaptor) {
@@ -43,11 +37,11 @@ public class SimpleValueAdaptableTypeSyncer extends AdaptableTypeSyncer {
 	}
 
 	/**
-	 * Sets the cached internal QDT value from the provided non-QDT external
+	 * Sets the cached internal AdaptableType value from the provided non-QDT external
 	 * value.
 	 *
 	 * @param externalValue may be null
-	 * @return the updated internal QDT
+	 * @return the updated internal AdaptableType
 	 */
 	public AdaptableType setInternalTypeFromExternalSimpleValue(Object externalValue) {
 		Object internalValue = getToInternalSimpleTypeAdaptor().convert(externalValue);
@@ -68,7 +62,7 @@ public class SimpleValueAdaptableTypeSyncer extends AdaptableTypeSyncer {
 	 *
 	 * @return the internal value as a base Java object
 	 */
-	public Object getExternalSimpleValueFromInternalQDT() {
+	public Object getExternalSimpleValueFromInternalAdaptableType() {
 		return getToExternalSimpleTypeAdaptor().convert(getInternalInstance().getValue());
 	}
 }
