@@ -6,7 +6,7 @@
   <name>Properties</name>
   <description>A library to handle Java values and getters/setters identically as properties</description>
   <url>http://www.gregs.co.nz/</url>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
   <developers>
     <developer>
@@ -27,7 +27,7 @@
     <url>https://github.com/gregorydgraham/Properties</url>
     <connection>scm:git:https://github.com/gregorydgraham/Properties.git</connection>
     <developerConnection>scm:git:https://github.com/gregorydgraham/Properties.git</developerConnection>
-    <tag>properties-1.0.0</tag>
+    <tag>properties-1.0.1</tag>
   </scm>
   
   <properties>
@@ -160,7 +160,7 @@
         <artifactId>cobertura-maven-plugin</artifactId>
         <version>2.5.2</version>
         <configuration>
-          <check></check>
+          <check />
           <formats>
             <format>html</format>
             <format>xml</format>
