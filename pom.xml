@@ -23,6 +23,13 @@
     </developer>
   </developers>
     
+  <scm>
+    <url>https://github.com/gregorydgraham/Properties</url>
+    <connection>scm:git:https://github.com/gregorydgraham/Properties.git</connection>
+    <developerConnection>scm:git:https://github.com/gregorydgraham/Properties.git</developerConnection>
+    <tag>properties-1.0.0</tag>
+  </scm>
+  
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>10</maven.compiler.source>
