@@ -14,15 +14,28 @@ import nz.co.gregs.properties.adapt.AdaptableType;
  */
 public class StringProperty extends AdaptableType<String> {
 
-	public StringProperty(String string) {
+  /**
+   * Create a StringProperty with the given value.
+   * 
+   * @param string the initial value
+   */
+  public StringProperty(String string) {
 		super(string);
 	}
 
-	public StringProperty() {
+  /**
+   * Default constructor.
+   */
+  public StringProperty() {
 		super();
 	}
 
-	public String stringValue() {
+  /**
+   * The value as a String.
+   *
+   * @return the value as a String
+   */
+  public String stringValue() {
 		return getValue();
 	}
 }

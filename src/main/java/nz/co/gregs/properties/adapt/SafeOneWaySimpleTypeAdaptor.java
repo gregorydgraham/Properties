@@ -325,14 +325,41 @@ public class SafeOneWaySimpleTypeAdaptor {
    */
   public static interface SimpleCast {
 
+    /**
+     * Tests the object and return true if the SimpleCast accepts it as a source.
+     * 
+     * @param value the source
+     * @return true if the cast maybe successful
+     */
     public boolean acceptsSource(Object value);
 
+    /**
+     * Tests the type and return true if the SimpleCast accepts it as a source.
+     * 
+     * @param type the class of the source
+     * @return true if the cast maybe successful
+     */
     public boolean acceptsSource(Class<?> type);
 
+    /**
+     * Attempt to cast the object to the target type
+     * @param value the object to cast
+     * @return the cast object
+     */
     public Object cast(Object value);
 
+    /**
+     * Returns the stored class for the source
+     *
+     * @return the source class
+     */
     public Class<?> sourceType();
 
+    /**
+     *Returns the stored class for the target
+     *
+     * @return the target class
+     */
     public Class<?> targetType();
   }
 

@@ -9,7 +9,12 @@ package nz.co.gregs.properties.exceptions;
 public class UnsupportedType extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	public UnsupportedType(String message) {
+  /**
+   * Thrown internally when a Type is not supported by a method.
+   * 
+   * @param message the message explaining the cause of the exception
+   */
+  public UnsupportedType(String message) {
 		super(message);
 	}
 	

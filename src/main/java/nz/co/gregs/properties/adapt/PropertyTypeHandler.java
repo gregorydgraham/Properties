@@ -54,8 +54,8 @@ public abstract class PropertyTypeHandler {
   /**
    * Used to correctly prepare a handler.
    * 
-   * @param javaProperty1
-   * @param processIdentityOnly
+   * @param javaProperty1 the property to track
+   * @param processIdentityOnly whether the property is identity or identity+value
    * @throws NullPointerException thrown if Properties can't obtain the annotation
    * @throws InvalidDeclaredTypeException javaProperty is not an AdaptableType or correctly annotated
    */
