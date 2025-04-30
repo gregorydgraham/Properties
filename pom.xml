@@ -8,6 +8,13 @@
   <url>http://www.gregs.co.nz/</url>
   <version>1.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
+  <licenses>
+    <license>
+      <name>Non-commercial License</name>
+      <url>https://gregs.co.nz/noncommercial_license.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
   <developers>
     <developer>
       <name>Gregory Graham</name>
